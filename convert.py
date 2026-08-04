@@ -329,14 +329,11 @@ def build_nav(prefix: str, is_sub: bool = False) -> str:
       <span>应大Wiki</span>
     </a>
     <div class="nav-links">
-      <a href="{p('选课/index.html')}">选课</a>
-      <a href="{p('学分绩点/index.html')}">学分</a>
-      <a href="{p('体育军训/index.html')}">体育</a>
-      <a href="{p('生活指南/index.html')}">生活</a>
-      <a href="{p('学习发展/index.html')}">学习</a>
-      <a href="{p('报到指南/index.html')}">报到</a>
-      <a href="{p('心理健康/index.html')}">心理</a>
-      <a href="{p('附录/index.html')}">附录</a>
+      <a href="{p('学校概览/index.html')}">概览</a>
+      <a href="{p('入学指南/index.html')}">入学</a>
+      <a href="{p('选课指南/index.html')}">选课</a>
+      <a href="{p('学分绩点/index.html')}">学业</a>
+      <a href="{p('校园生活/index.html')}">生活</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
@@ -350,14 +347,11 @@ def build_nav(prefix: str, is_sub: bool = False) -> str:
       <span>应大Wiki</span>
     </a>
     <div class="nav-links">
-      <a href="{p('docs/选课/index.html')}">选课</a>
-      <a href="{p('docs/学分绩点/index.html')}">学分</a>
-      <a href="{p('docs/体育军训/index.html')}">体育</a>
-      <a href="{p('docs/生活指南/index.html')}">生活</a>
-      <a href="{p('docs/学习发展/index.html')}">学习</a>
-      <a href="{p('docs/报到指南/index.html')}">报到</a>
-      <a href="{p('docs/心理健康/index.html')}">心理</a>
-      <a href="{p('docs/附录/index.html')}">附录</a>
+      <a href="{p('docs/学校概览/index.html')}">概览</a>
+      <a href="{p('docs/入学指南/index.html')}">入学</a>
+      <a href="{p('docs/选课指南/index.html')}">选课</a>
+      <a href="{p('docs/学分绩点/index.html')}">学业</a>
+      <a href="{p('docs/校园生活/index.html')}">生活</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
