@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>📝 四六级考试 - 应大Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --paper: #ffffff;
+  --paper-dark: #eddcba;
+  --paper-edge: #e8e0d0;
+  --ink: #2c2416;
+  --ink-light: #5a4e3c;
+  --ink-faint: #8a7e6c;
+  --ink-fainter: #b8ad9c;
+  --vermilion: #c23616;
+  --vermilion-light: #e74c3c;
+  --link: #8b4513;
+  --link-hover: #c23616;
+  --border: #d4c9b8;
+  --shadow: rgba(44, 36, 22, 0.08);
+  --font-serif: 'Noto Serif SC', 'Crimson Pro', 'Georgia', 'Songti SC', serif;
+  --font-mono: 'Courier New', 'Noto Sans Mono', monospace;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 16px; line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper-dark); }
+::-webkit-scrollbar-thumb { background: var(--ink-fainter); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+
+.app-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; justify-content: center; align-items: center;
+  padding: 0 28px; height: 56px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 4px var(--shadow);
+}
+.app-nav .nav-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-serif); font-weight: 700; font-size: 20px;
+  color: var(--ink); letter-spacing: 2px; margin-right: auto; text-decoration: none;
+}
+.app-nav .nav-logo {
+  width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 4px; margin-left: auto;
+}
+.app-nav a {
+  font-family: var(--font-serif); font-size: 14px;
+  color: var(--ink-faint) !important;
+  text-decoration: none; border-bottom: none !important;
+  transition: color 0.2s; letter-spacing: 0.5px; line-height: 56px;
+  padding: 0 10px;
+}
+.app-nav a:hover { color: var(--vermilion) !important; }
+.app-nav a.active { color: var(--ink) !important; border-bottom: 2px solid var(--vermilion) !important; }
+.search-box { position: relative; margin-left: 12px; }
+.nav-search {
+  padding: 6px 12px; border: 1px solid var(--border); border-radius: 4px;
+  font-size: 13px; width: 160px; background: white; font-family: var(--font-serif);
+}
+.nav-search:focus { outline: none; border-color: var(--ink-faint); }
+.search-results {
+  position: absolute; top: 100%; right: 0; background: white;
+  border: 1px solid var(--border); border-radius: 4px; margin-top: 4px;
+  min-width: 280px; max-height: 400px; overflow-y: auto;
+  display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000;
+}
+.search-results.active { display: block; }
+.search-result-item {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: var(--ink); display: block;
+}
+.search-result-item:hover { background: var(--paper-dark); }
+.search-result-item:last-child { border-bottom: none; }
+.search-result-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.search-result-desc { font-size: 12px; color: var(--ink-faint); }
+.search-no-result { padding: 14px; text-align: center; color: var(--ink-faint); }
+
+.content { padding-top: 56px !important; }
+.markdown-section {
+  max-width: 860px; margin: 0 auto;
+  padding: 48px 60px 80px !important; background: var(--paper);
+  animation: fadeIn 0.4s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.markdown-section p {
+  font-family: var(--font-serif); font-size: 16.5px; line-height: 1.9;
+  color: var(--ink); margin: 1.2em 0; text-align: justify; text-indent: 2em;
+}
+.markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4 { text-indent: 0; }
+.markdown-section h1 {
+  font-weight: 700; font-size: 28px; color: var(--ink);
+  margin: 1.5em 0 0.8em; padding-bottom: 12px; border-bottom: 2px solid var(--ink); letter-spacing: 1px;
+}
+.markdown-section h2 {
+  font-weight: 700; font-size: 22px; color: var(--ink);
+  margin: 1.8em 0 0.6em; padding-bottom: 8px; border-bottom: 1px solid var(--border); position: relative;
+}
+.markdown-section h2::before { content: '§ '; color: var(--vermilion); font-weight: 400; }
+.markdown-section h3 { font-weight: 600; font-size: 18px; color: var(--ink-light); margin: 1.4em 0 0.5em; }
+.markdown-section h4 { font-weight: 600; font-size: 16px; color: var(--ink-light); margin: 1.2em 0 0.4em; }
+.markdown-section a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--ink-fainter); transition: all 0.2s; }
+.markdown-section a:hover { color: var(--vermilion); border-bottom-color: var(--vermilion); }
+.markdown-section blockquote {
+  margin: 1.5em 0; padding: 16px 20px; background: var(--paper-dark);
+  border-left: 4px solid var(--vermilion); border-radius: 0 4px 4px 0;
+  color: var(--ink-light); font-style: italic;
+}
+.markdown-section blockquote p { text-indent: 0; margin: 0.5em 0; color: var(--ink-light); }
+.markdown-section table {
+  width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 15px; background: var(--paper);
+}
+.markdown-section thead th {
+  background: var(--paper-dark); font-weight: 700; color: var(--ink);
+  padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--ink);
+}
+.markdown-section tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--ink); }
+.markdown-section tbody tr:hover { background: var(--paper-dark); }
+.markdown-section code {
+  font-family: var(--font-mono); font-size: 14px; background: var(--paper-dark);
+  border: 1px solid var(--border); border-radius: 3px; padding: 2px 6px; color: var(--ink-light);
+}
+.markdown-section pre {
+  background: var(--paper-dark) !important; border: 1px solid var(--border);
+  border-radius: 4px; padding: 20px !important; margin: 1.5em 0;
+  overflow-x: auto; box-shadow: inset 0 1px 3px var(--shadow);
+}
+.markdown-section pre code { background: none; border: none; padding: 0; font-size: 14px; line-height: 1.7; color: var(--ink); }
+.markdown-section ul, .markdown-section ol { padding-left: 1.8em; margin: 1em 0; }
+.markdown-section li { font-size: 16px; line-height: 1.85; color: var(--ink); margin: 0.4em 0; }
+.markdown-section ul li::marker { color: var(--vermilion); }
+.markdown-section ol li::marker { color: var(--ink-faint); font-weight: 600; }
+.markdown-section hr { border: none; height: 1px; background: var(--border); margin: 2.5em 0; }
+.markdown-section strong { color: var(--ink); font-weight: 700; }
+.markdown-section em { color: var(--ink-light); font-style: italic; }
+.markdown-section input[type="checkbox"] {
+  appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
+  border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
+  cursor: pointer; position: relative; top: 3px; margin-right: 6px;
+}
+.markdown-section input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
+.markdown-section input[type="checkbox"]:checked::after {
+  content: '✓'; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
+}
+.markdown-section kbd {
+  font-family: var(--font-mono); font-size: 13px; background: var(--paper-dark);
+  border: 1px solid var(--border); border-bottom: 2px solid var(--ink-fainter);
+  border-radius: 3px; padding: 1px 6px; color: var(--ink-light); box-shadow: 0 1px 1px var(--shadow);
+}
+.markdown-section > :last-child::after {
+  content: '◆ ◆ ◆'; display: block; text-align: center;
+  color: var(--ink-fainter); font-size: 12px; letter-spacing: 8px; margin-top: 3em;
+}
+body::before {
+  content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 9999;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,119,86,0.015) 2px, rgba(139,119,86,0.015) 4px);
+}
+.markdown-section::after {
+  content: ''; display: block; width: 60px; height: 60px; margin: 40px auto 0;
+  border: 2px solid var(--vermilion); border-radius: 50%; opacity: 0.15; position: relative; top: 20px;
+}
+#twikoo-comment {
+  max-width: 780px; margin: 0 auto; padding: 0 0 40px;
+  border-top: 2px solid var(--ink); padding-top: 30px; margin-top: 50px;
+}
+@media print {
+  .app-nav, body::before { display: none !important; }
+  .markdown-section { max-width: 100%; padding: 20px !important; }
+  .content { padding-top: 0 !important; }
+  body { background: white; }
+}
+@media screen and (max-width: 768px) {
+  .markdown-section { padding: 24px 20px 60px !important; }
+  .markdown-section h1 { font-size: 24px; }
+  .markdown-section h2 { font-size: 20px; }
+  .markdown-section p { font-size: 15.5px; }
+  .app-nav { padding: 0 12px; height: auto; flex-wrap: wrap; }
+  .app-nav .nav-brand { font-size: 16px; }
+  .nav-links { flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 4px; width: 100%; order: 3; }
+  .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
+  .search-box { order: 2; margin-left: auto; }
+  .content { padding-top: 90px !important; }
+}
+</style>
+</head>
+<body>
+  <nav class="app-nav">
+    <a href="../../index.html" class="nav-brand">
+      <img src="../../圆形logo.png" alt="应大Wiki" class="nav-logo">
+      <span>应大Wiki</span>
+    </a>
+    <div class="nav-links">
+      <a href="../选课/index.html">选课</a>
+      <a href="../学分绩点/index.html">学分</a>
+      <a href="../体育军训/index.html">体育</a>
+      <a href="../生活指南/index.html">生活</a>
+      <a href="../学习发展/index.html">学习</a>
+      <a href="../报到指南/index.html">报到</a>
+      <a href="../心理健康/index.html">心理</a>
+      <a href="../附录/index.html">附录</a>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </nav>
+  <div class="content">
+    <div class="markdown-section">
+<h1>📝 四六级考试</h1>
+<h2>考试概述</h2>
+<p>你要问我大学期间最重要的考试是什么，我的答案是四六级考试。</p>
+<h2>考试时间</h2>
+<p>大学英语四/六级考试于每年6月份和12月份举行。</p>
+<h2>报考资格</h2>
+<ul>
+<li>大部分新生在大一第二学期6月份会参加四级考试</li>
+<li>如果通过将于下一学期12月参加六级考试</li>
+<li>如果不过，谢谢参与再接再厉</li>
+<li>学校每年也会根据新生的高考英语成绩，取一部分人在大一上报名</li>
+</ul>
+<h2>备考建议</h2>
+<p>如果你英语分确实很高，不要在假期丢掉你的英语，四六级只有第一次和第无数次。</p>
+<h2>考试用品</h2>
+<h3>听力耳机</h3>
+<p>英语考试的听力考试需要用听力耳机。听力耳机相当于戴在头上的收音机（有的耳机能做收音机用），收听各个教学楼的播音信号。</p>
+<p>关于耳机大学开学会有很多人卖，注意试听、检查质量，以免耽误考试。大学之后的所有英语期末考试和四六级考试都需要使用该耳机。大部分耳机使用五号电池。</p>
+<h3>其他用品</h3>
+<ul>
+<li>一卡通</li>
+<li>涂卡铅笔</li>
+<li>橡皮</li>
+<li>黑色碳素笔</li>
+</ul>
+<h2>考试技巧</h2>
+<ol>
+<li><strong>听力</strong>：提前阅读选项，预测内容</li>
+<li><strong>阅读</strong>：先看题目，再读文章</li>
+<li><strong>写作</strong>：背诵模板，注意字数</li>
+<li><strong>翻译</strong>：注意时态和语态</li>
+</ol>
+<h2>常见问题</h2>
+<p><strong>Q：四六级可以刷分吗？</strong></p>
+<p>A：可以，但建议尽早通过，不要拖到大四。</p>
+<p><strong>Q：四六级证书丢了怎么办？</strong></p>
+<p>A：可以申请补办成绩证明。</p>
+<p><strong>Q：四六级多少分算过？</strong></p>
+<p>A：一般425分以上算通过。</p>
+
+      <div id="twikoo-comment"></div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script>
+    const pages = [
+      { url: '../选课/index.html', title: '选课指南', desc: '选课流程、推荐课程、时间线' },
+      { url: '../选课/选课流程.html', title: '选课流程', desc: '详细的选课步骤和注意事项' },
+      { url: '../选课/推荐课程.html', title: '推荐课程', desc: '学长学姐推荐的优质课程' },
+      { url: '../选课/选课时间线.html', title: '选课时间线', desc: '每学期选课关键时间节点' },
+      { url: '../学分绩点/index.html', title: '学分绩点', desc: '学分要求、绩点计算、毕业条件' },
+      { url: '../学分绩点/学分要求.html', title: '学分要求', desc: '毕业所需学分及构成' },
+      { url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '绩点计算方法和等级对应' },
+      { url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '完整的毕业要求清单' },
+      { url: '../体育军训/index.html', title: '体育军训', desc: '体育课选择、体测要求、军训须知' },
+      { url: '../体育军训/体育课选择.html', title: '体育课选择', desc: '体育课项目介绍和选择建议' },
+      { url: '../体育军训/体测要求.html', title: '体测要求', desc: '体能测试项目和标准' },
+      { url: '../体育军训/军训须知.html', title: '军训须知', desc: '军训准备和注意事项' },
+      { url: '../生活指南/index.html', title: '生活指南', desc: '宿舍、食堂、校园地图' },
+      { url: '../生活指南/宿舍篇.html', title: '宿舍篇', desc: '宿舍环境、管理规定、生活技巧' },
+      { url: '../生活指南/食堂篇.html', title: '食堂篇', desc: '食堂介绍、美食推荐、用餐时间' },
+      { url: '../生活指南/校园地图.html', title: '校园地图', desc: '校园设施分布、重要地点' },
+      { url: '../常见问题/index.html', title: '常见问题', desc: '新生常见问题解答' },
+    ];
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    if (searchInput && searchResults) {
+      searchInput.addEventListener('input', function() {
+        const query = this.value.toLowerCase().trim();
+        if (!query) { searchResults.classList.remove('active'); return; }
+        const results = pages.filter(p => p.title.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query));
+        if (results.length === 0) {
+          searchResults.innerHTML = '<div class="search-no-result">没有找到相关结果</div>';
+        } else {
+          searchResults.innerHTML = results.map(p =>
+            '<a href="' + p.url + '" class="search-result-item"><div class="search-result-title">' + p.title + '</div><div class="search-result-desc">' + p.desc + '</div></a>'
+          ).join('');
+        }
+        searchResults.classList.add('active');
+      });
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-box')) { searchResults.classList.remove('active'); }
+      });
+      searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          const query = this.value.toLowerCase().trim();
+          if (query) {
+            const result = pages.find(p => p.title.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query));
+            if (result) { window.location.href = result.url; }
+          }
+        }
+      });
+    }
+  </script>
+  <script>
+    twikoo.init({
+      envId: 'https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo',
+      el: '#twikoo-comment',
+      requiredMetaField: [],
+      anonymousNickName: '匿名',
+      commentPermission: 'anyone',
+    });
+  </script>
+</body>
+</html>

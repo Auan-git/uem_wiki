@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>应大Wiki - 新生指南</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="应大新生Wiki，选课、学分、体育、生活全攻略">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #ffffff;
+      --paper-dark: #f8f6f1;
+      --ink: #1a1a1a;
+      --ink-light: #4a4a4a;
+      --ink-faint: #8a8a8a;
+      --vermilion: #c23616;
+      --link: #0645ad;
+      --link-hover: #c23616;
+      --border: #e0e0e0;
+      --font-serif: 'Noto Serif SC', 'Georgia', serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* 顶部栏 */
+    .top-bar {
+      background: var(--paper-dark);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-bar .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .top-bar .logo-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .top-bar .logo-text {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .search-box {
+      position: relative;
+    }
+    .top-bar .search {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 14px;
+      width: 280px;
+      background: white;
+    }
+    .top-bar .search:focus {
+      outline: none;
+      border-color: var(--link);
+    }
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-top: 4px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .search-results.active {
+      display: block;
+    }
+    .search-result-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+    }
+    .search-result-item:hover {
+      background: var(--paper-dark);
+    }
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+    .search-result-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .search-result-desc {
+      font-size: 13px;
+      color: var(--ink-faint);
+    }
+    .search-no-result {
+      padding: 16px;
+      text-align: center;
+      color: var(--ink-faint);
+    }
+
+    /* 主体 */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Hero 区域 */
+    .hero {
+      text-align: center;
+      padding: 60px 0 50px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+    .hero-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--ink-light);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.8;
+    }
+    .hero-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+    .hero-links a {
+      padding: 12px 32px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .hero-links .primary {
+      background: var(--ink);
+      color: white;
+    }
+    .hero-links .primary:hover {
+      background: var(--vermilion);
+    }
+    .hero-links .secondary {
+      border: 1px solid var(--border);
+      color: var(--ink-light);
+    }
+    .hero-links .secondary:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+
+    /* 板块卡片 */
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .section-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+      background: white;
+    }
+    .section-card:hover {
+      border-color: var(--ink);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .section-card .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .section-card h3 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .section-card p {
+      font-size: 14px;
+      color: var(--ink-faint);
+      line-height: 1.6;
+    }
+
+    /* 快速链接 */
+    .quick-links {
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+    }
+    .quick-links h2 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--ink);
+    }
+    .quick-links ul {
+      list-style: none;
+      columns: 2;
+      column-gap: 48px;
+    }
+    .quick-links li {
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .quick-links a {
+      color: var(--link);
+      text-decoration: none;
+      font-size: 15px;
+    }
+    .quick-links a:hover {
+      color: var(--link-hover);
+    }
+    .quick-links .desc {
+      color: var(--ink-faint);
+      font-size: 13px;
+      margin-left: 8px;
+    }
+
+    /* 页脚 */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      color: var(--ink-faint);
+      font-size: 13px;
+      margin-top: 48px;
+    }
+
+    /* 评论区 */
+    #twikoo-comment {
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 32px; }
+      .hero-links { flex-direction: column; }
+      .quick-links ul { columns: 1; }
+      .top-bar .search { width: 160px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="index.html" class="logo">
+      <img src="圆形logo.png" alt="应大Wiki" class="logo-img">
+      <span class="logo-text">应大Wiki</span>
+    </a>
+    <div class="search-box">
+      <input type="text" id="searchInput" class="search" placeholder="搜索页面内容..." autocomplete="off">
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="hero">
+      <img src="圆形logo.png" alt="应急管理大学" class="hero-logo">
+      <h1>应大Wiki</h1>
+      <p>由学长学姐维护的新生指南，帮助你快速适应大学生活。选课、学分、体育、生活，一站搞定。</p>
+      <div class="hero-links">
+        <a href="docs/选课/index.html" class="primary">开始探索</a>
+        <a href="#sections" class="secondary">浏览全部板块</a>
+      </div>
+    </div>
+
+    <div class="sections" id="sections">
+      <a href="docs/学校介绍/index.html" class="section-card">
+        <div class="icon">🏫</div>
+        <h3>学校介绍</h3>
+        <p>学校简介、历史沿革、办学特色，了解应大。</p>
+      </a>
+      <a href="docs/燕郊生活/index.html" class="section-card">
+        <div class="icon">🌆</div>
+        <h3>燕郊生活</h3>
+        <p>燕郊特色、周边配套、生活指南。</p>
+      </a>
+      <a href="docs/来校交通/index.html" class="section-card">
+        <div class="icon">🚌</div>
+        <h3>来校交通</h3>
+        <p>交通方式、来校路线、出行指南。</p>
+      </a>
+      <a href="docs/报到指南/index.html" class="section-card">
+        <div class="icon">📋</div>
+        <h3>报到指南</h3>
+        <p>报到流程、军训须知、入学准备。</p>
+      </a>
+      <a href="docs/选课/index.html" class="section-card">
+        <div class="icon">📖</div>
+        <h3>选课指南</h3>
+        <p>选课流程、推荐课程、选课时间线，帮你选到心仪的课程。</p>
+      </a>
+      <a href="docs/学分绩点/index.html" class="section-card">
+        <div class="icon">📊</div>
+        <h3>学分绩点</h3>
+        <p>学分要求、绩点计算方法、毕业条件，学业规划不迷茫。</p>
+      </a>
+      <a href="docs/体育军训/index.html" class="section-card">
+        <div class="icon">🏃</div>
+        <h3>体育军训</h3>
+        <p>体育课选择、体测标准、军训准备，运动达人养成记。</p>
+      </a>
+      <a href="docs/生活指南/index.html" class="section-card">
+        <div class="icon">🏠</div>
+        <h3>校园生活</h3>
+        <p>宿舍环境、食堂美食、生活设施，生活无忧。</p>
+      </a>
+      <a href="docs/学习发展/index.html" class="section-card">
+        <div class="icon">📚</div>
+        <h3>学习发展</h3>
+        <p>奖学金、四六级、选修课，学业规划。</p>
+      </a>
+      <a href="docs/学生组织/index.html" class="section-card">
+        <div class="icon">🏛️</div>
+        <h3>学生组织</h3>
+        <p>学生会、社团、班干部，参与校园活动。</p>
+      </a>
+      <a href="docs/心理健康/index.html" class="section-card">
+        <div class="icon">💚</div>
+        <h3>心理健康</h3>
+        <p>心理咨询、自我调节、情绪管理。</p>
+      </a>
+      <a href="docs/常用信息/index.html" class="section-card">
+        <div class="icon">📞</div>
+        <h3>常用信息</h3>
+        <p>联系电话、紧急通讯录。</p>
+      </a>
+      <a href="docs/附录/index.html" class="section-card">
+        <div class="icon">📎</div>
+        <h3>附录</h3>
+        <p>地铁指南、公交指南。</p>
+      </a>
+    </div>
+
+    <div class="quick-links">
+      <h2>📌 常用链接</h2>
+      <ul>
+        <li><a href="docs/选课/选课流程.html">选课流程</a><span class="desc">— 详细步骤</span></li>
+        <li><a href="docs/选课/推荐课程.html">推荐课程</a><span class="desc">— 学长推荐</span></li>
+        <li><a href="docs/学分绩点/绩点计算.html">绩点计算</a><span class="desc">— GPA 算法</span></li>
+        <li><a href="docs/学分绩点/毕业条件.html">毕业条件</a><span class="desc">— 必修清单</span></li>
+        <li><a href="docs/体育军训/体测要求.html">体测要求</a><span class="desc">— 达标标准</span></li>
+        <li><a href="docs/生活指南/宿舍篇.html">宿舍篇</a><span class="desc">— 入住指南</span></li>
+        <li><a href="docs/生活指南/食堂篇.html">食堂篇</a><span class="desc">— 美食攻略</span></li>
+        <li><a href="docs/报到指南/报到流程.html">报到流程</a><span class="desc">— 入学须知</span></li>
+        <li><a href="docs/学习发展/奖学金.html">奖学金</a><span class="desc">— 评定指南</span></li>
+        <li><a href="docs/学习发展/四六级.html">四六级</a><span class="desc">— 备考攻略</span></li>
+        <li><a href="docs/附录/地铁指南.html">地铁指南</a><span class="desc">— 出行必备</span></li>
+        <li><a href="docs/附录/公交指南.html">公交指南</a><span class="desc">— 北京公交</span></li>
+      </ul>
+    </div>
+
+    <div id="twikoo-comment"></div>
+  </div>
+
+  <footer>
+    <p>应大Wiki — 学长学姐经验传承</p>
+  </footer>
+
+  <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script>
+    // 所有页面列表
+    const pages = [
+      { url: 'docs/学校介绍/index.html', title: '学校介绍', desc: '学校简介、历史沿革、办学特色' },
+      { url: 'docs/学校介绍/学校简介.html', title: '学校简介', desc: '应急管理大学详细介绍' },
+      { url: 'docs/燕郊生活/index.html', title: '燕郊生活', desc: '燕郊特色、周边配套' },
+      { url: 'docs/燕郊生活/燕郊特色.html', title: '燕郊特色', desc: '燕郊的神奇之处' },
+      { url: 'docs/燕郊生活/周边配套.html', title: '周边配套', desc: '购物、娱乐、休闲' },
+      { url: 'docs/来校交通/index.html', title: '来校交通', desc: '交通方式、来校路线' },
+      { url: 'docs/来校交通/来校路线.html', title: '来校路线', desc: '自驾、高铁、飞机、大巴' },
+      { url: 'docs/报到指南/index.html', title: '报到指南', desc: '报到流程、军训须知' },
+      { url: 'docs/报到指南/报到流程.html', title: '报到流程', desc: '详细的报到步骤' },
+      { url: 'docs/选课/index.html', title: '选课指南', desc: '选课流程、推荐课程、时间线' },
+      { url: 'docs/选课/选课流程.html', title: '选课流程', desc: '详细的选课步骤和注意事项' },
+      { url: 'docs/选课/推荐课程.html', title: '推荐课程', desc: '学长学姐推荐的优质课程' },
+      { url: 'docs/选课/选课时间线.html', title: '选课时间线', desc: '每学期选课关键时间节点' },
+      { url: 'docs/学分绩点/index.html', title: '学分绩点', desc: '学分要求、绩点计算、毕业条件' },
+      { url: 'docs/学分绩点/学分要求.html', title: '学分要求', desc: '毕业所需学分及构成' },
+      { url: 'docs/学分绩点/绩点计算.html', title: '绩点计算', desc: '绩点计算方法和等级对应' },
+      { url: 'docs/学分绩点/毕业条件.html', title: '毕业条件', desc: '完整的毕业要求清单' },
+      { url: 'docs/体育军训/index.html', title: '体育军训', desc: '体育课选择、体测要求、军训须知' },
+      { url: 'docs/体育军训/体育课选择.html', title: '体育课选择', desc: '体育课项目介绍和选择建议' },
+      { url: 'docs/体育军训/体测要求.html', title: '体测要求', desc: '体能测试项目和标准' },
+      { url: 'docs/体育军训/军训须知.html', title: '军训须知', desc: '军训准备和注意事项' },
+      { url: 'docs/生活指南/index.html', title: '校园生活', desc: '宿舍、食堂、生活设施' },
+      { url: 'docs/生活指南/宿舍篇.html', title: '宿舍篇', desc: '宿舍环境、管理规定、生活技巧' },
+      { url: 'docs/生活指南/食堂篇.html', title: '食堂篇', desc: '食堂介绍、美食推荐' },
+      { url: 'docs/学习发展/index.html', title: '学习发展', desc: '奖学金、四六级、选修课' },
+      { url: 'docs/学习发展/奖学金.html', title: '奖学金', desc: '奖学金评定、学习规划' },
+      { url: 'docs/学习发展/四六级.html', title: '四六级', desc: '英语四六级考试攻略' },
+      { url: 'docs/学习发展/体育课.html', title: '体育课', desc: '体育课选课指南' },
+      { url: 'docs/学习发展/选修课.html', title: '选修课', desc: '校选课选课指南' },
+      { url: 'docs/学生组织/index.html', title: '学生组织', desc: '学生会、社团、班干部' },
+      { url: 'docs/学生组织/学生组织.html', title: '学生组织详情', desc: '各类学生组织介绍' },
+      { url: 'docs/心理健康/index.html', title: '心理健康', desc: '心理咨询、自我调节' },
+      { url: 'docs/心理健康/心理健康.html', title: '心理健康详情', desc: '情绪管理、心理支持' },
+      { url: 'docs/常用信息/index.html', title: '常用信息', desc: '联系电话、紧急通讯录' },
+      { url: 'docs/常用信息/常用电话.html', title: '常用电话', desc: '学校电话、报警电话' },
+      { url: 'docs/附录/index.html', title: '附录', desc: '地铁指南、公交指南' },
+      { url: 'docs/附录/地铁指南.html', title: '地铁指南', desc: '北京地铁乘坐攻略' },
+      { url: 'docs/附录/公交指南.html', title: '公交指南', desc: '北京公交乘坐攻略' },
+      { url: 'docs/常见问题/index.html', title: '常见问题', desc: '新生常见问题解答' },
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    searchInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase().trim();
+      if (!query) {
+        searchResults.classList.remove('active');
+        return;
+      }
+
+      const results = pages.filter(p =>
+        p.title.toLowerCase().includes(query) ||
+        p.desc.toLowerCase().includes(query)
+      );
+
+      if (results.length === 0) {
+        searchResults.innerHTML = '<div class="search-no-result">没有找到相关结果</div>';
+      } else {
+        searchResults.innerHTML = results.map(p =>
+          `<a href="${p.url}" class="search-result-item">
+            <div class="search-result-title">${p.title}</div>
+            <div class="search-result-desc">${p.desc}</div>
+          </a>`
+        ).join('');
+      }
+      searchResults.classList.add('active');
+    });
+
+    // 点击其他地方关闭搜索结果
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-box')) {
+        searchResults.classList.remove('active');
+      }
+    });
+
+    // 按回车搜索
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const query = this.value.toLowerCase().trim();
+        if (query) {
+          const result = pages.find(p =>
+            p.title.toLowerCase().includes(query) ||
+            p.desc.toLowerCase().includes(query)
+          );
+          if (result) {
+            window.location.href = result.url;
+          }
+        }
+      }
+    });
+  </script>
+  <script>
+    twikoo.init({
+      envId: 'https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo',
+      el: '#twikoo-comment',
+      requiredMetaField: [],
+      anonymousNickName: '匿名',
+      commentPermission: 'anyone',
+    });
+  </script>
+</body>
+</html>

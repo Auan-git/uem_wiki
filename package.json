@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "mongodb": "^7.5.0",
+    "twikoo": "^1.7.15"
+  }
+}

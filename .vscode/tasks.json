@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "启动Wiki预览服务器",
+			"type": "shell",
+			"command": "python serve.py",
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}
