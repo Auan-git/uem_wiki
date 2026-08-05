@@ -575,7 +575,13 @@ def fix_links(md_text: str, md_file_path: Path) -> str:
         # 外部链接不动
         if url.startswith(('http://', 'https://', 'mailto:', '#', 'javascript:')):
             return m.group(0)
-        # 已经有扩展名的不动
+        # .md 链接 → .html
+        if url.endswith('.md'):
+            return f'[{text}]({url[:-3]}.html)'
+        # 已经是 .html 的不动
+        if url.endswith('.html'):
+            return m.group(0)
+        # 其他有扩展名的不动
         if '.' in url.split('/')[-1]:
             return m.group(0)
         # 目录链接（以 / 结尾或无后缀）
