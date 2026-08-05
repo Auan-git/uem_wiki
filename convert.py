@@ -334,6 +334,7 @@ def build_nav(prefix: str, is_sub: bool = False) -> str:
       <a href="{p('选课指南/index.html')}">选课</a>
       <a href="{p('学分绩点/index.html')}">学业</a>
       <a href="{p('校园生活/index.html')}">生活</a>
+      <a href="{p('学院与专业/index.html')}">学院</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
@@ -352,6 +353,7 @@ def build_nav(prefix: str, is_sub: bool = False) -> str:
       <a href="{p('docs/选课指南/index.html')}">选课</a>
       <a href="{p('docs/学分绩点/index.html')}">学业</a>
       <a href="{p('docs/校园生活/index.html')}">生活</a>
+      <a href="{p('docs/学院与专业/index.html')}">学院</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
@@ -605,6 +607,7 @@ def convert_all():
     md_files = [f for f in md_files if not (f.parent == BASE_DIR and f.name == 'README.md')]
     md_files = [f for f in md_files if not (f.parent == BASE_DIR / 'docs' and f.name == 'README.md')]
     md_files = [f for f in md_files if 'node_modules' not in str(f)]
+    md_files = [f for f in md_files if 'local' not in f.parts]
 
     # 先清理 docs 下旧的 HTML 文件（保留根目录的 index.html）
     for old_html in (BASE_DIR / 'docs').rglob('*.html'):
