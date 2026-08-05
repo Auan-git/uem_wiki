@@ -202,6 +202,12 @@ def md_to_html(text: str) -> str:
             in_blockquote = False
             bq_lines = []
 
+        # 纯 HTML 行（如 <div class="doc-links">）直接透传
+        if stripped.startswith('<div') or stripped.startswith('</div') or stripped.startswith('<a ') or stripped.startswith('</a'):
+            html_lines.append(stripped)
+            i += 1
+            continue
+
         html_lines.append(f'<p>{process_inline(stripped)}</p>')
         i += 1
 
@@ -523,6 +529,23 @@ html, body {
 .markdown-section > :last-child::after {
   content: '◆ ◆ ◆'; display: block; text-align: center;
   color: var(--ink-fainter); font-size: 12px; letter-spacing: 8px; margin-top: 3em;
+}
+.doc-links {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 30px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.doc-links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 6px;
+  background: var(--paper-dark); border: 1px solid var(--border);
+  color: var(--ink) !important; font-size: 14px; font-weight: 600;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.2s;
+}
+.doc-links a:hover {
+  background: var(--ink); color: var(--paper) !important;
+  border-color: var(--ink); transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--shadow);
 }
 body::before {
   content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;

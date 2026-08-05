@@ -167,6 +167,23 @@ html, body {
   content: '◆ ◆ ◆'; display: block; text-align: center;
   color: var(--ink-fainter); font-size: 12px; letter-spacing: 8px; margin-top: 3em;
 }
+.doc-links {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 30px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.doc-links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 6px;
+  background: var(--paper-dark); border: 1px solid var(--border);
+  color: var(--ink) !important; font-size: 14px; font-weight: 600;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.2s;
+}
+.doc-links a:hover {
+  background: var(--ink); color: var(--paper) !important;
+  border-color: var(--ink); transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--shadow);
+}
 body::before {
   content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   pointer-events: none; z-index: 9999;
@@ -221,6 +238,13 @@ body::before {
   <div class="content">
     <div class="markdown-section">
 <h1>🚌 入学指南</h1>
+<div class="doc-links">
+<a href="来校路线.html">🚗 来校路线</a>
+<a href="报到流程.html">📋 报到流程</a>
+<a href="军训须知.html">🎖️ 军训须知</a>
+<a href="体育课选择.html">🏃 体育课选择</a>
+<a href="体测要求.html">💪 体测要求</a>
+</div>
 <h2>来校交通</h2>
 <p>由于学校在燕郊，而燕郊在北京周边，所以最方便的来校路线是先到达北京后，乘坐地铁公交到燕郊。</p>
 <h3>高铁/火车（最常用）</h3>
@@ -270,7 +294,6 @@ body::before {
 <p>我校体育课种类繁多，包括：篮/排/足/乒/网/匹克各种球类、武术、拳击、跆拳道、街舞、体育舞蹈、轮滑、健身健美、体适能、羽毛球、攀岩与素质拓展以及其他共二十余种课程。</p>
 <p>体育课是新生第一次通过教务网络管理系统选课。室外课会在大一下组织上三节游泳课，学校统一购买泳帽。</p>
 <hr>
-<p><em>详细内容请查看 <a href="来校路线.html">来校路线</a> | <a href="报到流程.html">报到流程</a> | <a href="军训须知.html">军训须知</a></em></p>
 
       <div id="twikoo-comment"></div>
     </div>

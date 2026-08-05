@@ -167,6 +167,23 @@ html, body {
   content: '◆ ◆ ◆'; display: block; text-align: center;
   color: var(--ink-fainter); font-size: 12px; letter-spacing: 8px; margin-top: 3em;
 }
+.doc-links {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 30px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.doc-links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px; border-radius: 6px;
+  background: var(--paper-dark); border: 1px solid var(--border);
+  color: var(--ink) !important; font-size: 14px; font-weight: 600;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.2s;
+}
+.doc-links a:hover {
+  background: var(--ink); color: var(--paper) !important;
+  border-color: var(--ink); transform: translateY(-1px);
+  box-shadow: 0 2px 8px var(--shadow);
+}
 body::before {
   content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   pointer-events: none; z-index: 9999;
@@ -221,6 +238,11 @@ body::before {
   <div class="content">
     <div class="markdown-section">
 <h1>📖 选课指南</h1>
+<div class="doc-links">
+<a href="选课流程.html">📝 选课流程</a>
+<a href="推荐课程.html">⭐ 推荐课程</a>
+<a href="选课时间线.html">📅 选课时间线</a>
+</div>
 <h2>选课类型</h2>
 <h3>专选课（专业选修课）</h3>
 <p>登录教务系统后，在"选课管理"→"方案课程"中查看本学期开设的专业选修课。</p>
@@ -256,7 +278,6 @@ body::before {
 <li>选不到的课可以在补选阶段尝试</li>
 </ul>
 <hr>
-<p><em>详细内容请查看 <a href="选课流程.html">选课流程</a> | <a href="推荐课程.html">推荐课程</a> | <a href="选课时间线.html">选课时间线</a></em></p>
 
       <div id="twikoo-comment"></div>
     </div>
