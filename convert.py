@@ -628,9 +628,11 @@ def convert_all():
     md_files = [f for f in md_files if not (f.parent == BASE_DIR and f.name == 'README.md')]
     md_files = [f for f in md_files if not (f.parent == BASE_DIR / 'docs' and f.name == 'README.md')]
     md_files = [f for f in md_files if 'node_modules' not in str(f)]
+    md_files = [f for f in md_files if '学院与专业' not in f.parts]
 
     # 先清理 docs 下旧的 HTML 文件（保留根目录的 index.html）
     for old_html in (BASE_DIR / 'docs').rglob('*.html'):
+        if '学院与专业' in old_html.parts: continue
         old_html.unlink(missing_ok=True)
     # 清理 docs 下可能残留的 README.html
     for old_readme in (BASE_DIR / 'docs').rglob('README.html'):
