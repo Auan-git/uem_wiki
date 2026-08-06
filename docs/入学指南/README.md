@@ -1,11 +1,11 @@
-# 🚌 入学指南
+# 入学指南
 
 <div class="doc-links">
-<a href="来校路线.html">🚗 来校路线</a>
-<a href="报到流程.html">📋 报到流程</a>
-<a href="军训须知.html">🎖️ 军训须知</a>
-<a href="体育课选择.html">🏃 体育课选择</a>
-<a href="体测要求.html">💪 体测要求</a>
+<a href="来校路线.html">来校路线</a>
+<a href="报到流程.html">报到流程</a>
+<a href="军训须知.html">军训须知</a>
+<a href="体育课选择.html">体育课选择</a>
+<a href="体测要求.html">体测要求</a>
 </div>
 
 ## 来校交通

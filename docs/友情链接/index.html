@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>友情链接 - 应大Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --paper: #ffffff;
+  --paper-dark: #eddcba;
+  --paper-edge: #e8e0d0;
+  --ink: #2c2416;
+  --ink-light: #5a4e3c;
+  --ink-faint: #8a7e6c;
+  --ink-fainter: #b8ad9c;
+  --vermilion: #c23616;
+  --vermilion-light: #e74c3c;
+  --link: #8b4513;
+  --link-hover: #c23616;
+  --border: #d4c9b8;
+  --shadow: rgba(44, 36, 22, 0.08);
+  --font-serif: 'Noto Serif SC', 'Crimson Pro', 'Georgia', 'Songti SC', serif;
+  --font-mono: 'Courier New', 'Noto Sans Mono', monospace;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 16px; line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; justify-content: center; align-items: center;
+  padding: 0 28px; height: 56px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 4px var(--shadow);
+}
+.app-nav .nav-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-serif); font-weight: 700; font-size: 20px;
+  color: var(--ink); letter-spacing: 2px; margin-right: auto; text-decoration: none;
+}
+.app-nav .nav-logo {
+  width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 4px; margin-left: auto;
+}
+.app-nav a {
+  font-family: var(--font-serif); font-size: 14px;
+  color: var(--ink-faint) !important;
+  text-decoration: none; border-bottom: none !important;
+  transition: color 0.2s; letter-spacing: 0.5px; line-height: 56px;
+  padding: 0 10px;
+}
+.app-nav a:hover { color: var(--vermilion) !important; }
+.app-nav a.active { color: var(--ink) !important; border-bottom: 2px solid var(--vermilion) !important; }
+
+.content { display: flex; padding-top: 56px !important; }
+.wiki-sidebar {
+  position: fixed; top: 56px; left: 0; bottom: 0;
+  width: 240px; background: var(--paper-dark);
+  border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 20px 0;
+  font-family: var(--font-serif); font-size: 14px;
+  z-index: 50;
+}
+.sidebar-title {
+  font-weight: 700; font-size: 13px; color: var(--ink-faint);
+  text-transform: uppercase; letter-spacing: 2px;
+  padding: 0 20px 12px; border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.sidebar-nav { list-style: none; padding: 0; margin: 0; }
+.sidebar-item { margin: 0; }
+.sidebar-link {
+  display: block; padding: 8px 20px; color: var(--ink-light) !important;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.15s; border-left: 3px solid transparent;
+}
+.sidebar-link:hover {
+  background: var(--paper-edge); color: var(--ink) !important;
+  border-left-color: var(--ink-faint);
+}
+.sidebar-link.has-children {
+  font-weight: 600; color: var(--ink) !important;
+}
+.sidebar-children {
+  list-style: none; padding: 0; margin: 0;
+  border-left: 1px solid var(--border); margin-left: 20px;
+}
+.sidebar-children .sidebar-link {
+  padding: 6px 16px; font-size: 13px; font-weight: 400;
+  color: var(--ink-faint) !important;
+}
+.sidebar-children .sidebar-link:hover {
+  color: var(--ink) !important;
+}
+
+.wiki-main {
+  margin-left: 240px; flex: 1; min-width: 0;
+}
+.markdown-section {
+  max-width: 860px; margin: 0 auto;
+  padding: 32px 60px 80px !important;
+}
+.markdown-section h1 {
+  font-weight: 700; font-size: 28px; color: var(--ink);
+  margin: 1.5em 0 0.8em; padding-bottom: 12px; border-bottom: 2px solid var(--ink); letter-spacing: 1px;
+}
+.breadcrumb {
+  font-size: 13px; color: var(--ink-faint); margin-bottom: 16px;
+  font-family: var(--font-serif);
+}
+.breadcrumb a {
+  color: var(--ink-faint) !important; text-decoration: none !important;
+  border-bottom: none !important;
+}
+.breadcrumb a:hover { color: var(--vermilion) !important; }
+.breadcrumb span { margin: 0 6px; }
+
+.link-section { margin-bottom: 40px; }
+.link-section h2 {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  margin-bottom: 16px; color: var(--ink);
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.link-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.link-card {
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; text-decoration: none; color: inherit;
+  transition: all 0.2s; background: white;
+}
+.link-card:hover {
+  border-color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.link-card .name { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+.link-card .desc { font-size: 13px; color: var(--ink-faint); line-height: 1.5; }
+.link-card .url { font-size: 12px; color: var(--link); margin-top: 8px; word-break: break-all; }
+
+#twikoo-comment {
+  max-width: 780px; margin: 60px auto 0; padding: 0 0 40px;
+  border-top: 2px solid var(--ink); padding-top: 30px;
+}
+.twikoo-title {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  color: var(--ink); margin-bottom: 20px; text-align: center;
+}
+
+@media screen and (max-width: 900px) {
+  .wiki-sidebar {
+    position: fixed; left: -260px; width: 260px;
+    transition: left 0.3s ease; z-index: 500;
+    box-shadow: none;
+  }
+  .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
+  .wiki-main { margin-left: 0; }
+}
+@media print {
+  .wiki-sidebar { display: none !important; }
+  .wiki-main { margin-left: 0; }
+}
+  </style>
+</head>
+<body>
+  <nav class="app-nav">
+    <a href="../../index.html" class="nav-brand">
+      <img src="../../圆形logo.png" alt="应大Wiki" class="nav-logo">
+      <span>应大Wiki</span>
+    </a>
+    <div class="nav-links">
+      <a href="../学校概览/index.html">概览</a>
+      <a href="../入学指南/index.html">入学</a>
+      <a href="../选课指南/index.html">选课</a>
+      <a href="../学分绩点/index.html">学业</a>
+      <a href="../校园生活/index.html">生活</a>
+    </div>
+  </nav>
+  <div class="content">
+<nav class="wiki-sidebar" id="wikiSidebar">
+<div class="sidebar-title">全部板块</div>
+<ul class="sidebar-nav">
+<li class="sidebar-item">
+<a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
+<ul class="sidebar-children">
+<li><a href="../学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
+<li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
+<li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../入学指南/index.html" class="sidebar-link has-children">入学指南</a>
+<ul class="sidebar-children">
+<li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
+<li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
+<li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
+<li><a href="../入学指南/体育课选择.html" class="sidebar-link">体育课选择</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../选课指南/index.html" class="sidebar-link has-children">选课指南</a>
+<ul class="sidebar-children">
+<li><a href="../选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
+<li><a href="../选课指南/推荐课程.html" class="sidebar-link">推荐课程</a></li>
+<li><a href="../选课指南/选课时间线.html" class="sidebar-link">选课时间线</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
+<ul class="sidebar-children">
+<li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
+<li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
+<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
+<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
+<li><a href="../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../校园生活/index.html" class="sidebar-link has-children">校园生活</a>
+<ul class="sidebar-children">
+<li><a href="../校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
+<li><a href="../校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
+<li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
+<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
+<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
+<li><a href="../校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
+<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
+<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
+<li><a href="../校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
+</ul>
+</li>
+<li class="sidebar-item active">
+<a href="../友情链接/index.html" class="sidebar-link has-children active">友情链接</a>
+</li>
+</ul>
+</nav>
+  <div class="wiki-main">
+    <div class="markdown-section">
+<div class="breadcrumb"><a href="../../index.html">首页</a> <span>/</span> 友情链接</div>
+<h1>友情链接</h1>
+
+    <div class="link-section">
+      <h2>学校组织</h2>
+      <div class="link-grid">
+        <a href="https://www.ncist.edu.cn/" class="link-card" target="_blank">
+          <div class="name">学校官网</div>
+          <div class="desc">学校官方网站</div>
+          <div class="url">www.ncist.edu.cn</div>
+        </a>
+        <a href="https://auth.ncist.edu.cn/" class="link-card" target="_blank">
+          <div class="name">门户网站</div>
+          <div class="desc">统一身份认证登录</div>
+          <div class="url">auth.ncist.edu.cn</div>
+        </a>
+        <a href="https://jwc.ncist.edu.cn/" class="link-card" target="_blank">
+          <div class="name">教务处</div>
+          <div class="desc">选课、成绩查询</div>
+          <div class="url">jwc.ncist.edu.cn</div>
+        </a>
+        <a href="https://lib.ncist.edu.cn/portal/" class="link-card" target="_blank">
+          <div class="name">图书馆</div>
+          <div class="desc">图书借阅、数据库</div>
+          <div class="url">lib.ncist.edu.cn</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="link-section">
+      <h2>学长学姐博客</h2>
+      <div class="link-grid">
+        <div class="link-card">
+          <div class="name">待添加</div>
+          <div class="desc">欢迎提交你的博客链接</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="link-section">
+      <h2>实用网站</h2>
+      <div class="link-grid">
+        <a href="https://www.bjsubway.com" class="link-card" target="_blank">
+          <div class="name">北京地铁</div>
+          <div class="desc">线路查询、运营时间</div>
+          <div class="url">www.bjsubway.com</div>
+        </a>
+        <a href="https://www.12306.cn" class="link-card" target="_blank">
+          <div class="name">12306</div>
+          <div class="desc">火车票预订</div>
+          <div class="url">www.12306.cn</div>
+        </a>
+      </div>
+    </div>
+
+          </div>
+    <div style="max-width:780px;margin:0 auto;padding:0 20px;">
+      <div class="twikoo-title">评论区</div>
+      <div id="twikoo-comment"></div>
+    </div>
+  </div>
+  </div>
+  <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script>
+    twikoo.init({
+      envId: 'https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo',
+      el: '#twikoo-comment',
+      requiredMetaField: [],
+      anonymousNickName: '匿名',
+      commentPermission: 'anyone',
+    });
+  </script>
+
+  <script>
+  (function() {
+    var sidebar = document.getElementById('wikiSidebar');
+    var activeLink = sidebar ? sidebar.querySelector('.sidebar-link.has-children.active') : null;
+    if (sidebar && activeLink) {
+      // 延迟滚动，等页面加载完成
+      setTimeout(function() {
+        var sidebarRect = sidebar.getBoundingClientRect();
+        var linkRect = activeLink.getBoundingClientRect();
+        // 如果当前链接不在可视区域内，滚动到可见位置
+        if (linkRect.top < sidebarRect.top || linkRect.bottom > sidebarRect.bottom) {
+          activeLink.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  })();
+  </script>
+
+</body>
+</html>

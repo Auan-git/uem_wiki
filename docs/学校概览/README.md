@@ -1,9 +1,9 @@
-# 🏫 学校概览
+# 学校概览
 
 <div class="doc-links">
-<a href="学校简介.html">📖 学校简介</a>
-<a href="燕郊特色.html">🌆 燕郊特色</a>
-<a href="周边配套.html">🛒 周边配套</a>
+<a href="学校简介.html">学校简介</a>
+<a href="燕郊特色.html">燕郊特色</a>
+<a href="周边配套.html">周边配套</a>
 </div>
 
 ## 学校简介

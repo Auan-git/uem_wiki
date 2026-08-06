@@ -1,9 +1,9 @@
-# 📖 选课指南
+# 选课指南
 
 <div class="doc-links">
-<a href="选课流程.html">📝 选课流程</a>
-<a href="推荐课程.html">⭐ 推荐课程</a>
-<a href="选课时间线.html">📅 选课时间线</a>
+<a href="选课流程.html">选课流程</a>
+<a href="推荐课程.html">推荐课程</a>
+<a href="选课时间线.html">选课时间线</a>
 </div>
 
 ## 选课类型

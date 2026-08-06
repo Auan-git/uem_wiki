@@ -1,14 +1,14 @@
-# 🏠 校园生活
+# 校园生活
 
 <div class="doc-links">
-<a href="宿舍篇.html">🛏️ 宿舍篇</a>
-<a href="食堂篇.html">🍜 食堂篇</a>
-<a href="校园地图.html">🗺️ 校园地图</a>
-<a href="学生组织.html">🏛️ 学生组织</a>
-<a href="心理健康.html">💚 心理健康</a>
-<a href="常用电话.html">📞 常用电话</a>
-<a href="地铁指南.html">🚇 地铁指南</a>
-<a href="公交指南.html">🚌 公交指南</a>
+<a href="宿舍篇.html">宿舍篇</a>
+<a href="食堂篇.html">食堂篇</a>
+<a href="校园地图.html">校园地图</a>
+<a href="学生组织.html">学生组织</a>
+<a href="心理健康.html">心理健康</a>
+<a href="常用电话.html">常用电话</a>
+<a href="地铁指南.html">地铁指南</a>
+<a href="公交指南.html">公交指南</a>
 </div>
 
 ## 宿舍

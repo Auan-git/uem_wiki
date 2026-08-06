@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>应大Wiki - 新生指南</title>
+  <title>应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="应大新生Wiki，选课、学分、体育、生活全攻略">
 
@@ -224,41 +224,6 @@
       line-height: 1.6;
     }
 
-    /* 快速链接 */
-    .quick-links {
-      border-top: 1px solid var(--border);
-      padding-top: 32px;
-    }
-    .quick-links h2 {
-      font-family: var(--font-serif);
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 20px;
-      color: var(--ink);
-    }
-    .quick-links ul {
-      list-style: none;
-      columns: 2;
-      column-gap: 48px;
-    }
-    .quick-links li {
-      padding: 8px 0;
-      border-bottom: 1px dashed var(--border);
-    }
-    .quick-links a {
-      color: var(--link);
-      text-decoration: none;
-      font-size: 15px;
-    }
-    .quick-links a:hover {
-      color: var(--link-hover);
-    }
-    .quick-links .desc {
-      color: var(--ink-faint);
-      font-size: 13px;
-      margin-left: 8px;
-    }
-
     /* 页脚 */
     footer {
       border-top: 1px solid var(--border);
@@ -269,17 +234,9 @@
       margin-top: 48px;
     }
 
-    /* 评论区 */
-    #twikoo-comment {
-      border-top: 1px solid var(--border);
-      padding-top: 32px;
-      margin-top: 48px;
-    }
-
     @media (max-width: 640px) {
       .hero h1 { font-size: 32px; }
       .hero-links { flex-direction: column; }
-      .quick-links ul { columns: 1; }
       .top-bar .search { width: 160px; }
     }
   </style>
@@ -300,7 +257,9 @@
     <div class="hero">
       <img src="圆形logo.png" alt="应急管理大学" class="hero-logo">
       <h1>应大Wiki</h1>
-      <p>由学长学姐维护的新生指南，帮助你快速适应大学生活。选课、学分、体育、生活，一站搞定。</p>
+      <h3>厚德启智，扶危安国</h3>
+      <p></p>
+      <p>应大wiki是一个内容自由、任何人都能参与的协作计划，其目标是建立一个完整、准确且中立的应大百科全书。</p>
       <div class="hero-links">
         <a href="docs/选课/index.html" class="primary">开始探索</a>
         <a href="#sections" class="secondary">浏览全部板块</a>
@@ -309,58 +268,43 @@
 
     <div class="sections" id="sections">
       <a href="docs/学校概览/index.html" class="section-card">
-        <div class="icon">🏫</div>
+        <div class="icon"></div>
         <h3>学校概览</h3>
         <p>学校简介、燕郊特色、周边配套，了解应大。</p>
       </a>
       <a href="docs/入学指南/index.html" class="section-card">
-        <div class="icon">🚌</div>
+        <div class="icon"></div>
         <h3>入学指南</h3>
         <p>来校交通、报到流程、军训体育。</p>
       </a>
       <a href="docs/选课指南/index.html" class="section-card">
-        <div class="icon">📖</div>
+        <div class="icon"></div>
         <h3>选课指南</h3>
         <p>选课流程、推荐课程、选课时间线。</p>
       </a>
       <a href="docs/学分绩点/index.html" class="section-card">
-        <div class="icon">📊</div>
+        <div class="icon"></div>
         <h3>学分绩点</h3>
         <p>学分、绩点、奖学金、四六级、选修课。</p>
       </a>
       <a href="docs/校园生活/index.html" class="section-card">
-        <div class="icon">🏠</div>
+        <div class="icon"></div>
         <h3>校园生活</h3>
         <p>宿舍食堂、学生组织、心理健康、常用电话。</p>
       </a>
+      <a href="docs/友情链接/index.html" class="section-card">
+        <div class="icon"></div>
+        <h3>友情链接</h3>
+        <p>学校组织、学长学姐博客、实用网站。</p>
+      </a>
     </div>
 
-    <div class="quick-links">
-      <h2>📌 常用链接</h2>
-      <ul>
-        <li><a href="docs/选课指南/选课流程.html">选课流程</a><span class="desc">— 详细步骤</span></li>
-        <li><a href="docs/选课指南/推荐课程.html">推荐课程</a><span class="desc">— 学长推荐</span></li>
-        <li><a href="docs/学分绩点/绩点计算.html">绩点计算</a><span class="desc">— GPA 算法</span></li>
-        <li><a href="docs/学分绩点/毕业条件.html">毕业条件</a><span class="desc">— 必修清单</span></li>
-        <li><a href="docs/入学指南/来校路线.html">来校路线</a><span class="desc">— 交通攻略</span></li>
-        <li><a href="docs/入学指南/报到流程.html">报到流程</a><span class="desc">— 入学须知</span></li>
-        <li><a href="docs/校园生活/宿舍篇.html">宿舍篇</a><span class="desc">— 入住指南</span></li>
-        <li><a href="docs/校园生活/食堂篇.html">食堂篇</a><span class="desc">— 美食攻略</span></li>
-        <li><a href="docs/学分绩点/奖学金.html">奖学金</a><span class="desc">— 评定指南</span></li>
-        <li><a href="docs/学分绩点/四六级.html">四六级</a><span class="desc">— 备考攻略</span></li>
-        <li><a href="docs/校园生活/常用电话.html">常用电话</a><span class="desc">— 紧急联系</span></li>
-        <li><a href="docs/校园生活/地铁指南.html">地铁指南</a><span class="desc">— 出行必备</span></li>
-      </ul>
-    </div>
-
-    <div id="twikoo-comment"></div>
   </div>
 
   <footer>
     <p>应大Wiki — 学长学姐经验传承</p>
   </footer>
 
-  <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
     // 所有页面列表
     const pages = [
@@ -393,6 +337,7 @@
       { url: 'docs/校园生活/常用电话.html', title: '常用电话', desc: '学校电话、报警电话' },
       { url: 'docs/校园生活/地铁指南.html', title: '地铁指南', desc: '北京地铁乘坐攻略' },
       { url: 'docs/校园生活/公交指南.html', title: '公交指南', desc: '北京公交乘坐攻略' },
+      { url: 'docs/友情链接/index.html', title: '友情链接', desc: '学校组织、学长学姐博客' },
     ];
 
     const searchInput = document.getElementById('searchInput');
@@ -447,13 +392,6 @@
     });
   </script>
   <script>
-    twikoo.init({
-      envId: 'https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo',
-      el: '#twikoo-comment',
-      requiredMetaField: [],
-      anonymousNickName: '匿名',
-      commentPermission: 'anyone',
-    });
   </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>欢迎来到应大Wiki 🎓 - 应大Wiki</title>
+  <title>欢迎来到应大Wiki - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -126,7 +126,7 @@ html, body {
 }
 .markdown-section input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
 .markdown-section input[type="checkbox"]:checked::after {
-  content: '✓'; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
+  content: ''; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
 }
 .markdown-section kbd {
   font-family: var(--font-mono); font-size: 13px; background: var(--paper-dark);
@@ -175,12 +175,12 @@ body::before {
   </nav>
   <div class="content">
     <div class="markdown-section">
-<h1>欢迎来到应大Wiki 🎓</h1>
+<h1>欢迎来到应大Wiki </h1>
 <blockquote>
 <p>新生指南 · 选课攻略 · 学分规划 · 生活贴士</p>
 </blockquote>
 <p>这里是由学长学姐们维护的新生指南，帮助你快速适应大学生活。</p>
-<h2>📖 快速导航</h2>
+<h2>快速导航</h2>
 <table>
 <thead><tr>
   <th>板块</th>
@@ -188,34 +188,34 @@ body::before {
 </tr></thead>
 <tbody>
 <tr>
-  <td><a href="/docs/选课/index.html">📖 选课指南</a></td>
+  <td><a href="/docs/选课/index.html">选课指南</a></td>
   <td>选课流程、推荐课程、时间线</td>
 </tr>
 <tr>
-  <td><a href="/docs/学分绩点/index.html">📊 学分绩点</a></td>
+  <td><a href="/docs/学分绩点/index.html">学分绩点</a></td>
   <td>学分要求、绩点计算、毕业条件</td>
 </tr>
 <tr>
-  <td><a href="/docs/体育军训/index.html">🏃 体育军训</a></td>
+  <td><a href="/docs/体育军训/index.html">体育军训</a></td>
   <td>体育课选择、体测要求、军训须知</td>
 </tr>
 <tr>
-  <td><a href="/docs/生活指南/index.html">🏠 生活指南</a></td>
+  <td><a href="/docs/生活指南/index.html">生活指南</a></td>
   <td>宿舍、食堂、校园地图</td>
 </tr>
 <tr>
-  <td><a href="/docs/常见问题/index.html">❓ 常见问题</a></td>
+  <td><a href="/docs/常见问题/index.html">常见问题</a></td>
   <td>新生常见问题解答</td>
 </tr>
 </tbody>
 </table>
-<h2>💡 如何使用</h2>
+<h2>如何使用</h2>
 <ol>
 <li><strong>浏览板块</strong>：点击上方导航栏进入各板块</li>
 <li><strong>搜索内容</strong>：使用搜索功能快速找到需要的信息</li>
 <li><strong>评论互动</strong>：在每篇文章下方评论，分享你的经验</li>
 </ol>
-<h2>⚠️ 免责声明</h2>
+<h2>免责声明</h2>
 <ul>
 <li>本文内容由学长学姐整理，仅供参考</li>
 <li>具体信息请以学校官方通知为准</li>
@@ -229,7 +229,7 @@ body::before {
       var el = document.getElementById('twikoo-comment');
       if (!el) return;
       if (!TWIKOO_ENV_ID || TWIKOO_ENV_ID === 'YOUR_ENV_ID') {
-        el.innerHTML = '<p style="text-align:center;color:#8a7e6c;padding:20px;">💬 评论功能尚未配置<br><small>请在 index.html 中设置 TWIKOO_ENV_ID</small></p>';
+        el.innerHTML = '<p style="text-align:center;color:#8a7e6c;padding:20px;">评论功能尚未配置<br><small>请在 index.html 中设置 TWIKOO_ENV_ID</small></p>';
         return;
       }
       if (typeof twikoo !== 'undefined') {

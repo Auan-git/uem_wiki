@@ -1,12 +1,12 @@
-# 📊 学分绩点
+# 学分绩点
 
 <div class="doc-links">
-<a href="学分要求.html">📋 学分要求</a>
-<a href="绩点计算.html">🔢 绩点计算</a>
-<a href="毕业条件.html">🎓 毕业条件</a>
-<a href="奖学金.html">💰 奖学金</a>
-<a href="四六级.html">📝 四六级</a>
-<a href="选修课.html">📖 选修课</a>
+<a href="学分要求.html">学分要求</a>
+<a href="绩点计算.html">绩点计算</a>
+<a href="毕业条件.html">毕业条件</a>
+<a href="奖学金.html">奖学金</a>
+<a href="四六级.html">四六级</a>
+<a href="选修课.html">选修课</a>
 </div>
 
 ## 奖学金

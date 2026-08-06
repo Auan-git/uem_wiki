@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>📖 选课指南 - 应大Wiki</title>
+  <title>选课指南 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,7 +156,7 @@ html, body {
 }
 .markdown-section input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
 .markdown-section input[type="checkbox"]:checked::after {
-  content: '✓'; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
+  content: ''; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
 }
 .markdown-section kbd {
   font-family: var(--font-mono); font-size: 13px; background: var(--paper-dark);
@@ -194,9 +194,14 @@ body::before {
   border: 2px solid var(--vermilion); border-radius: 50%; opacity: 0.15; position: relative; top: 20px;
 }
 #twikoo-comment {
-  max-width: 780px; margin: 0 auto; padding: 0 0 40px;
-  border-top: 2px solid var(--ink); padding-top: 30px; margin-top: 50px;
+  max-width: 780px; margin: 60px auto 0; padding: 0 0 40px;
+  border-top: 2px solid var(--ink); padding-top: 30px;
 }
+.twikoo-title {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  color: var(--ink); margin-bottom: 20px; text-align: center;
+}
+
 @media print {
   .app-nav, body::before { display: none !important; }
   .markdown-section { max-width: 100%; padding: 20px !important; }
@@ -215,6 +220,87 @@ body::before {
   .search-box { order: 2; margin-left: auto; }
   .content { padding-top: 90px !important; }
 }
+
+    .content { display: flex; padding-top: 56px !important; }
+    .wiki-sidebar {
+      position: fixed; top: 56px; left: 0; bottom: 0;
+      width: 240px; background: var(--paper-dark);
+      border-right: 1px solid var(--border);
+      overflow-y: auto; padding: 20px 0;
+      font-family: var(--font-serif); font-size: 14px;
+      z-index: 50;
+    }
+    .sidebar-title {
+      font-weight: 700; font-size: 13px; color: var(--ink-faint);
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 0 20px 12px; border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .sidebar-nav { list-style: none; padding: 0; margin: 0; }
+    .sidebar-item { margin: 0; }
+    .sidebar-link {
+      display: block; padding: 8px 20px; color: var(--ink-light) !important;
+      text-decoration: none !important; border-bottom: none !important;
+      transition: all 0.15s; border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover {
+      background: var(--paper-edge); color: var(--ink) !important;
+      border-left-color: var(--ink-faint);
+    }
+    .sidebar-link.has-children {
+      font-weight: 600; color: var(--ink) !important;
+    }
+    .sidebar-link.has-children.active {
+      color: var(--vermilion) !important;
+      font-weight: 700;
+      border-left-color: var(--vermilion);
+      background: rgba(194, 54, 22, 0.05);
+    }
+    .sidebar-children .sidebar-link {
+      padding: 6px 16px; font-size: 13px; font-weight: 400;
+      color: var(--ink-faint) !important;
+    }
+    .sidebar-children .sidebar-link:hover {
+      color: var(--ink) !important;
+    }
+    .sidebar-children {
+      list-style: none; padding: 0; margin: 0;
+      border-left: 1px solid var(--border); margin-left: 20px;
+    }
+
+    .wiki-main {
+      margin-left: 240px; flex: 1; min-width: 0;
+    }
+    .markdown-section {
+      max-width: 860px; margin: 0 auto;
+      padding: 32px 60px 80px !important;
+    }
+    .breadcrumb {
+      font-size: 13px; color: var(--ink-faint); margin-bottom: 16px;
+      font-family: var(--font-serif);
+    }
+    .breadcrumb a {
+      color: var(--ink-faint) !important; text-decoration: none !important;
+      border-bottom: none !important;
+    }
+    .breadcrumb a:hover { color: var(--vermilion) !important; }
+    .breadcrumb span { margin: 0 6px; }
+    .toc-title::before { content: ''; }
+    @media screen and (max-width: 900px) {
+      .wiki-sidebar {
+        position: fixed; left: -260px; width: 260px;
+        transition: left 0.3s ease; z-index: 500;
+        box-shadow: none;
+      }
+      .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
+      .wiki-main { margin-left: 0; }
+      .toc-toggle { display: flex !important; }
+    }
+    @media print {
+      .wiki-sidebar { display: none !important; }
+      .wiki-main { margin-left: 0; }
+    }
+
 </style>
 </head>
 <body>
@@ -236,12 +322,72 @@ body::before {
     </div>
   </nav>
   <div class="content">
+<nav class="wiki-sidebar" id="wikiSidebar">
+<div class="sidebar-title">全部板块</div>
+<ul class="sidebar-nav">
+<li class="sidebar-item">
+<a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
+<ul class="sidebar-children">
+<li><a href="../学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
+<li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
+<li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../入学指南/index.html" class="sidebar-link has-children">入学指南</a>
+<ul class="sidebar-children">
+<li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
+<li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
+<li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
+<li><a href="../入学指南/体育课选择.html" class="sidebar-link">体育课选择</a></li>
+</ul>
+</li>
+<li class="sidebar-item active">
+<a href="../选课指南/index.html" class="sidebar-link has-children active">选课指南</a>
+<ul class="sidebar-children">
+<li><a href="选课流程.html" class="sidebar-link">选课流程</a></li>
+<li><a href="推荐课程.html" class="sidebar-link">推荐课程</a></li>
+<li><a href="选课时间线.html" class="sidebar-link">选课时间线</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
+<ul class="sidebar-children">
+<li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
+<li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
+<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
+<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
+<li><a href="../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../校园生活/index.html" class="sidebar-link has-children">校园生活</a>
+<ul class="sidebar-children">
+<li><a href="../校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
+<li><a href="../校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
+<li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
+<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
+<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
+<li><a href="../校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
+<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
+<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
+<li><a href="../校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../友情链接/index.html" class="sidebar-link has-children">友情链接</a>
+</li>
+</ul>
+</nav>
+  <div class="wiki-main">
     <div class="markdown-section">
-<h1>📖 选课指南</h1>
+<div class="breadcrumb"><a href="../../index.html">首页</a> <span>/</span> 选课指南</div>
+<h1>选课指南</h1>
 <div class="doc-links">
-<a href="选课流程.html">📝 选课流程</a>
-<a href="推荐课程.html">⭐ 推荐课程</a>
-<a href="选课时间线.html">📅 选课时间线</a>
+<a href="选课流程.html">选课流程</a>
+<a href="推荐课程.html">推荐课程</a>
+<a href="选课时间线.html">选课时间线</a>
 </div>
 <h2>选课类型</h2>
 <h3>专选课（专业选修课）</h3>
@@ -279,8 +425,12 @@ body::before {
 </ul>
 <hr>
 
+          </div>
+    <div style="max-width:780px;margin:0 auto;padding:0 20px;">
+      <div class="twikoo-title">评论区</div>
       <div id="twikoo-comment"></div>
     </div>
+  </div>
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
@@ -293,15 +443,13 @@ body::before {
       { url: '../学分绩点/学分要求.html', title: '学分要求', desc: '毕业所需学分及构成' },
       { url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '绩点计算方法和等级对应' },
       { url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '完整的毕业要求清单' },
-      { url: '../体育军训/index.html', title: '体育军训', desc: '体育课选择、体测要求、军训须知' },
-      { url: '../体育军训/体育课选择.html', title: '体育课选择', desc: '体育课项目介绍和选择建议' },
-      { url: '../体育军训/体测要求.html', title: '体测要求', desc: '体能测试项目和标准' },
-      { url: '../体育军训/军训须知.html', title: '军训须知', desc: '军训准备和注意事项' },
-      { url: '../生活指南/index.html', title: '生活指南', desc: '宿舍、食堂、校园地图' },
-      { url: '../生活指南/宿舍篇.html', title: '宿舍篇', desc: '宿舍环境、管理规定、生活技巧' },
-      { url: '../生活指南/食堂篇.html', title: '食堂篇', desc: '食堂介绍、美食推荐、用餐时间' },
-      { url: '../生活指南/校园地图.html', title: '校园地图', desc: '校园设施分布、重要地点' },
-      { url: '../常见问题/index.html', title: '常见问题', desc: '新生常见问题解答' },
+      { url: '../校园生活/index.html', title: '校园生活', desc: '宿舍、食堂、校园地图' },
+      { url: '../入学指南/体育课选择.html', title: '体育课选择', desc: '体育课项目介绍和选择建议' },
+      { url: '../校园生活/体测要求.html', title: '体测要求', desc: '体能测试项目和标准' },
+      { url: '../入学指南/军训须知.html', title: '军训须知', desc: '军训准备和注意事项' },
+      { url: '../校园生活/宿舍篇.html', title: '宿舍篇', desc: '宿舍环境、管理规定、生活技巧' },
+      { url: '../校园生活/食堂篇.html', title: '食堂篇', desc: '食堂介绍、美食推荐、用餐时间' },
+      { url: '../校园生活/校园地图.html', title: '校园地图', desc: '校园设施分布、重要地点' }
     ];
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
@@ -342,5 +490,24 @@ body::before {
       commentPermission: 'anyone',
     });
   </script>
+
+  <script>
+  (function() {
+    var sidebar = document.getElementById('wikiSidebar');
+    var activeLink = sidebar ? sidebar.querySelector('.sidebar-link.has-children.active') : null;
+    if (sidebar && activeLink) {
+      // 延迟滚动，等页面加载完成
+      setTimeout(function() {
+        var sidebarRect = sidebar.getBoundingClientRect();
+        var linkRect = activeLink.getBoundingClientRect();
+        // 如果当前链接不在可视区域内，滚动到可见位置
+        if (linkRect.top < sidebarRect.top || linkRect.bottom > sidebarRect.bottom) {
+          activeLink.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  })();
+  </script>
+
 </body>
 </html>

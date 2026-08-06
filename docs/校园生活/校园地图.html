@@ -89,9 +89,9 @@ html, body {
 .search-result-desc { font-size: 12px; color: var(--ink-faint); }
 .search-no-result { padding: 14px; text-align: center; color: var(--ink-faint); }
 
-.content { padding-top: 56px !important; }
+
 .markdown-section {
-  max-width: 860px; margin: 0 auto;
+  max-width: 620px; margin: 0; margin-left: 40px;
   padding: 48px 60px 80px !important; background: var(--paper);
   animation: fadeIn 0.4s ease-out;
 }
@@ -156,7 +156,7 @@ html, body {
 }
 .markdown-section input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
 .markdown-section input[type="checkbox"]:checked::after {
-  content: '✓'; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
+  content: ''; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
 }
 .markdown-section kbd {
   font-family: var(--font-mono); font-size: 13px; background: var(--paper-dark);
@@ -194,9 +194,15 @@ body::before {
   border: 2px solid var(--vermilion); border-radius: 50%; opacity: 0.15; position: relative; top: 20px;
 }
 #twikoo-comment {
-  max-width: 780px; margin: 0 auto; padding: 0 0 40px;
-  border-top: 2px solid var(--ink); padding-top: 30px; margin-top: 50px;
+  max-width: 780px; margin: 60px auto 0; padding: 0 0 40px;
+  border-top: 2px solid var(--ink); padding-top: 30px;
 }
+.twikoo-title {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  color: var(--ink); margin-bottom: 20px; text-align: center;
+}
+
+
 @media print {
   .app-nav, body::before { display: none !important; }
   .markdown-section { max-width: 100%; padding: 20px !important; }
@@ -213,9 +219,233 @@ body::before {
   .nav-links { flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 4px; width: 100%; order: 3; }
   .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
   .search-box { order: 2; margin-left: auto; }
-  .content { padding-top: 90px !important; }
+  
 }
-</style>
+
+    /* 目录样式 */
+    .toc-sidebar {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      width: 200px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      font-family: var(--font-serif);
+      font-size: 13px;
+      z-index: 100;
+    }
+    .toc-sidebar::-webkit-scrollbar { width: 3px; }
+    .toc-sidebar::-webkit-scrollbar-thumb { background: var(--ink-fainter); border-radius: 2px; }
+    .toc-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 1px;
+    }
+    .toc-title::before { content: ''; }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .toc-list li {
+      margin: 0;
+      padding: 0;
+    }
+    .toc-list a {
+      display: block;
+      padding: 5px 0 5px 12px;
+      color: var(--ink-faint) !important;
+      text-decoration: none !important;
+      border-left: 2px solid transparent;
+      transition: all 0.2s;
+      line-height: 1.5;
+      border-bottom: none !important;
+    }
+    .toc-list a:hover {
+      color: var(--ink) !important;
+      border-left-color: var(--ink-faint);
+    }
+    .toc-list a.active {
+      color: var(--vermilion) !important;
+      border-left-color: var(--vermilion);
+      font-weight: 600;
+    }
+    .toc-list .toc-h3 {
+      padding-left: 24px;
+      font-size: 12px;
+    }
+    .toc-toggle {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    @media screen and (max-width: 1200px) {
+      .toc-sidebar {
+        position: fixed;
+        left: auto;
+        right: -260px;
+        top: 0;
+        bottom: 0;
+        width: 260px;
+        max-height: 100vh;
+        background: var(--paper);
+        padding: 60px 20px 20px;
+        border-left: 1px solid var(--border);
+        box-shadow: -4px 0 12px rgba(0,0,0,0.1);
+        transition: right 0.3s ease;
+        z-index: 500;
+      }
+      .toc-sidebar.open {
+        right: 0;
+      }
+      .toc-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .toc-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: 499;
+      }
+      .toc-overlay.open {
+        display: block;
+      }
+    }
+    @media print {
+      .toc-sidebar, .toc-toggle, .toc-overlay { display: none !important; }
+    }
+
+
+    
+    }
+
+
+    /* 返回顶部按钮 */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--paper);
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 150;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    .back-to-top:hover {
+      background: var(--vermilion);
+      transform: translateY(-2px);
+    }
+    @media screen and (max-width: 768px) {
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
+
+
+    /* Wiki导航侧边栏 */
+    .content { display: flex; padding-top: 56px !important; }
+    .wiki-sidebar {
+      position: fixed; top: 56px; left: 0; bottom: 0;
+      width: 240px; background: var(--paper-dark);
+      border-right: 1px solid var(--border);
+      overflow-y: auto; padding: 20px 0;
+      font-family: var(--font-serif); font-size: 14px;
+      z-index: 50;
+    }
+    .sidebar-title {
+      font-weight: 700; font-size: 13px; color: var(--ink-faint);
+      text-transform: uppercase; letter-spacing: 2px;
+      padding: 0 20px 12px; border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .sidebar-nav { list-style: none; padding: 0; margin: 0; }
+    .sidebar-item { margin: 0; }
+    .sidebar-link {
+      display: block; padding: 8px 20px; color: var(--ink-light) !important;
+      text-decoration: none !important; border-bottom: none !important;
+      transition: all 0.15s; border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover {
+      background: var(--paper-edge); color: var(--ink) !important;
+      border-left-color: var(--ink-faint);
+    }
+    .sidebar-link.has-children {
+      font-weight: 600; color: var(--ink) !important;
+    }
+    .sidebar-link.has-children.active {
+      color: var(--vermilion) !important;
+      font-weight: 700;
+      border-left-color: var(--vermilion);
+      background: rgba(194, 54, 22, 0.05);
+    }
+    .sidebar-children .sidebar-link {
+      padding: 6px 16px; font-size: 13px; font-weight: 400;
+      color: var(--ink-faint) !important;
+    }
+    .sidebar-children .sidebar-link:hover {
+      color: var(--ink) !important;
+    }
+    .sidebar-children {
+      list-style: none; padding: 0; margin: 0;
+      border-left: 1px solid var(--border); margin-left: 20px;
+    }
+    .wiki-main {
+      margin-left: 240px; flex: 1; min-width: 0;
+    }
+    /* 移动端侧边栏 */
+    @media screen and (max-width: 900px) {
+      .wiki-sidebar {
+        position: fixed; left: -260px; width: 260px;
+        transition: left 0.3s ease; z-index: 500;
+        box-shadow: none;
+      }
+      .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
+      .wiki-main { margin-left: 0; }
+      .toc-toggle { display: flex !important; }
+    }
+    @media print {
+      .wiki-sidebar { display: none !important; }
+      .wiki-main { margin-left: 0; }
+    }
+
+  </style>
 </head>
 <body>
   <nav class="app-nav">
@@ -236,12 +466,78 @@ body::before {
     </div>
   </nav>
   <div class="content">
+<nav class="wiki-sidebar" id="wikiSidebar">
+<div class="sidebar-title">全部板块</div>
+<ul class="sidebar-nav">
+<li class="sidebar-item">
+<a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
+<ul class="sidebar-children">
+<li><a href="../学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
+<li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
+<li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../入学指南/index.html" class="sidebar-link has-children">入学指南</a>
+<ul class="sidebar-children">
+<li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
+<li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
+<li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
+<li><a href="../入学指南/体育课选择.html" class="sidebar-link">体育课选择</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../选课指南/index.html" class="sidebar-link has-children">选课指南</a>
+<ul class="sidebar-children">
+<li><a href="../选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
+<li><a href="../选课指南/推荐课程.html" class="sidebar-link">推荐课程</a></li>
+<li><a href="../选课指南/选课时间线.html" class="sidebar-link">选课时间线</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
+<ul class="sidebar-children">
+<li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
+<li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
+<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
+<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
+<li><a href="../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
+</ul>
+</li>
+<li class="sidebar-item active">
+<a href="../校园生活/index.html" class="sidebar-link has-children active">校园生活</a>
+<ul class="sidebar-children">
+<li><a href="../校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
+<li><a href="../校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
+<li><a href="../校园生活/校园地图.html" class="sidebar-link active">校园地图</a></li>
+<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
+<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
+<li><a href="../校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
+<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
+<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
+<li><a href="../校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="../友情链接/index.html" class="sidebar-link has-children">友情链接</a>
+</li>
+</ul>
+</nav>
+    <div class="wiki-main">
+        <div class="toc-sidebar" id="toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list" id="tocList"></ul>
+    </div>
+    
+    <div class="toc-overlay" id="tocOverlay"></div>
+    <button class="toc-toggle" id="tocToggle" onclick="toggleToc()"></button>
     <div class="markdown-section">
 <h1>校园地图</h1>
 <blockquote>
 <p>熟悉校园环境，让你的大学生活更便利</p>
 </blockquote>
-<h2>🗺️ 校园设施分布</h2>
+<h2>校园设施分布</h2>
 <h3>教学区域</h3>
 <table>
 <thead><tr>
@@ -332,7 +628,7 @@ body::before {
 </tr>
 </tbody>
 </table>
-<h2>📍 重要地点</h2>
+<h2>重要地点</h2>
 <h3>必知地点</h3>
 <table>
 <thead><tr>
@@ -398,7 +694,7 @@ body::before {
 </tr>
 </tbody>
 </table>
-<h2>🚶 校园交通</h2>
+<h2>校园交通</h2>
 <h3>步行路线</h3>
 <ul>
 <li>宿舍 → 教学楼：约10分钟</li>
@@ -411,14 +707,14 @@ body::before {
 <li>站点：宿舍区、教学楼、图书馆</li>
 <li>票价：免费/1元（以学校规定为准）</li>
 </ul>
-<h2>💡 校园小贴士</h2>
+<h2>校园小贴士</h2>
 <ol>
 <li><strong>新生报到</strong>：先熟悉校园环境</li>
 <li><strong>下载地图</strong>：可以用百度/高德地图导航</li>
 <li><strong>记住路线</strong>：记住常用路线</li>
 <li><strong>问路技巧</strong>：问保安、宿管、学长学姐</li>
 </ol>
-<h2>📱 实用APP</h2>
+<h2>实用APP</h2>
 <table>
 <thead><tr>
   <th>APP</th>
@@ -440,7 +736,11 @@ body::before {
 </tbody>
 </table>
 
+          </div>
+    <div style="max-width:780px;margin:0 auto;padding:0 20px;">
+      <div class="twikoo-title">评论区</div>
       <div id="twikoo-comment"></div>
+    </div>
     </div>
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
@@ -503,5 +803,74 @@ body::before {
       commentPermission: 'anyone',
     });
   </script>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.markdown-section');
+    var tocList = document.getElementById('tocList');
+    if (!section || !tocList) return;
+
+    var headings = section.querySelectorAll('h2, h3');
+    if (headings.length === 0) return;
+
+    headings.forEach(function(h, i) {
+      if (!h.id) h.id = 'toc-' + i;
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent.replace(/^§\s*/, '');
+      a.className = h.tagName === 'H3' ? 'toc-h3' : '';
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+
+    var links = tocList.querySelectorAll('a');
+    function onScroll() {
+      var scrollY = window.scrollY + 80;
+      var current = null;
+      headings.forEach(function(h) {
+        if (h.offsetTop <= scrollY) current = h;
+      });
+      links.forEach(function(a) {
+        a.classList.remove('active');
+        if (current && a.getAttribute('href') === '#' + current.id) {
+          a.classList.add('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+  })();
+
+  function toggleToc() {
+    document.getElementById('toc').classList.toggle('open');
+    document.getElementById('tocOverlay').classList.toggle('open');
+  }
+  document.getElementById('tocOverlay').addEventListener('click', toggleToc);
+  </script>
+
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+  <script>
+  (function() {
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+
+    // 监听滚动事件
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        btn.classList.add('visible');
+      } else {
+        btn.classList.remove('visible');
+      }
+    });
+
+    // 平滑滚动到顶部
+    window.scrollToTop = function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  })();
+  </script>
+
 </body>
 </html>
