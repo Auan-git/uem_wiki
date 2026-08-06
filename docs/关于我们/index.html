@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>关于我们 - 应大Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --paper: #ffffff;
+  --paper-dark: #eddcba;
+  --paper-edge: #e8e0d0;
+  --ink: #2c2416;
+  --ink-light: #5a4e3c;
+  --ink-faint: #8a7e6c;
+  --ink-fainter: #b8ad9c;
+  --vermilion: #c23616;
+  --vermilion-light: #e74c3c;
+  --link: #8b4513;
+  --link-hover: #c23616;
+  --border: #d4c9b8;
+  --shadow: rgba(44, 36, 22, 0.08);
+  --font-serif: 'Noto Serif SC', 'Crimson Pro', 'Georgia', 'Songti SC', serif;
+  --font-mono: 'Courier New', 'Noto Sans Mono', monospace;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 16px; line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper-dark); }
+::-webkit-scrollbar-thumb { background: var(--ink-fainter); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+
+.app-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; justify-content: center; align-items: center;
+  padding: 0 28px; height: 56px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 4px var(--shadow);
+}
+.app-nav .nav-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-serif); font-weight: 700; font-size: 20px;
+  color: var(--ink); letter-spacing: 2px; margin-right: auto; text-decoration: none;
+}
+.app-nav .nav-logo {
+  width: 32px; height: 32px; border-radius: 50%; object-fit: cover;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 4px; margin-left: auto;
+}
+.app-nav a {
+  font-family: var(--font-serif); font-size: 14px;
+  color: var(--ink-faint) !important;
+  text-decoration: none; border-bottom: none !important;
+  transition: color 0.2s; letter-spacing: 0.5px; line-height: 56px;
+  padding: 0 10px;
+}
+.app-nav a:hover { color: var(--vermilion) !important; }
+.app-nav a.active { color: var(--ink) !important; border-bottom: 2px solid var(--vermilion) !important; }
+
+.content { padding-top: 56px !important; }
+.markdown-section {
+  max-width: 620px; margin: 0 auto;
+  padding: 48px 60px 80px !important; background: var(--paper);
+}
+.markdown-section h1 {
+  font-weight: 700; font-size: 28px; color: var(--ink);
+  margin: 1.5em 0 0.8em; padding-bottom: 12px; border-bottom: 2px solid var(--ink); letter-spacing: 1px;
+  text-align: center;
+}
+.markdown-section h2 {
+  font-weight: 700; font-size: 22px; color: var(--ink);
+  margin: 1.8em 0 0.6em; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.markdown-section p {
+  font-family: var(--font-serif); font-size: 16.5px; line-height: 1.9;
+  color: var(--ink); margin: 1.2em 0; text-align: justify;
+}
+.markdown-section a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--ink-fainter); transition: all 0.2s; }
+.markdown-section a:hover { color: var(--vermilion); border-bottom-color: var(--vermilion); }
+.markdown-section ul { padding-left: 1.8em; margin: 1em 0; }
+.markdown-section li { font-size: 16px; line-height: 1.85; color: var(--ink); margin: 0.4em 0; }
+.markdown-section ul li::marker { color: var(--vermilion); }
+.markdown-section hr { border: none; height: 1px; background: var(--border); margin: 2.5em 0; }
+
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 20px; border-radius: 6px;
+  background: var(--paper-dark); border: 1px solid var(--border);
+  color: var(--ink) !important; font-size: 14px; font-weight: 600;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.2s; margin-bottom: 30px;
+}
+.back-btn:hover {
+  background: var(--ink); color: var(--paper) !important;
+  border-color: var(--ink);
+}
+
+@media screen and (max-width: 768px) {
+  .markdown-section { padding: 24px 20px 60px !important; }
+  .markdown-section h1 { font-size: 24px; }
+  .markdown-section h2 { font-size: 20px; }
+}
+  </style>
+</head>
+<body>
+  <nav class="app-nav">
+    <a href="../../index.html" class="nav-brand">
+      <img src="../../圆形logo.png" alt="应大Wiki" class="nav-logo">
+      <span>应大Wiki</span>
+    </a>
+    <div class="nav-links">
+      <a href="../学校概览/index.html">概览</a>
+      <a href="../入学指南/index.html">入学</a>
+      <a href="../选课指南/index.html">选课</a>
+      <a href="../学分绩点/index.html">学业</a>
+      <a href="../校园生活/index.html">生活</a>
+    </div>
+  </nav>
+  <div class="content">
+    <div class="markdown-section">
+      <a href="../../index.html" class="back-btn">← 返回首页</a>
+      <h1>关于我们</h1>
+
+      <h2>应大Wiki是什么？</h2>
+      <p>应大Wiki是由应急管理大学学长学姐们共同维护的新生指南Wiki，旨在帮助每一位新生快速适应大学生活。</p>
+      <p>我们相信，一所大学的魅力不仅在于它的硬件设施，更在于一代代学生口耳相传的经验与智慧。应大Wiki就是这样一个知识共享的平台。</p>
+
+      <h2>我们的目标</h2>
+      <ul>
+        <li>建立一个完整、准确且中立的应大百科全书</li>
+        <li>覆盖从入学到毕业的方方面面信息</li>
+        <li>让每一位同学都能在这里找到需要的答案</li>
+        <li>持续更新，保持信息的时效性</li>
+      </ul>
+
+      <h2>内容板块</h2>
+      <ul>
+        <li><strong>学校概览</strong> - 了解应大的基本信息和燕郊特色</li>
+        <li><strong>入学指南</strong> - 来校路线、报到流程、军训须知</li>
+        <li><strong>选课指南</strong> - 选课流程、推荐课程、时间安排</li>
+        <li><strong>学分绩点</strong> - 学分要求、绩点计算、毕业条件</li>
+        <li><strong>校园生活</strong> - 宿舍、食堂、交通、体测等生活信息</li>
+        <li><strong>友情链接</strong> - 学校官网、教务处等实用链接</li>
+      </ul>
+
+      <h2>如何参与</h2>
+      <p>应大Wiki是一个开放的协作项目，欢迎每一位同学参与贡献：</p>
+      <ul>
+        <li>在文章下方评论区提出建议或纠正错误</li>
+        <li>通过 <a href="https://github.com/Auan-git/uem_wiki" target="_blank">GitHub</a> 提交新的内容</li>
+        <li>分享你的经验和见解</li>
+      </ul>
+
+      <h2>联系方式</h2>
+      <p>如有任何问题或建议，欢迎通过以下方式联系我们：</p>
+      <ul>
+        <li>GitHub Issues: <a href="https://github.com/Auan-git/uem_wiki/issues" target="_blank">提交问题</a></li>
+        <li>评论区：在任意文章下方留言</li>
+      </ul>
+
+      <hr>
+      <p style="text-align:center;color:var(--ink-faint);font-size:14px;">
+        感谢每一位为应大Wiki贡献内容的学长学姐<br>
+        厚德启智，扶危安国
+      </p>
+    </div>
+  </div>
+</body>
+</html>
