@@ -26,6 +26,30 @@
   --font-mono: 'Courier New', 'Noto Sans Mono', monospace;
 }
 * { box-sizing: border-box; }
+
+/* 贡献者头像墙 */
+.contributor-wall { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 24px; text-indent: 0; }
+.contributor-card {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  text-indent: 0; text-decoration: none !important; border-bottom: none !important;
+  color: var(--ink) !important;
+}
+.contributor-card img {
+  width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
+  border: 2px solid #e8f0ff; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.contributor-card:hover img {
+  transform: translateY(-3px); border-color: #7aa7ff; box-shadow: 0 4px 12px rgba(122,167,255,0.3);
+}
+.contributor-tip {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  margin-top: 6px; padding: 2px 10px;
+  background: rgba(0, 47, 130, 0.92); color: #fff;
+  font-size: 12px; line-height: 1.4; white-space: nowrap; border-radius: 4px;
+  opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 10;
+}
+.contributor-card:hover .contributor-tip { opacity: 1; }
 html, body {
   margin: 0; padding: 0;
   background: var(--paper); color: var(--ink);
@@ -533,6 +557,9 @@ body::before {
 <li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
 </ul>
 </li>
+    <li class="sidebar-item">
+      <a href="../关于我们/index.html" class="sidebar-link has-children">关于</a>
+    </li>
 <li class="sidebar-item">
 <a href="../友情链接/index.html" class="sidebar-link has-children">友情链接</a>
 </li>
@@ -578,6 +605,13 @@ body::before {
 <p>本站遵照《中华人民共和国著作权法》第二十四条、《信息网络传播权保护条例》第六条"合理使用"原则，以介绍为目的，使用公开发表的作品。</p>
 <p>本站遵守《信息网络传播权保护条例》第十四至十七条"避风港"原则，在正式收到著作权权利人删除内容通知书后，本站将于24小时内删除侵权内容。</p>
 
+<h2>贡献者</h2>
+<p>感谢以下同学为应大Wiki 的内容编写与技术维护付出时间与精力。</p>
+<h3>内容贡献</h3>
+<div class="contributor-wall" data-group="content"></div>
+<h3>技术支持</h3>
+<div class="contributor-wall" data-group="tech"></div>
+
 <hr>
 <p style="text-align:center;color:var(--ink-faint);font-size:14px;text-indent:0;">
   本站参考于北洋维基<a href="http://tjubot.cn/aboutus/"></a><br>
@@ -593,6 +627,22 @@ body::before {
     </div>
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script src="contributors/contributors.js"></script>
+  <script>
+  (function() {
+    var list = window.CONTRIBUTORS || [];
+    document.querySelectorAll('.contributor-wall').forEach(function(wall) {
+      var g = wall.getAttribute('data-group');
+      list.filter(function(c) { return c.group === g; }).forEach(function(c) {
+        var card = document.createElement('div');
+        card.className = 'contributor-card';
+        card.innerHTML = '<img src="' + c.avatar + '" alt="' + c.name + '" title="' + c.name + '" loading="lazy">' +
+                         '<span class="contributor-tip">' + c.name + '</span>';
+        wall.appendChild(card);
+      });
+    });
+  })();
+  </script>
   <script>
     const pages = [
       { url: '../选课/index.html', title: '选课指南', desc: '选课流程、推荐课程、时间线' },
