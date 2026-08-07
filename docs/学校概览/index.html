@@ -89,9 +89,78 @@ html, body {
 .search-result-desc { font-size: 12px; color: var(--ink-faint); }
 .search-no-result { padding: 14px; text-align: center; color: var(--ink-faint); }
 
-.content { padding-top: 56px !important; }
+/* Wiki侧边栏 */
+.content { display: flex; padding-top: 56px !important; }
+    .wiki-sidebar {
+      position: fixed; top: 56px; left: 0; bottom: 0;
+      width: 240px; background: #002f82;
+      border-right: 1px solid #002466;
+      overflow-y: auto; padding: 0 0 20px 0;
+      font-family: var(--font-serif); font-size: 14px;
+      z-index: 50;
+      transition: width 0.3s ease, opacity 0.3s ease;
+    }
+.wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
+.content.sidebar-collapsed .markdown-section {
+  max-width: 960px; margin: 0; margin-left: 0; margin-right: 220px; padding-left: 40px; padding-right: 40px;
+  transform: translateX(-176px);
+  transition: max-width 0.3s ease, transform 0.3s ease;
+}
+.sidebar-toggle {
+  position: fixed; top: 64px; left: 240px;
+  width: 18px; height: 36px; border-radius: 0 4px 4px 0;
+  background: #002f82; color: #fff;
+  border: none; cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: left 0.3s ease; z-index: 51;
+}
+.sidebar-toggle:hover { background: #0040b3; }
+.sidebar-toggle.collapsed { left: 0; }
+.sidebar-title {
+  font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.7);
+  text-transform: uppercase; letter-spacing: 2px;
+  padding: 0 20px 8px 20px; border-bottom: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 0;
+  position: sticky; top: 56px; background: #002f82; z-index: 10;
+}
+.sidebar-nav { list-style: none; padding: 0; margin: 0; }
+.sidebar-item { margin: 0; }
+.sidebar-link {
+  display: block; padding: 8px 20px; color: rgba(255,255,255,0.8) !important;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.15s; border-left: 3px solid transparent;
+}
+.sidebar-link:hover {
+  background: rgba(255,255,255,0.1); color: #fff !important;
+  border-left-color: rgba(255,255,255,0.5);
+}
+.sidebar-link.has-children {
+  font-weight: 600; color: #fff !important;
+}
+.sidebar-link.has-children.active {
+  color: #ffd700 !important;
+  font-weight: 700;
+  border-left-color: #ffd700;
+  background: rgba(255, 215, 0, 0.1);
+}
+.sidebar-children .sidebar-link {
+  padding: 6px 16px; font-size: 13px; font-weight: 400;
+  color: rgba(255,255,255,0.65) !important;
+}
+.sidebar-children .sidebar-link:hover {
+  color: #fff !important;
+}
+.sidebar-children {
+  list-style: none; padding: 0; margin: 0;
+  border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
+}
+.wiki-main {
+  margin-left: 240px; flex: 1; min-width: 0;
+}
+
+/* 文章内容 */
 .markdown-section {
-  max-width: 620px; margin: 0; margin-left: 20px; margin-right: 240px;
+  max-width: 680px; margin: 0; margin-left: 0; margin-right: 220px;
   padding: 48px 60px 80px !important; background: var(--paper);
   animation: fadeIn 0.4s ease-out;
 }
@@ -187,8 +256,55 @@ body::before {
   background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,119,86,0.015) 2px, rgba(139,119,86,0.015) 4px);
 }
 
+/* 目录 */
+.toc-sidebar {
+  position: fixed; top: 70px; right: 20px; width: 200px;
+  max-height: calc(100vh - 100px); overflow-y: auto;
+  font-family: var(--font-serif); font-size: 13px; z-index: 100;
+}
+.toc-sidebar::-webkit-scrollbar { width: 3px; }
+.toc-sidebar::-webkit-scrollbar-thumb { background: var(--ink-fainter); border-radius: 2px; }
+.toc-title {
+  font-weight: 700; font-size: 14px; color: var(--ink);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border); letter-spacing: 1px;
+}
+.toc-title::before { content: ''; }
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-list li { margin: 0; padding: 0; }
+.toc-list a {
+  display: block; padding: 5px 0 5px 12px;
+  color: var(--ink-faint) !important; text-decoration: none !important;
+  border-left: 2px solid transparent; transition: all 0.2s;
+  line-height: 1.5; border-bottom: none !important;
+}
+.toc-list a:hover { color: var(--ink) !important; border-left-color: var(--ink-faint); }
+.toc-list a.active { color: var(--vermilion) !important; border-left-color: var(--vermilion); font-weight: 600; }
+.toc-list .toc-h3 { padding-left: 24px; font-size: 12px; }
+.toc-toggle {
+  display: none; position: fixed; bottom: 20px; right: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #002f82; color: var(--paper); border: none;
+  font-size: 20px; cursor: pointer; z-index: 200;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* 返回顶部 */
+.back-to-top {
+  position: fixed; bottom: 80px; right: 30px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #002f82; color: var(--paper); border: none;
+  font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 150;
+}
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { background: #0040b3; transform: translateY(-2px); }
+
+/* 评论区 */
 #twikoo-comment {
-  max-width: 620px; margin: 60px auto 0; padding: 0 0 40px;
+  max-width: 680px; margin: 60px 0 0 20px; padding: 0 0 40px;
   border-top: 2px solid var(--ink); padding-top: 30px;
 }
 .twikoo-title {
@@ -196,14 +312,32 @@ body::before {
   color: var(--ink); margin-bottom: 20px; text-align: center;
 }
 
-@media print {
-  .app-nav, body::before { display: none !important; }
-  .markdown-section { max-width: 100%; padding: 20px !important; }
-  .content { padding-top: 0 !important; }
-  body { background: white; }
+/* 移动端适配 */
+@media screen and (max-width: 1200px) {
+  .toc-sidebar {
+    position: fixed; left: auto; right: -260px; top: 0; bottom: 0;
+    width: 260px; max-height: 100vh; background: var(--paper);
+    padding: 60px 20px 20px; border-left: 1px solid var(--border);
+    box-shadow: -4px 0 12px rgba(0,0,0,0.1); transition: right 0.3s ease; z-index: 500;
+  }
+  .toc-sidebar.open { right: 0; }
+  .toc-toggle { display: flex; align-items: center; justify-content: center; }
+  .toc-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3); z-index: 499;
+  }
+  .toc-overlay.open { display: block; }
+}
+@media screen and (max-width: 900px) {
+  .wiki-sidebar {
+    position: fixed; left: -260px; width: 260px;
+    transition: left 0.3s ease; z-index: 500; box-shadow: none; background: #002f82;
+  }
+  .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
+  .wiki-main { margin-left: 0 !important; }
 }
 @media screen and (max-width: 768px) {
-  .markdown-section { padding: 24px 20px 60px !important; }
+  .markdown-section { padding: 24px 20px 60px !important; margin-right: 0; }
   .markdown-section h1 { font-size: 24px; }
   .markdown-section h2 { font-size: 20px; }
   .markdown-section p { font-size: 15.5px; }
@@ -212,89 +346,15 @@ body::before {
   .nav-links { flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 4px; width: 100%; order: 3; }
   .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
   .search-box { order: 2; margin-left: auto; }
-  .content { padding-top: 90px !important; }
+  .back-to-top { bottom: 70px; right: 20px; width: 40px; height: 40px; font-size: 18px; }
 }
-
-    .content { display: flex; padding-top: 56px !important; }
-    .wiki-sidebar {
-      position: fixed; top: 56px; left: 0; bottom: 0;
-      width: 240px; background: var(--paper-dark);
-      border-right: 1px solid var(--border);
-      overflow-y: auto; padding: 20px 0;
-      font-family: var(--font-serif); font-size: 14px;
-      z-index: 50;
-    }
-    .sidebar-title {
-      font-weight: 700; font-size: 13px; color: var(--ink-faint);
-      text-transform: uppercase; letter-spacing: 2px;
-      padding: 0 20px 12px; border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-    .sidebar-nav { list-style: none; padding: 0; margin: 0; }
-    .sidebar-item { margin: 0; }
-    .sidebar-link {
-      display: block; padding: 8px 20px; color: var(--ink-light) !important;
-      text-decoration: none !important; border-bottom: none !important;
-      transition: all 0.15s; border-left: 3px solid transparent;
-    }
-    .sidebar-link:hover {
-      background: var(--paper-edge); color: var(--ink) !important;
-      border-left-color: var(--ink-faint);
-    }
-    .sidebar-link.has-children {
-      font-weight: 600; color: var(--ink) !important;
-    }
-    .sidebar-link.has-children.active {
-      color: var(--vermilion) !important;
-      font-weight: 700;
-      border-left-color: var(--vermilion);
-      background: rgba(194, 54, 22, 0.05);
-    }
-    .sidebar-children .sidebar-link {
-      padding: 6px 16px; font-size: 13px; font-weight: 400;
-      color: var(--ink-faint) !important;
-    }
-    .sidebar-children .sidebar-link:hover {
-      color: var(--ink) !important;
-    }
-    .sidebar-children {
-      list-style: none; padding: 0; margin: 0;
-      border-left: 1px solid var(--border); margin-left: 20px;
-    }
-
-    .wiki-main {
-      margin-left: 240px; flex: 1; min-width: 0;
-    }
-    .markdown-section {
-  max-width: 620px; margin: 0; margin-left: 20px; margin-right: 240px;
-      padding: 32px 60px 80px !important;
-    }
-    .breadcrumb {
-      font-size: 13px; color: var(--ink-faint); margin-bottom: 16px;
-      font-family: var(--font-serif);
-    }
-    .breadcrumb a {
-      color: var(--ink-faint) !important; text-decoration: none !important;
-      border-bottom: none !important;
-    }
-    .breadcrumb a:hover { color: var(--vermilion) !important; }
-    .breadcrumb span { margin: 0 6px; }
-    .toc-title::before { content: ''; }
-    @media screen and (max-width: 900px) {
-      .wiki-sidebar {
-        position: fixed; left: -260px; width: 260px;
-        transition: left 0.3s ease; z-index: 500;
-        box-shadow: none;
-      }
-      .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
-      .wiki-main { margin-left: 0; }
-      .toc-toggle { display: flex !important; }
-    }
-    @media print {
-      .wiki-sidebar { display: none !important; }
-      .wiki-main { margin-left: 0; }
-    }
-
+@media print {
+  .app-nav, .wiki-sidebar, .toc-sidebar, .toc-toggle, .toc-overlay, .back-to-top, body::before { display: none !important; }
+  .markdown-section { max-width: 100%; padding: 20px !important; margin: 0 !important; }
+  .wiki-main { margin-left: 0 !important; }
+  .content { padding-top: 0 !important; }
+  body { background: white; }
+}
 </style>
 </head>
 <body>
@@ -315,64 +375,79 @@ body::before {
       <div id="searchResults" class="search-results"></div>
     </div>
   </nav>
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">◂</button>
   <div class="content">
-<nav class="wiki-sidebar" id="wikiSidebar">
-<div class="sidebar-title">全部板块</div>
+    <nav class="wiki-sidebar" id="wikiSidebar">
 <ul class="sidebar-nav">
 <li class="sidebar-item active">
 <a href="../学校概览/index.html" class="sidebar-link has-children active">学校概览</a>
 <ul class="sidebar-children">
-<li><a href="学校简介.html" class="sidebar-link">学校简介</a></li>
-<li><a href="燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
-<li><a href="周边配套.html" class="sidebar-link">周边配套</a></li>
+<li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
+<li><a href="../学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
+<li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
 <a href="../入学指南/index.html" class="sidebar-link has-children">入学指南</a>
 <ul class="sidebar-children">
-<li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
-<li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
-<li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
 <li><a href="../入学指南/体育课选择.html" class="sidebar-link">体育课选择</a></li>
+<li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
+<li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
+<li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
 <a href="../选课指南/index.html" class="sidebar-link has-children">选课指南</a>
 <ul class="sidebar-children">
-<li><a href="../选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
 <li><a href="../选课指南/推荐课程.html" class="sidebar-link">推荐课程</a></li>
 <li><a href="../选课指南/选课时间线.html" class="sidebar-link">选课时间线</a></li>
+<li><a href="../选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
 <a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
-<li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
-<li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
-<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
-<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
 <li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
+<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
+<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
+<li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
 <li><a href="../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
 <a href="../校园生活/index.html" class="sidebar-link has-children">校园生活</a>
 <ul class="sidebar-children">
-<li><a href="../校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
-<li><a href="../校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
-<li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
-<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
-<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
 <li><a href="../校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
-<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
-<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
 <li><a href="../校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
+<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
+<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
+<li><a href="../校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
+<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
+<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
+<li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
+<li><a href="../校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
 <a href="../学院与专业/index.html" class="sidebar-link has-children">学院与专业</a>
 <ul class="sidebar-children">
 <li><a href="../学院与专业/应急技术与指挥学院/index.html" class="sidebar-link">应急技术与指挥学院</a></li>
+<li><a href="../学院与专业/矿山安全学院/index.html" class="sidebar-link">矿山安全学院</a></li>
+<li><a href="../学院与专业/城市安全学院/index.html" class="sidebar-link">城市安全学院</a></li>
+<li><a href="../学院与专业/地震工程与建筑安全学院/index.html" class="sidebar-link">地震工程与建筑安全学院</a></li>
+<li><a href="../学院与专业/地震科学与技术学院/index.html" class="sidebar-link">地震科学与技术学院</a></li>
+<li><a href="../学院与专业/化工安全学院/index.html" class="sidebar-link">化工安全学院</a></li>
+<li><a href="../学院与专业/环境与灾害治理学院/index.html" class="sidebar-link">环境与灾害治理学院</a></li>
+<li><a href="../学院与专业/计算机与信息安全学院/index.html" class="sidebar-link">计算机与信息安全学院</a></li>
+<li><a href="../学院与专业/应急通信与控制工程学院/index.html" class="sidebar-link">应急通信与控制工程学院</a></li>
+<li><a href="../学院与专业/应急装备学院/index.html" class="sidebar-link">应急装备学院</a></li>
+<li><a href="../学院与专业/应急经济与物资保障学院/index.html" class="sidebar-link">应急经济与物资保障学院</a></li>
+<li><a href="../学院与专业/应急国际交流学院/index.html" class="sidebar-link">应急国际交流学院</a></li>
+<li><a href="../学院与专业/应急救援训练中心/index.html" class="sidebar-link">应急救援训练中心</a></li>
+<li><a href="../学院与专业/应急文化传播与法学院/index.html" class="sidebar-link">应急文化传播与法学院</a></li>
+<li><a href="../学院与专业/理学院/index.html" class="sidebar-link">理学院</a></li>
+<li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
@@ -380,9 +455,14 @@ body::before {
 </li>
 </ul>
 </nav>
-  <div class="wiki-main">
+    <div class="wiki-main">
+        <div class="toc-sidebar" id="toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list" id="tocList"></ul>
+    </div>
+    <div class="toc-overlay" id="tocOverlay"></div>
+    <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
-<div class="breadcrumb"><a href="../../index.html">首页</a> <span>/</span> 学校概览</div>
 <h1>学校概览</h1>
 <div class="doc-links">
 <a href="学校简介.html">学校简介</a>
@@ -408,30 +488,57 @@ body::before {
 <hr>
 
           </div>
-    <div style="max-width: 620px;margin:0 auto;padding:0 20px;">
+    <div style="max-width:620px;margin:0 0 0 40px;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
       <div id="twikoo-comment"></div>
     </div>
-  </div>
+    </div>
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
+    
     const pages = [
-      { url: '../选课/index.html', title: '选课指南', desc: '选课流程、推荐课程、时间线' },
-      { url: '../选课/选课流程.html', title: '选课流程', desc: '详细的选课步骤和注意事项' },
-      { url: '../选课/推荐课程.html', title: '推荐课程', desc: '学长学姐推荐的优质课程' },
-      { url: '../选课/选课时间线.html', title: '选课时间线', desc: '每学期选课关键时间节点' },
-      { url: '../学分绩点/index.html', title: '学分绩点', desc: '学分要求、绩点计算、毕业条件' },
-      { url: '../学分绩点/学分要求.html', title: '学分要求', desc: '毕业所需学分及构成' },
-      { url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '绩点计算方法和等级对应' },
-      { url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '完整的毕业要求清单' },
-      { url: '../校园生活/index.html', title: '校园生活', desc: '宿舍、食堂、校园地图' },
-      { url: '../入学指南/体育课选择.html', title: '体育课选择', desc: '体育课项目介绍和选择建议' },
-      { url: '../校园生活/体测要求.html', title: '体测要求', desc: '体能测试项目和标准' },
-      { url: '../入学指南/军训须知.html', title: '军训须知', desc: '军训准备和注意事项' },
-      { url: '../校园生活/宿舍篇.html', title: '宿舍篇', desc: '宿舍环境、管理规定、生活技巧' },
-      { url: '../校园生活/食堂篇.html', title: '食堂篇', desc: '食堂介绍、美食推荐、用餐时间' },
-      { url: '../校园生活/校园地图.html', title: '校园地图', desc: '校园设施分布、重要地点' }
+      { url: '../学校概览/周边配套.html', title: '周边配套', desc: '学校概览 - 周边配套' },
+      { url: '../学校概览/学校简介.html', title: '学校简介', desc: '学校概览 - 学校简介' },
+      { url: '../学校概览/燕郊特色.html', title: '燕郊特色', desc: '学校概览 - 燕郊特色' },
+      { url: '../入学指南/体育课选择.html', title: '体育课选择', desc: '入学指南 - 体育课选择' },
+      { url: '../入学指南/军训须知.html', title: '军训须知', desc: '入学指南 - 军训须知' },
+      { url: '../入学指南/报到流程.html', title: '报到流程', desc: '入学指南 - 报到流程' },
+      { url: '../入学指南/来校路线.html', title: '来校路线', desc: '入学指南 - 来校路线' },
+      { url: '../选课指南/推荐课程.html', title: '推荐课程', desc: '选课指南 - 推荐课程' },
+      { url: '../选课指南/选课时间线.html', title: '选课时间线', desc: '选课指南 - 选课时间线' },
+      { url: '../选课指南/选课流程.html', title: '选课流程', desc: '选课指南 - 选课流程' },
+      { url: '../学分绩点/四六级.html', title: '四六级', desc: '学分绩点 - 四六级' },
+      { url: '../学分绩点/奖学金.html', title: '奖学金', desc: '学分绩点 - 奖学金' },
+      { url: '../学分绩点/学分要求.html', title: '学分要求', desc: '学分绩点 - 学分要求' },
+      { url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '学分绩点 - 毕业条件' },
+      { url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '学分绩点 - 绩点计算' },
+      { url: '../学分绩点/选修课.html', title: '选修课', desc: '学分绩点 - 选修课' },
+      { url: '../校园生活/体测要求.html', title: '体测要求', desc: '校园生活 - 体测要求' },
+      { url: '../校园生活/公交指南.html', title: '公交指南', desc: '校园生活 - 公交指南' },
+      { url: '../校园生活/地铁指南.html', title: '地铁指南', desc: '校园生活 - 地铁指南' },
+      { url: '../校园生活/学生组织.html', title: '学生组织', desc: '校园生活 - 学生组织' },
+      { url: '../校园生活/宿舍篇.html', title: '宿舍篇', desc: '校园生活 - 宿舍篇' },
+      { url: '../校园生活/常用电话.html', title: '常用电话', desc: '校园生活 - 常用电话' },
+      { url: '../校园生活/心理健康.html', title: '心理健康', desc: '校园生活 - 心理健康' },
+      { url: '../校园生活/校园地图.html', title: '校园地图', desc: '校园生活 - 校园地图' },
+      { url: '../校园生活/食堂篇.html', title: '食堂篇', desc: '校园生活 - 食堂篇' },
+      { url: '../学院与专业/应急技术与指挥学院/index.html', title: '应急技术与指挥学院', desc: '应急技术与指挥学院专业介绍' },
+      { url: '../学院与专业/矿山安全学院/index.html', title: '矿山安全学院', desc: '矿山安全学院专业介绍' },
+      { url: '../学院与专业/城市安全学院/index.html', title: '城市安全学院', desc: '城市安全学院专业介绍' },
+      { url: '../学院与专业/地震工程与建筑安全学院/index.html', title: '地震工程与建筑安全学院', desc: '地震工程与建筑安全学院专业介绍' },
+      { url: '../学院与专业/地震科学与技术学院/index.html', title: '地震科学与技术学院', desc: '地震科学与技术学院专业介绍' },
+      { url: '../学院与专业/化工安全学院/index.html', title: '化工安全学院', desc: '化工安全学院专业介绍' },
+      { url: '../学院与专业/环境与灾害治理学院/index.html', title: '环境与灾害治理学院', desc: '环境与灾害治理学院专业介绍' },
+      { url: '../学院与专业/计算机与信息安全学院/index.html', title: '计算机与信息安全学院', desc: '计算机与信息安全学院专业介绍' },
+      { url: '../学院与专业/应急通信与控制工程学院/index.html', title: '应急通信与控制工程学院', desc: '应急通信与控制工程学院专业介绍' },
+      { url: '../学院与专业/应急装备学院/index.html', title: '应急装备学院', desc: '应急装备学院专业介绍' },
+      { url: '../学院与专业/应急经济与物资保障学院/index.html', title: '应急经济与物资保障学院', desc: '应急经济与物资保障学院专业介绍' },
+      { url: '../学院与专业/应急国际交流学院/index.html', title: '应急国际交流学院', desc: '应急国际交流学院专业介绍' },
+      { url: '../学院与专业/应急救援训练中心/index.html', title: '应急救援训练中心', desc: '应急救援训练中心专业介绍' },
+      { url: '../学院与专业/应急文化传播与法学院/index.html', title: '应急文化传播与法学院', desc: '应急文化传播与法学院专业介绍' },
+      { url: '../学院与专业/理学院/index.html', title: '理学院', desc: '理学院专业介绍' },
+      { url: '../学院与专业/防灾减灾工程学院/index.html', title: '防灾减灾工程学院', desc: '防灾减灾工程学院专业介绍' }
     ];
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
@@ -475,21 +582,79 @@ body::before {
 
   <script>
   (function() {
-    var sidebar = document.getElementById('wikiSidebar');
-    var activeLink = sidebar ? sidebar.querySelector('.sidebar-link.has-children.active') : null;
-    if (sidebar && activeLink) {
-      // 延迟滚动，等页面加载完成
-      setTimeout(function() {
-        var sidebarRect = sidebar.getBoundingClientRect();
-        var linkRect = activeLink.getBoundingClientRect();
-        // 如果当前链接不在可视区域内，滚动到可见位置
-        if (linkRect.top < sidebarRect.top || linkRect.bottom > sidebarRect.bottom) {
-          activeLink.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    var section = document.querySelector('.markdown-section');
+    var tocList = document.getElementById('tocList');
+    if (!section || !tocList) return;
+
+    var headings = section.querySelectorAll('h2, h3');
+    if (headings.length === 0) return;
+
+    headings.forEach(function(h, i) {
+      if (!h.id) h.id = 'toc-' + i;
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent.replace(/^§\s*/, '');
+      a.className = h.tagName === 'H3' ? 'toc-h3' : '';
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+
+    var links = tocList.querySelectorAll('a');
+    function onScroll() {
+      var scrollY = window.scrollY + 80;
+      var current = null;
+      headings.forEach(function(h) {
+        if (h.offsetTop <= scrollY) current = h;
+      });
+      links.forEach(function(a) {
+        a.classList.remove('active');
+        if (current && a.getAttribute('href') === '#' + current.id) {
+          a.classList.add('active');
         }
-      }, 100);
+      });
     }
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+  })();
+
+  function toggleToc() {
+    document.getElementById('toc').classList.toggle('open');
+    document.getElementById('tocOverlay').classList.toggle('open');
+  }
+  document.getElementById('tocOverlay').addEventListener('click', toggleToc);
+  </script>
+
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+  <script>
+  (function() {
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) { btn.classList.add('visible'); }
+      else { btn.classList.remove('visible'); }
+    });
+    window.scrollToTop = function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
   })();
   </script>
 
+  <script>
+  function toggleSidebar() {
+    var sidebar = document.getElementById('wikiSidebar');
+    var btn = document.getElementById('sidebarToggle');
+    var content = document.querySelector('.content');
+    sidebar.classList.toggle('collapsed');
+    btn.classList.toggle('collapsed');
+    content.classList.toggle('sidebar-collapsed');
+    if (sidebar.classList.contains('collapsed')) {
+      btn.textContent = '▸';
+    } else {
+      btn.textContent = '◂';
+    }
+  }
+  </script>
 </body>
 </html>

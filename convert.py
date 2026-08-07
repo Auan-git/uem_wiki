@@ -2,6 +2,10 @@
 Markdown → HTML 转换脚本
 用法: python convert.py
 
+扫描 docs/ 下所有 .md 文件，转换为完整 HTML 页面。
+生成的 HTML 包含：顶部导航、左侧 Wiki 侧边栏、右侧目录、评论区、返回顶部。
+学院与专业下的 .html 文件保持不变。
+
 保留原 md 文件，在同目录生成同名 .html 文件。
 """
 
@@ -9,13 +13,164 @@ import re
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent
+DOCS_DIR = BASE_DIR / 'docs'
 
 # ============================================================
-# Twikoo 评论配置（公共版本，无需配置）
+# 16 个学院（顺序固定）
 # ============================================================
 
+COLLEGES = [
+    "应急技术与指挥学院", "矿山安全学院", "城市安全学院",
+    "地震工程与建筑安全学院", "地震科学与技术学院", "化工安全学院",
+    "环境与灾害治理学院", "计算机与信息安全学院",
+    "应急通信与控制工程学院", "应急装备学院",
+    "应急经济与物资保障学院", "应急国际交流学院",
+    "应急救援训练中心", "应急文化传播与法学院",
+    "理学院", "防灾减灾工程学院",
+]
+
 # ============================================================
-# Markdown → HTML 简易转换器（纯 Python，无第三方依赖）
+# 侧边栏结构（根据 docs/ 实际 .md 文件动态生成）
+# ============================================================
+
+# section_name -> 子页面列表（从 .md 文件名提取）
+SECTION_MAP = {
+    "学校概览": ["学校简介", "燕郊特色", "周边配套"],
+    "入学指南": ["来校路线", "报到流程", "军训须知", "体育课选择"],
+    "选课指南": ["选课流程", "推荐课程", "选课时间线"],
+    "学分绩点": ["学分要求", "绩点计算", "毕业条件", "奖学金", "四六级", "选修课"],
+    "校园生活": ["宿舍篇", "食堂篇", "校园地图", "学生组织", "心理健康", "体测要求", "常用电话", "地铁指南", "公交指南"],
+    "学院与专业": None,  # 动态生成
+    "友情链接": [],
+}
+
+def scan_sections():
+    """扫描 docs/ 目录，动态构建侧边栏结构"""
+    result = {}
+    for section_name in SECTION_MAP:
+        section_dir = DOCS_DIR / section_name
+        if not section_dir.exists():
+            continue
+        if section_name == "学院与专业":
+            # 学院与专业：扫描子目录
+            colleges = {}
+            for college_dir in sorted(section_dir.iterdir()):
+                if college_dir.is_dir() and not college_dir.name.startswith('.'):
+                    pages = []
+                    for md_file in sorted(college_dir.glob('*.md')):
+                        if md_file.stem not in ('index', 'README'):
+                            pages.append(md_file.stem)
+                    colleges[college_dir.name] = pages
+            result[section_name] = colleges
+        else:
+            pages = []
+            for md_file in sorted(section_dir.glob('*.md')):
+                if md_file.stem not in ('index', 'README'):
+                    pages.append(md_file.stem)
+            result[section_name] = pages
+    return result
+
+
+def build_sidebar(section_data, current_section=None, current_page=None):
+    """构建左侧 Wiki 侧边栏 HTML"""
+    lines = [
+        '<nav class="wiki-sidebar" id="wikiSidebar">',
+        '<ul class="sidebar-nav">',
+    ]
+
+    for section_name, children in section_data.items():
+        is_active_section = (section_name == current_section)
+        active_cls = ' active' if is_active_section else ''
+        lines.append(f'<li class="sidebar-item{active_cls}">')
+
+        if section_name == "学院与专业":
+            # 学院与专业：链接到 index.html，展开16个学院
+            lines.append(f'<a href="../学院与专业/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+            lines.append('<ul class="sidebar-children">')
+            for college in COLLEGES:
+                lines.append(f'<li><a href="../学院与专业/{college}/index.html" class="sidebar-link">{college}</a></li>')
+            lines.append('</ul>')
+        elif isinstance(children, list) and len(children) > 0:
+            # 有子页面的板块
+            lines.append(f'<a href="../{section_name}/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+            lines.append('<ul class="sidebar-children">')
+            for page_name in children:
+                page_active = ' active' if (is_active_section and page_name == current_page) else ''
+                lines.append(f'<li><a href="../{section_name}/{page_name}.html" class="sidebar-link{page_active}">{page_name}</a></li>')
+            lines.append('</ul>')
+        elif section_name == "友情链接":
+            lines.append(f'<a href="../友情链接/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+        else:
+            # 空板块或只有一个 index
+            lines.append(f'<a href="../{section_name}/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+
+        lines.append('</li>')
+
+    lines.append('</ul>')
+    lines.append('</nav>')
+    return '\n'.join(lines)
+
+
+# ============================================================
+# 侧边栏路径前缀（根据文件深度计算）
+# ============================================================
+
+def get_sidebar_prefix(md_file_path):
+    """计算从当前 md 文件到 docs/ 目录的相对路径前缀"""
+    rel = md_file_path.relative_to(DOCS_DIR)
+    depth = len(rel.parts) - 1  # 排除文件名
+    return '../' * depth
+
+
+def build_sidebar_for_file(md_file_path, section_data):
+    """为特定文件构建侧边栏"""
+    rel = md_file_path.relative_to(DOCS_DIR)
+    parts = rel.parts
+
+    current_section = parts[0] if len(parts) > 0 else None
+    current_page = md_file_path.stem if md_file_path.stem != 'index' else None
+
+    # 临时替换 section_data 中的路径前缀
+    # 因为 build_sidebar 用的是 ../ 一级前缀，需要根据实际深度调整
+    prefix = get_sidebar_prefix(md_file_path)
+
+    lines = [
+        '<nav class="wiki-sidebar" id="wikiSidebar">',
+        '<ul class="sidebar-nav">',
+    ]
+
+    for section_name, children in section_data.items():
+        is_active_section = (section_name == current_section)
+        active_cls = ' active' if is_active_section else ''
+        lines.append(f'<li class="sidebar-item{active_cls}">')
+
+        if section_name == "学院与专业":
+            lines.append(f'<a href="{prefix}学院与专业/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+            lines.append('<ul class="sidebar-children">')
+            for college in COLLEGES:
+                lines.append(f'<li><a href="{prefix}学院与专业/{college}/index.html" class="sidebar-link">{college}</a></li>')
+            lines.append('</ul>')
+        elif isinstance(children, list) and len(children) > 0:
+            lines.append(f'<a href="{prefix}{section_name}/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+            lines.append('<ul class="sidebar-children">')
+            for page_name in children:
+                page_active = ' active' if (is_active_section and page_name == current_page) else ''
+                lines.append(f'<li><a href="{prefix}{section_name}/{page_name}.html" class="sidebar-link{page_active}">{page_name}</a></li>')
+            lines.append('</ul>')
+        elif section_name == "友情链接":
+            lines.append(f'<a href="{prefix}友情链接/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+        else:
+            lines.append(f'<a href="{prefix}{section_name}/index.html" class="sidebar-link has-children{active_cls}">{section_name}</a>')
+
+        lines.append('</li>')
+
+    lines.append('</ul>')
+    lines.append('</nav>')
+    return '\n'.join(lines)
+
+
+# ============================================================
+# Markdown → HTML 转换器
 # ============================================================
 
 def md_to_html(text: str) -> str:
@@ -32,24 +187,15 @@ def md_to_html(text: str) -> str:
     in_ul = False
     in_ol = False
 
-    def flush_list(non_list_lines):
-        """在切换出列表时输出列表 HTML"""
-        return non_list_lines
-
     def process_inline(t: str) -> str:
         """处理行内 Markdown：加粗、斜体、行内代码、链接、复选框。"""
-        # 复选框
         t = re.sub(r'^\s*- \[x\]\s*', '<input type="checkbox" checked disabled> ', t)
         t = re.sub(r'^\s*- \[ \]\s*', '<input type="checkbox" disabled> ', t)
-        # 行内代码（必须在加粗/斜体之前，避免内部被处理）
         t = re.sub(r'`([^`]+)`', r'<code>\1</code>', t)
-        # 加粗
         t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
         t = re.sub(r'__(.+?)__', r'<strong>\1</strong>', t)
-        # 斜体
         t = re.sub(r'\*(.+?)\*', r'<em>\1</em>', t)
         t = re.sub(r'_(.+?)_', r'<em>\1</em>', t)
-        # 链接 [text](url)
         t = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', t)
         return t
 
@@ -88,12 +234,10 @@ def md_to_html(text: str) -> str:
                     rows.append(cells)
                 if len(rows) >= 1:
                     html_lines.append('<table>')
-                    # 第一行是表头
                     html_lines.append('<thead><tr>')
                     for cell in rows[0]:
                         html_lines.append(f'  <th>{process_inline(cell)}</th>')
                     html_lines.append('</tr></thead>')
-                    # 如果有分隔行 (---|---) 则跳过，其余为数据行
                     data_start = 1
                     if len(rows) > 1 and all(set(c.strip()) <= {'-', ':', ' '} for c in rows[1]):
                         data_start = 2
@@ -202,7 +346,7 @@ def md_to_html(text: str) -> str:
             in_blockquote = False
             bq_lines = []
 
-        # 纯 HTML 行（如 <div class="doc-links">）直接透传
+        # 纯 HTML 行直接透传
         if stripped.startswith('<div') or stripped.startswith('</div') or stripped.startswith('<a ') or stripped.startswith('</a'):
             html_lines.append(stripped)
             i += 1
@@ -226,51 +370,65 @@ def md_to_html(text: str) -> str:
 
 
 # ============================================================
-# HTML 模板
+# 内部链接修正
 # ============================================================
 
-def build_html(title: str, body_content: str, css: str, nav_html: str, relative_prefix: str) -> str:
-    """用统一模板包裹内容。"""
-    return f'''<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <title>{title} - 应大Wiki</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  <style>{css}</style>
-</head>
-<body>
-  {nav_html}
-  <div class="content">
-    <div class="markdown-section">
-{body_content}
+def fix_links(md_text: str, md_file_path: Path) -> str:
+    """把 md 文件中的链接修正为指向 html 文件。"""
+    def replacer(m):
+        text = m.group(1)
+        url = m.group(2)
+        if url.startswith(('http://', 'https://', 'mailto:', '#', 'javascript:')):
+            return m.group(0)
+        if url.endswith('.md'):
+            return f'[{text}]({url[:-3]}.html)'
+        if url.endswith('.html'):
+            return m.group(0)
+        if '.' in url.split('/')[-1]:
+            return m.group(0)
+        if url.endswith('/'):
+            return f'[{text}]({url}index.html)'
+        else:
+            return f'[{text}]({url}.html)'
+    return re.sub(r'\[([^\]]+)\]\(([^)]+)\)', replacer, md_text)
 
-      <div id="twikoo-comment"></div>
-    </div>
-  </div>
-  <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
-  <script>
+
+# ============================================================
+# 搜索索引
+# ============================================================
+
+def build_search_entries(section_data):
+    """从侧边栏结构生成搜索条目"""
+    entries = []
+    for section_name, children in section_data.items():
+        if section_name == "学院与专业":
+            for college in COLLEGES:
+                entries.append({
+                    'url': f'../学院与专业/{college}/index.html',
+                    'title': college,
+                    'desc': f'{college}专业介绍',
+                })
+        elif isinstance(children, list):
+            for page_name in children:
+                entries.append({
+                    'url': f'../{section_name}/{page_name}.html',
+                    'title': page_name,
+                    'desc': f'{section_name} - {page_name}',
+                })
+    return entries
+
+
+def build_search_js(search_entries, prefix):
+    """生成搜索 JS 代码，替换路径前缀"""
+    entries_json = []
+    for e in search_entries:
+        url = prefix + e['url'].lstrip('../')
+        entries_json.append(f'{{ url: \'{url}\', title: \'{e["title"]}\', desc: \'{e["desc"]}\' }}')
+    entries_str = ',\n      '.join(entries_json)
+
+    return f'''
     const pages = [
-      {{ url: '../选课/index.html', title: '选课指南', desc: '选课流程、推荐课程、时间线' }},
-      {{ url: '../选课/选课流程.html', title: '选课流程', desc: '详细的选课步骤和注意事项' }},
-      {{ url: '../选课/推荐课程.html', title: '推荐课程', desc: '学长学姐推荐的优质课程' }},
-      {{ url: '../选课/选课时间线.html', title: '选课时间线', desc: '每学期选课关键时间节点' }},
-      {{ url: '../学分绩点/index.html', title: '学分绩点', desc: '学分要求、绩点计算、毕业条件' }},
-      {{ url: '../学分绩点/学分要求.html', title: '学分要求', desc: '毕业所需学分及构成' }},
-      {{ url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '绩点计算方法和等级对应' }},
-      {{ url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '完整的毕业要求清单' }},
-      {{ url: '../体育军训/index.html', title: '体育军训', desc: '体育课选择、体测要求、军训须知' }},
-      {{ url: '../体育军训/体育课选择.html', title: '体育课选择', desc: '体育课项目介绍和选择建议' }},
-      {{ url: '../体育军训/体测要求.html', title: '体测要求', desc: '体能测试项目和标准' }},
-      {{ url: '../体育军训/军训须知.html', title: '军训须知', desc: '军训准备和注意事项' }},
-      {{ url: '../生活指南/index.html', title: '生活指南', desc: '宿舍、食堂、校园地图' }},
-      {{ url: '../生活指南/宿舍篇.html', title: '宿舍篇', desc: '宿舍环境、管理规定、生活技巧' }},
-      {{ url: '../生活指南/食堂篇.html', title: '食堂篇', desc: '食堂介绍、美食推荐、用餐时间' }},
-      {{ url: '../生活指南/校园地图.html', title: '校园地图', desc: '校园设施分布、重要地点' }},
-      {{ url: '../常见问题/index.html', title: '常见问题', desc: '新生常见问题解答' }},
+      {entries_str}
     ];
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
@@ -300,74 +458,11 @@ def build_html(title: str, body_content: str, css: str, nav_html: str, relative_
           }}
         }}
       }});
-    }}
-  </script>
-  <script>
-    twikoo.init({{
-      envId: 'https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo',
-      el: '#twikoo-comment',
-      requiredMetaField: [],
-      anonymousNickName: '匿名',
-      commentPermission: 'anyone',
-    }});
-  </script>
-</body>
-</html>'''
+    }}'''
 
 
 # ============================================================
-# 导航栏 HTML
-# ============================================================
-
-def build_nav(prefix: str, is_sub: bool = False) -> str:
-    """生成顶部导航栏。
-    prefix: 根目录 '' 或子目录 '../'
-    is_sub: 是否是子页面（子页面的链接不需要 docs/ 前缀）
-    """
-    def p(path):
-        return f'{prefix}{path}'
-    if is_sub:
-        # 子页面在 docs/子目录/ 下，需要 ../../ 回到根目录
-        root = f'{prefix}../'
-        return f'''<nav class="app-nav">
-    <a href="{root}index.html" class="nav-brand">
-      <img src="{root}圆形logo.png" alt="应大Wiki" class="nav-logo">
-      <span>应大Wiki</span>
-    </a>
-    <div class="nav-links">
-      <a href="{p('学校概览/index.html')}">概览</a>
-      <a href="{p('入学指南/index.html')}">入学</a>
-      <a href="{p('选课指南/index.html')}">选课</a>
-      <a href="{p('学分绩点/index.html')}">学业</a>
-      <a href="{p('校园生活/index.html')}">生活</a>
-    </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
-      <div id="searchResults" class="search-results"></div>
-    </div>
-  </nav>'''
-    else:
-        return f'''<nav class="app-nav">
-    <a href="{p('index.html')}" class="nav-brand">
-      <img src="{p('圆形logo.png')}" alt="应大Wiki" class="nav-logo">
-      <span>应大Wiki</span>
-    </a>
-    <div class="nav-links">
-      <a href="{p('docs/学校概览/index.html')}">概览</a>
-      <a href="{p('docs/入学指南/index.html')}">入学</a>
-      <a href="{p('docs/选课指南/index.html')}">选课</a>
-      <a href="{p('docs/学分绩点/index.html')}">学业</a>
-      <a href="{p('docs/校园生活/index.html')}">生活</a>
-    </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
-      <div id="searchResults" class="search-results"></div>
-    </div>
-  </nav>'''
-
-
-# ============================================================
-# CSS（从 index.html 提取的样式，去除 coverpage 相关）
+# CSS
 # ============================================================
 
 CSS = '''
@@ -452,9 +547,78 @@ html, body {
 .search-result-desc { font-size: 12px; color: var(--ink-faint); }
 .search-no-result { padding: 14px; text-align: center; color: var(--ink-faint); }
 
-.content { padding-top: 56px !important; }
+/* Wiki侧边栏 */
+.content { display: flex; padding-top: 56px !important; }
+.wiki-sidebar {
+  position: fixed; top: 56px; left: 0; bottom: 0;
+  width: 240px; background: #002f82;
+  border-right: 1px solid #002466;
+  overflow-y: auto; padding: 0 0 20px 0;
+  font-family: var(--font-serif); font-size: 14px;
+  z-index: 50;
+  transition: width 0.3s ease, opacity 0.3s ease;
+}
+.wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
+.content.sidebar-collapsed .markdown-section {
+  max-width: 960px; margin: 0 auto; padding-left: 40px; padding-right: 40px;
+  transform: translateX(-176px);
+  transition: max-width 0.3s ease, transform 0.3s ease;
+}
+.sidebar-toggle {
+  position: fixed; top: 64px; left: 240px;
+  width: 18px; height: 36px; border-radius: 0 4px 4px 0;
+  background: #002f82; color: #fff;
+  border: none; cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: left 0.3s ease; z-index: 51;
+}
+.sidebar-toggle:hover { background: #0040b3; }
+.sidebar-toggle.collapsed { left: 0; }
+.sidebar-title {
+  font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.7);
+  text-transform: uppercase; letter-spacing: 2px;
+  padding: 0 20px 8px 20px; border-bottom: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 0;
+  position: sticky; top: 56px; background: #002f82; z-index: 10;
+}
+.sidebar-nav { list-style: none; padding: 0; margin: 0; }
+.sidebar-item { margin: 0; }
+.sidebar-link {
+  display: block; padding: 8px 20px; color: rgba(255,255,255,0.8) !important;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.15s; border-left: 3px solid transparent;
+}
+.sidebar-link:hover {
+  background: rgba(255,255,255,0.1); color: #fff !important;
+  border-left-color: rgba(255,255,255,0.5);
+}
+.sidebar-link.has-children {
+  font-weight: 600; color: #fff !important;
+}
+.sidebar-link.has-children.active {
+  color: #ffd700 !important;
+  font-weight: 700;
+  border-left-color: #ffd700;
+  background: rgba(255, 215, 0, 0.1);
+}
+.sidebar-children .sidebar-link {
+  padding: 6px 16px; font-size: 13px; font-weight: 400;
+  color: rgba(255,255,255,0.65) !important;
+}
+.sidebar-children .sidebar-link:hover {
+  color: #fff !important;
+}
+.sidebar-children {
+  list-style: none; padding: 0; margin: 0;
+  border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
+}
+.wiki-main {
+  margin-left: 240px; flex: 1; min-width: 0;
+}
+
+/* 文章内容 */
 .markdown-section {
-  max-width: 860px; margin: 0 auto;
+  max-width: 680px; margin: 0; margin-left: 0; margin-right: 220px;
   padding: 48px 60px 80px !important; background: var(--paper);
   animation: fadeIn 0.4s ease-out;
 }
@@ -519,17 +683,14 @@ html, body {
 }
 .markdown-section input[type="checkbox"]:checked { background: var(--ink); border-color: var(--ink); }
 .markdown-section input[type="checkbox"]:checked::after {
-  content: '✓'; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
+  content: ''; color: var(--paper); font-size: 12px; position: absolute; top: -1px; left: 2px;
 }
 .markdown-section kbd {
   font-family: var(--font-mono); font-size: 13px; background: var(--paper-dark);
   border: 1px solid var(--border); border-bottom: 2px solid var(--ink-fainter);
   border-radius: 3px; padding: 1px 6px; color: var(--ink-light); box-shadow: 0 1px 1px var(--shadow);
 }
-.markdown-section > :last-child::after {
-  content: '◆ ◆ ◆'; display: block; text-align: center;
-  color: var(--ink-fainter); font-size: 12px; letter-spacing: 8px; margin-top: 3em;
-}
+
 .doc-links {
   display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 30px;
   padding-bottom: 20px; border-bottom: 1px solid var(--border);
@@ -552,22 +713,90 @@ body::before {
   pointer-events: none; z-index: 9999;
   background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,119,86,0.015) 2px, rgba(139,119,86,0.015) 4px);
 }
-.markdown-section::after {
-  content: ''; display: block; width: 60px; height: 60px; margin: 40px auto 0;
-  border: 2px solid var(--vermilion); border-radius: 50%; opacity: 0.15; position: relative; top: 20px;
+
+/* 目录 */
+.toc-sidebar {
+  position: fixed; top: 70px; right: 20px; width: 200px;
+  max-height: calc(100vh - 100px); overflow-y: auto;
+  font-family: var(--font-serif); font-size: 13px; z-index: 100;
 }
+.toc-sidebar::-webkit-scrollbar { width: 3px; }
+.toc-sidebar::-webkit-scrollbar-thumb { background: var(--ink-fainter); border-radius: 2px; }
+.toc-title {
+  font-weight: 700; font-size: 14px; color: var(--ink);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border); letter-spacing: 1px;
+}
+.toc-title::before { content: ''; }
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-list li { margin: 0; padding: 0; }
+.toc-list a {
+  display: block; padding: 5px 0 5px 12px;
+  color: var(--ink-faint) !important; text-decoration: none !important;
+  border-left: 2px solid transparent; transition: all 0.2s;
+  line-height: 1.5; border-bottom: none !important;
+}
+.toc-list a:hover { color: var(--ink) !important; border-left-color: var(--ink-faint); }
+.toc-list a.active { color: var(--vermilion) !important; border-left-color: var(--vermilion); font-weight: 600; }
+.toc-list .toc-h3 { padding-left: 24px; font-size: 12px; }
+.toc-toggle {
+  display: none; position: fixed; bottom: 20px; right: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #002f82; color: var(--paper); border: none;
+  font-size: 20px; cursor: pointer; z-index: 200;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* 返回顶部 */
+.back-to-top {
+  position: fixed; bottom: 80px; right: 30px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #002f82; color: var(--paper); border: none;
+  font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 150;
+}
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { background: #0040b3; transform: translateY(-2px); }
+
+/* 评论区 */
 #twikoo-comment {
-  max-width: 780px; margin: 0 auto; padding: 0 0 40px;
-  border-top: 2px solid var(--ink); padding-top: 30px; margin-top: 50px;
+  max-width: 680px; margin: 60px 0 0 20px; padding: 0 0 40px;
+  border-top: 2px solid var(--ink); padding-top: 30px;
 }
-@media print {
-  .app-nav, body::before { display: none !important; }
-  .markdown-section { max-width: 100%; padding: 20px !important; }
-  .content { padding-top: 0 !important; }
-  body { background: white; }
+.twikoo-title {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  color: var(--ink); margin-bottom: 20px; text-align: center;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 1200px) {
+  .toc-sidebar {
+    position: fixed; left: auto; right: -260px; top: 0; bottom: 0;
+    width: 260px; max-height: 100vh; background: var(--paper);
+    padding: 60px 20px 20px; border-left: 1px solid var(--border);
+    box-shadow: -4px 0 12px rgba(0,0,0,0.1); transition: right 0.3s ease; z-index: 500;
+  }
+  .toc-sidebar.open { right: 0; }
+  .toc-toggle { display: flex; align-items: center; justify-content: center; }
+  .toc-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3); z-index: 499;
+  }
+  .toc-overlay.open { display: block; }
+}
+@media screen and (max-width: 900px) {
+  .wiki-sidebar {
+    position: fixed; left: -260px; width: 260px;
+    transition: left 0.3s ease; z-index: 500; box-shadow: none; background: #002f82;
+  }
+  .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
+  .wiki-main { margin-left: 0 !important; }
+  .sidebar-toggle { display: none; }
 }
 @media screen and (max-width: 768px) {
-  .markdown-section { padding: 24px 20px 60px !important; }
+  .markdown-section { padding: 24px 20px 60px !important; margin-right: 0; }
   .markdown-section h1 { font-size: 24px; }
   .markdown-section h2 { font-size: 20px; }
   .markdown-section p { font-size: 15.5px; }
@@ -576,43 +805,179 @@ body::before {
   .nav-links { flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 4px; width: 100%; order: 3; }
   .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
   .search-box { order: 2; margin-left: auto; }
-  .content { padding-top: 90px !important; }
+  .back-to-top { bottom: 70px; right: 20px; width: 40px; height: 40px; font-size: 18px; }
+}
+@media print {
+  .app-nav, .wiki-sidebar, .toc-sidebar, .toc-toggle, .toc-overlay, .back-to-top, body::before { display: none !important; }
+  .markdown-section { max-width: 100%; padding: 20px !important; margin: 0 !important; }
+  .wiki-main { margin-left: 0; }
+  .content { padding-top: 0 !important; }
+  body { background: white; }
 }
 '''
 
 
 # ============================================================
-# 内部链接修正：把 md 相对链接 → html 相对链接
+# 导航栏 HTML
 # ============================================================
 
-def fix_links(md_text: str, md_file_path: Path) -> str:
-    """
-    把 md 文件中的链接修正为指向 html 文件。
-    - 无后缀的相对路径（如 选课流程）→ 选课流程.html
-    - 带 / 结尾的目录路径（如 选课/）→ 选课/index.html
-    - 已经是 .html 或 http 链接的不动
-    """
-    def replacer(m):
-        text = m.group(1)
-        url = m.group(2)
-        # 外部链接不动
-        if url.startswith(('http://', 'https://', 'mailto:', '#', 'javascript:')):
-            return m.group(0)
-        # .md 链接 → .html
-        if url.endswith('.md'):
-            return f'[{text}]({url[:-3]}.html)'
-        # 已经是 .html 的不动
-        if url.endswith('.html'):
-            return m.group(0)
-        # 其他有扩展名的不动
-        if '.' in url.split('/')[-1]:
-            return m.group(0)
-        # 目录链接（以 / 结尾或无后缀）
-        if url.endswith('/'):
-            return f'[{text}]({url}index.html)'
-        else:
-            return f'[{text}]({url}.html)'
-    return re.sub(r'\[([^\]]+)\]\(([^)]+)\)', replacer, md_text)
+def build_nav(prefix: str) -> str:
+    """生成顶部导航栏。prefix: docs/ 相对路径前缀（如 '../'）"""
+    def p(path):
+        return f'{prefix}{path}'
+    # logo 和品牌链接需要回到网站根目录，比 prefix 多一层
+    root = prefix + '../' if prefix else ''
+    return f'''<nav class="app-nav">
+    <a href="{root}index.html" class="nav-brand">
+      <img src="{root}圆形logo.png" alt="应大Wiki" class="nav-logo">
+      <span>应大Wiki</span>
+    </a>
+    <div class="nav-links">
+      <a href="{p('学校概览/index.html')}">概览</a>
+      <a href="{p('入学指南/index.html')}">入学</a>
+      <a href="{p('选课指南/index.html')}">选课</a>
+      <a href="{p('学分绩点/index.html')}">学业</a>
+      <a href="{p('校园生活/index.html')}">生活</a>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </nav>'''
+
+
+# ============================================================
+# 完整 HTML 模板
+# ============================================================
+
+def build_full_html(title, body_content, sidebar_html, search_js, prefix):
+    """生成完整的 HTML 页面"""
+    return f'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>{title} - 应大Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>{CSS}</style>
+</head>
+<body>
+  {build_nav(prefix)}
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">◂</button>
+  <div class="content">
+    {sidebar_html}
+    <div class="wiki-main">
+        <div class="toc-sidebar" id="toc">
+      <div class="toc-title">目录</div>
+      <ul class="toc-list" id="tocList"></ul>
+    </div>
+    <div class="toc-overlay" id="tocOverlay"></div>
+    <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
+    <div class="markdown-section">
+{body_content}
+
+          </div>
+    <div style="max-width:620px;margin:0 0 0 40px;padding:0 20px;">
+      <div class="twikoo-title">评论区</div>
+      <div id="twikoo-comment"></div>
+    </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script>
+    {search_js}
+  </script>
+  <script>
+    twikoo.init({{
+      envId: 'https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo',
+      el: '#twikoo-comment',
+      requiredMetaField: [],
+      anonymousNickName: '匿名',
+      commentPermission: 'anyone',
+    }});
+  </script>
+
+  <script>
+  (function() {{
+    var section = document.querySelector('.markdown-section');
+    var tocList = document.getElementById('tocList');
+    if (!section || !tocList) return;
+
+    var headings = section.querySelectorAll('h2, h3');
+    if (headings.length === 0) return;
+
+    headings.forEach(function(h, i) {{
+      if (!h.id) h.id = 'toc-' + i;
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent.replace(/^§\\s*/, '');
+      a.className = h.tagName === 'H3' ? 'toc-h3' : '';
+      li.appendChild(a);
+      tocList.appendChild(li);
+    }});
+
+    var links = tocList.querySelectorAll('a');
+    function onScroll() {{
+      var scrollY = window.scrollY + 80;
+      var current = null;
+      headings.forEach(function(h) {{
+        if (h.offsetTop <= scrollY) current = h;
+      }});
+      links.forEach(function(a) {{
+        a.classList.remove('active');
+        if (current && a.getAttribute('href') === '#' + current.id) {{
+          a.classList.add('active');
+        }}
+      }});
+    }}
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+  }})();
+
+  function toggleToc() {{
+    document.getElementById('toc').classList.toggle('open');
+    document.getElementById('tocOverlay').classList.toggle('open');
+  }}
+  document.getElementById('tocOverlay').addEventListener('click', toggleToc);
+  </script>
+
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
+  <script>
+  (function() {{
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', function() {{
+      if (window.scrollY > 300) {{ btn.classList.add('visible'); }}
+      else {{ btn.classList.remove('visible'); }}
+    }});
+    window.scrollToTop = function() {{
+      window.scrollTo({{ top: 0, behavior: 'smooth' }});
+    }};
+  }})();
+  </script>
+
+  <script>
+  function toggleSidebar() {{
+    var sidebar = document.getElementById('wikiSidebar');
+    var btn = document.getElementById('sidebarToggle');
+    var content = document.querySelector('.content');
+    sidebar.classList.toggle('collapsed');
+    btn.classList.toggle('collapsed');
+    content.classList.toggle('sidebar-collapsed');
+    if (sidebar.classList.contains('collapsed')) {{
+      btn.textContent = '▸';
+    }} else {{
+      btn.textContent = '◂';
+    }}
+  }}
+  </script>
+
+</body>
+</html>'''
 
 
 # ============================================================
@@ -621,27 +986,21 @@ def fix_links(md_text: str, md_file_path: Path) -> str:
 
 def convert_all():
     """扫描所有 md 文件，生成对应 html。"""
-    # 找到所有 .md 文件
-    md_files = sorted(BASE_DIR.rglob('*.md'))
-    # 排除不需要转换的文件
+    print('Scanning docs/ ...')
+    section_data = scan_sections()
+    search_entries = build_search_entries(section_data)
+
+    # 找到所有 .md 文件（排除根目录和 README）
+    md_files = sorted(DOCS_DIR.rglob('*.md'))
     md_files = [f for f in md_files if f.name != '_coverpage.md']
-    md_files = [f for f in md_files if not (f.parent == BASE_DIR and f.name == 'README.md')]
-    md_files = [f for f in md_files if not (f.parent == BASE_DIR / 'docs' and f.name == 'README.md')]
+    md_files = [f for f in md_files if not (f.parent == DOCS_DIR and f.name == 'README.md')]
     md_files = [f for f in md_files if 'node_modules' not in str(f)]
     md_files = [f for f in md_files if '学院与专业' not in f.parts]
-
-    # 先清理 docs 下旧的 HTML 文件（保留根目录的 index.html）
-    for old_html in (BASE_DIR / 'docs').rglob('*.html'):
-        if '学院与专业' in old_html.parts: continue
-        old_html.unlink(missing_ok=True)
-    # 清理 docs 下可能残留的 README.html
-    for old_readme in (BASE_DIR / 'docs').rglob('README.html'):
-        old_readme.unlink(missing_ok=True)
 
     count = 0
     for md_file in md_files:
         rel = md_file.relative_to(BASE_DIR)
-        # README.md -> index.html，其他文件保持原名
+        # README.md -> index.html
         if md_file.stem == 'README':
             html_name = 'index.html'
         else:
@@ -657,17 +1016,21 @@ def convert_all():
         # 转换为 HTML
         body = md_to_html(md_text)
 
-        # 判断是根目录还是子目录，选择对应导航栏
-        is_root = (md_file.parent == BASE_DIR)
-        nav = build_nav('', is_sub=False) if is_root else build_nav('../', is_sub=True)
-        prefix = '' if is_root else '../'
+        # 计算路径前缀
+        prefix = get_sidebar_prefix(md_file)
 
-        # 从文件名提取标题（第一行 h1 或文件名）
+        # 生成侧边栏
+        sidebar = build_sidebar_for_file(md_file, section_data)
+
+        # 生成搜索 JS
+        search_js = build_search_js(search_entries, prefix)
+
+        # 提取标题
         title_match = re.match(r'^#\s+(.+)', md_text.split('\n')[0])
         title = title_match.group(1) if title_match else md_file.stem
 
         # 构建完整 HTML
-        full_html = build_html(title, body, CSS, nav, prefix)
+        full_html = build_full_html(title, body, sidebar, search_js, prefix)
 
         # 写入
         html_file.write_text(full_html, encoding='utf-8')

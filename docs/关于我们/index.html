@@ -91,7 +91,7 @@ html, body {
 
 
 .markdown-section {
-  max-width: 620px; margin: 0; margin-left: 20px; margin-right: 240px;
+  max-width: 680px; margin: 0; margin-left: 0; margin-right: 220px;
   padding: 48px 60px 80px !important; background: var(--paper);
   animation: fadeIn 0.4s ease-out;
 }
@@ -171,7 +171,7 @@ body::before {
 }
 
 #twikoo-comment {
-  max-width: 620px; margin: 60px 0 0 20px; padding: 0 0 40px;
+  max-width: 680px; margin: 60px 0 0 20px; padding: 0 0 40px;
   border-top: 2px solid var(--ink); padding-top: 30px;
 }
 .twikoo-title {
@@ -263,7 +263,7 @@ body::before {
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: var(--ink);
+      background: #002f82;
       color: var(--paper);
       border: none;
       font-size: 20px;
@@ -319,7 +319,7 @@ body::before {
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: var(--ink);
+      background: #002f82;
       color: var(--paper);
       border: none;
       font-size: 20px;
@@ -338,7 +338,7 @@ body::before {
       visibility: visible;
     }
     .back-to-top:hover {
-      background: var(--vermilion);
+      background: #0040b3;
       transform: translateY(-2px);
     }
     @media screen and (max-width: 768px) {
@@ -354,50 +354,68 @@ body::before {
 
     /* Wiki导航侧边栏 */
     .content { display: flex; padding-top: 56px !important; }
-    .wiki-sidebar {
+        .wiki-sidebar {
       position: fixed; top: 56px; left: 0; bottom: 0;
-      width: 240px; background: var(--paper-dark);
-      border-right: 1px solid var(--border);
-      overflow-y: auto; padding: 20px 0;
+      width: 240px; background: #002f82;
+      border-right: 1px solid #002466;
+      overflow-y: auto; padding: 0 0 20px 0;
       font-family: var(--font-serif); font-size: 14px;
       z-index: 50;
+      transition: width 0.3s ease, opacity 0.3s ease;
     }
+
+      .wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
+.content.sidebar-collapsed .markdown-section {
+  max-width: 960px; margin: 0; margin-left: 0; margin-right: 220px; padding-left: 40px; padding-right: 40px;
+  transform: translateX(-176px);
+  transition: max-width 0.3s ease, transform 0.3s ease;
+}
+      .sidebar-toggle {
+        position: fixed; top: 64px; left: 240px;
+        width: 18px; height: 36px; border-radius: 0 4px 4px 0;
+        background: #002f82; color: #fff;
+        border: none; cursor: pointer; font-size: 12px;
+        display: flex; align-items: center; justify-content: center;
+        transition: left 0.3s ease; z-index: 51;
+      }
+      .sidebar-toggle:hover { background: #0040b3; }
+      .sidebar-toggle.collapsed { left: 0; }
     .sidebar-title {
-      font-weight: 700; font-size: 13px; color: var(--ink-faint);
+      font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.7);
       text-transform: uppercase; letter-spacing: 2px;
-      padding: 0 20px 12px; border-bottom: 1px solid var(--border);
+      padding: 0 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.2);
       margin-bottom: 8px;
     }
     .sidebar-nav { list-style: none; padding: 0; margin: 0; }
     .sidebar-item { margin: 0; }
     .sidebar-link {
-      display: block; padding: 8px 20px; color: var(--ink-light) !important;
+      display: block; padding: 8px 20px; color: rgba(255,255,255,0.8) !important;
       text-decoration: none !important; border-bottom: none !important;
       transition: all 0.15s; border-left: 3px solid transparent;
     }
     .sidebar-link:hover {
-      background: var(--paper-edge); color: var(--ink) !important;
-      border-left-color: var(--ink-faint);
+      background: rgba(255,255,255,0.1); color: #fff !important;
+      border-left-color: rgba(255,255,255,0.5);
     }
     .sidebar-link.has-children {
-      font-weight: 600; color: var(--ink) !important;
+      font-weight: 600; color: #fff !important;
     }
     .sidebar-link.has-children.active {
-      color: var(--vermilion) !important;
+      color: #ffd700 !important;
       font-weight: 700;
-      border-left-color: var(--vermilion);
-      background: rgba(194, 54, 22, 0.05);
+      border-left-color: #ffd700;
+      background: rgba(255, 215, 0, 0.1);
     }
     .sidebar-children .sidebar-link {
       padding: 6px 16px; font-size: 13px; font-weight: 400;
-      color: var(--ink-faint) !important;
+      color: rgba(255,255,255,0.65) !important;
     }
     .sidebar-children .sidebar-link:hover {
-      color: var(--ink) !important;
+      color: #fff !important;
     }
     .sidebar-children {
       list-style: none; padding: 0; margin: 0;
-      border-left: 1px solid var(--border); margin-left: 20px;
+      border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
     }
     .wiki-main {
       margin-left: 240px; flex: 1; min-width: 0;
@@ -407,15 +425,17 @@ body::before {
       .wiki-sidebar {
         position: fixed; left: -260px; width: 260px;
         transition: left 0.3s ease; z-index: 500;
-        box-shadow: none;
+        box-shadow: none; background: #002f82;
       }
       .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
-      .wiki-main { margin-left: 0; }
+      .wiki-main { margin-left: 0 !important; }
+      .sidebar-toggle { display: none; }
       .toc-toggle { display: flex !important; }
     }
     @media print {
       .wiki-sidebar { display: none !important; }
-      .wiki-main { margin-left: 0; }
+      .wiki-main { margin-left: 0 !important; }
+      .sidebar-toggle { display: none; }
     }
 
   </style>
@@ -438,9 +458,9 @@ body::before {
       <div id="searchResults" class="search-results"></div>
     </div>
   </nav>
+  <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">◂</button>
   <div class="content">
 <nav class="wiki-sidebar" id="wikiSidebar">
-<div class="sidebar-title">全部板块</div>
 <ul class="sidebar-nav">
 <li class="sidebar-item">
 <a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
@@ -496,6 +516,21 @@ body::before {
 <a href="../学院与专业/index.html" class="sidebar-link has-children">学院与专业</a>
 <ul class="sidebar-children">
 <li><a href="../学院与专业/应急技术与指挥学院/index.html" class="sidebar-link">应急技术与指挥学院</a></li>
+<li><a href="../学院与专业/矿山安全学院/index.html" class="sidebar-link">矿山安全学院</a></li>
+<li><a href="../学院与专业/城市安全学院/index.html" class="sidebar-link">城市安全学院</a></li>
+<li><a href="../学院与专业/地震工程与建筑安全学院/index.html" class="sidebar-link">地震工程与建筑安全学院</a></li>
+<li><a href="../学院与专业/地震科学与技术学院/index.html" class="sidebar-link">地震科学与技术学院</a></li>
+<li><a href="../学院与专业/化工安全学院/index.html" class="sidebar-link">化工安全学院</a></li>
+<li><a href="../学院与专业/环境与灾害治理学院/index.html" class="sidebar-link">环境与灾害治理学院</a></li>
+<li><a href="../学院与专业/计算机与信息安全学院/index.html" class="sidebar-link">计算机与信息安全学院</a></li>
+<li><a href="../学院与专业/应急通信与控制工程学院/index.html" class="sidebar-link">应急通信与控制工程学院</a></li>
+<li><a href="../学院与专业/应急装备学院/index.html" class="sidebar-link">应急装备学院</a></li>
+<li><a href="../学院与专业/应急经济与物资保障学院/index.html" class="sidebar-link">应急经济与物资保障学院</a></li>
+<li><a href="../学院与专业/应急国际交流学院/index.html" class="sidebar-link">应急国际交流学院</a></li>
+<li><a href="../学院与专业/应急救援训练中心/index.html" class="sidebar-link">应急救援训练中心</a></li>
+<li><a href="../学院与专业/应急文化传播与法学院/index.html" class="sidebar-link">应急文化传播与法学院</a></li>
+<li><a href="../学院与专业/理学院/index.html" class="sidebar-link">理学院</a></li>
+<li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
@@ -510,30 +545,30 @@ body::before {
     </div>
 
     <div class="toc-overlay" id="tocOverlay"></div>
-    <button class="toc-toggle" id="tocToggle" onclick="toggleToc()"></button>
+    <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
 <h1>关于我们</h1>
 
 <h2>应大Wiki是什么？</h2>
-<p>应大Wiki是面向应急管理大学学生的Wiki（百科）站点，收录了校园生活中的常用信息。</p>
+<p>应大Wiki是面向应急管理大学学生的Wiki（百科）站点，不断收录了校园生活中的常用信息。</p>
 <p>本站是非官方站点，不隶属于应急管理大学或其附属组织。</p>
-<p>站点可能包含与应急管理大学相关的条目或内容，但这并不代表本站与应急管理大学存在隶属关系。</p>
+<p>站点可能包含与应急管理大学相关的条目或内容，但这并不代表本站与应急管理大学以及其校内任何组织存在隶属关系。</p>
 <p>由于信息的维护需要时间和精力，本站信息的更新存在滞后性。</p>
 <p>本站内容出现数据/描述/观点与学校官方存在冲突时，请以官方描述为准。</p>
 
 <h2>应大Wiki的目的是什么？</h2>
-<p>旨在服务用户，帮助他们更快、更方便地拥抱校园生活。</p>
+<p>建立一个完整、准确且中立的应大百科全书。</p>
 
 <h2>联系我们</h2>
 
 <p><strong>我想提出建议/反馈Bug/投诉侵权</strong></p>
-<p>您可以发送邮件至 <a href="mailto:wenxuan4938@qq.com">wenxuan4938@qq.com</a>。</p>
+<p>您可以发送邮件至 <a href="mailto:wenxuan4938@163.com">wenxuan4938@163.com</a>。</p>
 
 <p><strong>我想成为词条贡献者</strong></p>
-<p>编辑词条需要掌握Markdown语法，如果你想贡献词条，欢迎联系 <a href="mailto:wenxuan4938@163.com">wenxuan4938@qq.com</a> 并说明自己擅长的词条领域。</p>
+<p>编辑词条需要掌握Markdown语法，如果你想贡献词条，欢迎联系 <a href="mailto:wenxuan4938@163.com">wenxuan4938@163.com</a> 并说明自己擅长的词条领域。</p>
 
 <p><strong>我想成为代码贡献者</strong></p>
-<p>应大Wiki使用语言为HTML、CSS和JavaScript，如果你掌握相关技能，欢迎联系 <a href="mailto:wenxuan4938@163.com">wenxuan4938@qq.com</a> 并说明擅长的程序语言。</p>
+<p>应大Wiki使用语言为HTML、CSS和JavaScript，如果你掌握相关技能，欢迎联系 <a href="mailto:wenxuan4938@163.com">wenxuan4938@163.com</a> 并说明擅长的程序语言。</p>
 
 <h2>资金</h2>
 <p>应大Wiki是纯公益性质的非营利性项目，短期内无植入广告/变现计划。</p>
@@ -545,6 +580,7 @@ body::before {
 
 <hr>
 <p style="text-align:center;color:var(--ink-faint);font-size:14px;text-indent:0;">
+  本站参考于北洋维基<a href="http://tjubot.cn/aboutus/"></a><br>
   感谢每一位为应大Wiki贡献内容的学长学姐<br>
   厚德启智，扶危安国
 </p>
@@ -685,5 +721,20 @@ body::before {
   })();
   </script>
 
+  <script>
+  function toggleSidebar() {
+    var sidebar = document.getElementById('wikiSidebar');
+    var btn = document.getElementById('sidebarToggle');
+    var content = document.querySelector('.content');
+    sidebar.classList.toggle('collapsed');
+    btn.classList.toggle('collapsed');
+    content.classList.toggle('sidebar-collapsed');
+    if (sidebar.classList.contains('collapsed')) {
+      btn.textContent = '▸';
+    } else {
+      btn.textContent = '◂';
+    }
+  }
+  </script>
 </body>
 </html>

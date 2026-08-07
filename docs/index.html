@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>选课流程 - 应大Wiki</title>
+  <title>应大Wiki 文档 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -117,11 +117,10 @@ html, body {
 .sidebar-toggle:hover { background: #0040b3; }
 .sidebar-toggle.collapsed { left: 0; }
 .sidebar-title {
-  font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.7);
+  font-weight: 700; font-size: 13px; color: var(--ink-faint);
   text-transform: uppercase; letter-spacing: 2px;
-  padding: 0 20px 8px 20px; border-bottom: 1px solid rgba(255,255,255,0.2);
-  margin-bottom: 0;
-  position: sticky; top: 56px; background: #002f82; z-index: 10;
+  padding: 0 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 8px;
 }
 .sidebar-nav { list-style: none; padding: 0; margin: 0; }
 .sidebar-item { margin: 0; }
@@ -359,16 +358,16 @@ body::before {
 </head>
 <body>
   <nav class="app-nav">
-    <a href="../../index.html" class="nav-brand">
-      <img src="../../圆形logo.png" alt="应大Wiki" class="nav-logo">
+    <a href="index.html" class="nav-brand">
+      <img src="圆形logo.png" alt="应大Wiki" class="nav-logo">
       <span>应大Wiki</span>
     </a>
     <div class="nav-links">
-      <a href="../学校概览/index.html">概览</a>
-      <a href="../入学指南/index.html">入学</a>
-      <a href="../选课指南/index.html">选课</a>
-      <a href="../学分绩点/index.html">学业</a>
-      <a href="../校园生活/index.html">生活</a>
+      <a href="docs/学校概览/index.html">概览</a>
+      <a href="docs/入学指南/index.html">入学</a>
+      <a href="docs/选课指南/index.html">选课</a>
+      <a href="docs/学分绩点/index.html">学业</a>
+      <a href="docs/校园生活/index.html">生活</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
@@ -380,78 +379,86 @@ body::before {
     <nav class="wiki-sidebar" id="wikiSidebar">
 <ul class="sidebar-nav">
 <li class="sidebar-item">
-<a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
+<a href="学校概览/index.html" class="sidebar-link has-children">学校概览</a>
 <ul class="sidebar-children">
-<li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
-<li><a href="../学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
-<li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
+<li><a href="学校概览/README.html" class="sidebar-link">README</a></li>
+<li><a href="学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
+<li><a href="学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
+<li><a href="学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
-<a href="../入学指南/index.html" class="sidebar-link has-children">入学指南</a>
+<a href="入学指南/index.html" class="sidebar-link has-children">入学指南</a>
 <ul class="sidebar-children">
-<li><a href="../入学指南/体育课选择.html" class="sidebar-link">体育课选择</a></li>
-<li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
-<li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
-<li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
-</ul>
-</li>
-<li class="sidebar-item active">
-<a href="../选课指南/index.html" class="sidebar-link has-children active">选课指南</a>
-<ul class="sidebar-children">
-<li><a href="../选课指南/推荐课程.html" class="sidebar-link">推荐课程</a></li>
-<li><a href="../选课指南/选课时间线.html" class="sidebar-link">选课时间线</a></li>
-<li><a href="../选课指南/选课流程.html" class="sidebar-link active">选课流程</a></li>
+<li><a href="入学指南/README.html" class="sidebar-link">README</a></li>
+<li><a href="入学指南/体育课选择.html" class="sidebar-link">体育课选择</a></li>
+<li><a href="入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
+<li><a href="入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
+<li><a href="入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
-<a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
+<a href="选课指南/index.html" class="sidebar-link has-children">选课指南</a>
 <ul class="sidebar-children">
-<li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
-<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
-<li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
-<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
-<li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
-<li><a href="../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
+<li><a href="选课指南/README.html" class="sidebar-link">README</a></li>
+<li><a href="选课指南/推荐课程.html" class="sidebar-link">推荐课程</a></li>
+<li><a href="选课指南/选课时间线.html" class="sidebar-link">选课时间线</a></li>
+<li><a href="选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
-<a href="../校园生活/index.html" class="sidebar-link has-children">校园生活</a>
+<a href="学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
-<li><a href="../校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
-<li><a href="../校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
-<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
-<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
-<li><a href="../校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
-<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
-<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
-<li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
-<li><a href="../校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
+<li><a href="学分绩点/README.html" class="sidebar-link">README</a></li>
+<li><a href="学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
+<li><a href="学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
+<li><a href="学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
+<li><a href="学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
+<li><a href="学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
-<a href="../学院与专业/index.html" class="sidebar-link has-children">学院与专业</a>
+<a href="校园生活/index.html" class="sidebar-link has-children">校园生活</a>
 <ul class="sidebar-children">
-<li><a href="../学院与专业/应急技术与指挥学院/index.html" class="sidebar-link">应急技术与指挥学院</a></li>
-<li><a href="../学院与专业/矿山安全学院/index.html" class="sidebar-link">矿山安全学院</a></li>
-<li><a href="../学院与专业/城市安全学院/index.html" class="sidebar-link">城市安全学院</a></li>
-<li><a href="../学院与专业/地震工程与建筑安全学院/index.html" class="sidebar-link">地震工程与建筑安全学院</a></li>
-<li><a href="../学院与专业/地震科学与技术学院/index.html" class="sidebar-link">地震科学与技术学院</a></li>
-<li><a href="../学院与专业/化工安全学院/index.html" class="sidebar-link">化工安全学院</a></li>
-<li><a href="../学院与专业/环境与灾害治理学院/index.html" class="sidebar-link">环境与灾害治理学院</a></li>
-<li><a href="../学院与专业/计算机与信息安全学院/index.html" class="sidebar-link">计算机与信息安全学院</a></li>
-<li><a href="../学院与专业/应急通信与控制工程学院/index.html" class="sidebar-link">应急通信与控制工程学院</a></li>
-<li><a href="../学院与专业/应急装备学院/index.html" class="sidebar-link">应急装备学院</a></li>
-<li><a href="../学院与专业/应急经济与物资保障学院/index.html" class="sidebar-link">应急经济与物资保障学院</a></li>
-<li><a href="../学院与专业/应急国际交流学院/index.html" class="sidebar-link">应急国际交流学院</a></li>
-<li><a href="../学院与专业/应急救援训练中心/index.html" class="sidebar-link">应急救援训练中心</a></li>
-<li><a href="../学院与专业/应急文化传播与法学院/index.html" class="sidebar-link">应急文化传播与法学院</a></li>
-<li><a href="../学院与专业/理学院/index.html" class="sidebar-link">理学院</a></li>
-<li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
+<li><a href="校园生活/README.html" class="sidebar-link">README</a></li>
+<li><a href="校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
+<li><a href="校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
+<li><a href="校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
+<li><a href="校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
+<li><a href="校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
+<li><a href="校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
+<li><a href="校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
+<li><a href="校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
+<li><a href="校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
-<a href="../友情链接/index.html" class="sidebar-link has-children">友情链接</a>
+<a href="学院与专业/index.html" class="sidebar-link has-children">学院与专业</a>
+<ul class="sidebar-children">
+<li><a href="学院与专业/应急技术与指挥学院/index.html" class="sidebar-link">应急技术与指挥学院</a></li>
+<li><a href="学院与专业/矿山安全学院/index.html" class="sidebar-link">矿山安全学院</a></li>
+<li><a href="学院与专业/城市安全学院/index.html" class="sidebar-link">城市安全学院</a></li>
+<li><a href="学院与专业/地震工程与建筑安全学院/index.html" class="sidebar-link">地震工程与建筑安全学院</a></li>
+<li><a href="学院与专业/地震科学与技术学院/index.html" class="sidebar-link">地震科学与技术学院</a></li>
+<li><a href="学院与专业/化工安全学院/index.html" class="sidebar-link">化工安全学院</a></li>
+<li><a href="学院与专业/环境与灾害治理学院/index.html" class="sidebar-link">环境与灾害治理学院</a></li>
+<li><a href="学院与专业/计算机与信息安全学院/index.html" class="sidebar-link">计算机与信息安全学院</a></li>
+<li><a href="学院与专业/应急通信与控制工程学院/index.html" class="sidebar-link">应急通信与控制工程学院</a></li>
+<li><a href="学院与专业/应急装备学院/index.html" class="sidebar-link">应急装备学院</a></li>
+<li><a href="学院与专业/应急经济与物资保障学院/index.html" class="sidebar-link">应急经济与物资保障学院</a></li>
+<li><a href="学院与专业/应急国际交流学院/index.html" class="sidebar-link">应急国际交流学院</a></li>
+<li><a href="学院与专业/应急救援训练中心/index.html" class="sidebar-link">应急救援训练中心</a></li>
+<li><a href="学院与专业/应急文化传播与法学院/index.html" class="sidebar-link">应急文化传播与法学院</a></li>
+<li><a href="学院与专业/理学院/index.html" class="sidebar-link">理学院</a></li>
+<li><a href="学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
+</ul>
+</li>
+<li class="sidebar-item">
+<a href="友情链接/index.html" class="sidebar-link has-children">友情链接</a>
+<ul class="sidebar-children">
+<li><a href="友情链接/README.html" class="sidebar-link">README</a></li>
+</ul>
 </li>
 </ul>
 </nav>
@@ -463,90 +470,71 @@ body::before {
     <div class="toc-overlay" id="tocOverlay"></div>
     <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
-<h1>选课流程</h1>
-<h2>教务系统登录</h2>
-<p><strong>方式一：网页登录</strong></p>
-<ol>
-<li>登录学校官网 https://www.ncist.edu.cn/</li>
-<li>选择「信息门户」</li>
-<li>由学校统一登录平台登录进入办事大厅</li>
-<li>找到「教育教学」中的「教务管理系统」</li>
-<li>点击在线办理登入教务管理系统</li>
-<li>在「选课」模块中「专选报名」或「选课」模块进行操作</li>
-</ol>
-<p><strong>方式二：钉钉</strong></p>
-<p>绑定钉钉的同学可以直接在钉钉应用中选择「教学服务」中的「专选报名」或「选课」模块进行操作。</p>
-<h2>选课类型</h2>
-<h3>（一）专选课报名</h3>
-<ul>
-<li>在「专选报名」模块中操作</li>
-<li>按学生培养方案，学生可根据个人学习情况参加专选课报名</li>
-<li>课程选中不分选课时间先后，不限选课人数</li>
-<li><strong>注意</strong>：部分 2025 级专业下学期未开设专选课，不用参加选课报名</li>
-</ul>
-<h3>（二）体育选项课（2025 级必修）</h3>
-<ul>
-<li>2025 级体育选项课为<strong>必修课</strong></li>
-<li>所有同学必须选择一门体育选项课程</li>
-<li>该课程有<strong>容量限制</strong>，选满的课程不能再选</li>
-<li>选课期间可以退课后再选别的未满课程</li>
-<li>选课结束后不再组织补选</li>
-</ul>
-<h3>（三）校内公共选修课</h3>
-<ul>
-<li>校内公选课安排在<strong>周一、三、五的 9-10 节</strong></li>
-<li><strong>不允许冲突选课</strong></li>
-<li>每个同学一学期可以选择 <strong>1-3 学分</strong>校内公选课</li>
-</ul>
-<h2>选课步骤</h2>
-<h3>1. 登录选课系统</h3>
-<p>按照上述方式登录教务管理系统</p>
-<h3>2. 查看课程列表</h3>
-<ul>
-<li>进入「选课管理」→「选课」</li>
-<li>按课程类别筛选（必修/选修/公选）</li>
-<li>查看课程详细信息（时间、地点、教师）</li>
-</ul>
-<h3>3. 选择课程</h3>
-<ol>
-<li>在搜索框输入课程名称或教师姓名</li>
-<li>点击「选课」按钮</li>
-<li>确认选课成功</li>
-<li>在「已选课程」中查看</li>
-</ol>
-<h3>4. 确认课表</h3>
-<ul>
-<li>进入「课表查看」确认时间无冲突</li>
-<li>打印或截图保存课表</li>
-</ul>
-<h2>选课要求</h2>
-<ol>
-<li>学生做好选课准备，<strong>提前检查账号是否可登录</strong>，如密码丢失，可通过绑定的手机号找回重置密码</li>
-<li>学生在选课的过程中应遵循<strong>诚实守信、量力而行</strong>的原则，根据自身选课情况及课程数量进行选课，合理安排上课时间，避免造成课程资源的浪费</li>
-<li>学生选课依据学生本人所在年级、专业的人才培养方案进行，所有课程一经选定，除已申请免听、免修的课程，学生本人必须参加已选课程的各项教学活动，并参加课程考核或考试</li>
-<li>请各学院务必通知到所有学生，自行按时上网选课，<strong>不在规定时间内将无法选课，责任自负</strong></li>
-</ol>
-<h2>联系方式</h2>
+<h1>应大Wiki 文档</h1>
+<p>欢迎来到应大Wiki！请选择以下板块开始浏览：</p>
+<h2>板块导航</h2>
 <table>
 <thead><tr>
-  <th>部门</th>
-  <th>电话</th>
-  <th>咨询内容</th>
+  <th>板块</th>
+  <th>说明</th>
 </tr></thead>
 <tbody>
 <tr>
-  <td>应急救援训练中心教学工作办公室</td>
-  <td>010-61594479</td>
-  <td>体育选项课</td>
+  <td><a href="学校介绍/index.html">学校介绍</a></td>
+  <td>学校简介、历史沿革、办学特色</td>
 </tr>
 <tr>
-  <td>教务处教务科</td>
-  <td>010-61596046</td>
-  <td>校内公选课</td>
+  <td><a href="燕郊生活/index.html">燕郊生活</a></td>
+  <td>燕郊特色、周边配套、生活指南</td>
+</tr>
+<tr>
+  <td><a href="来校交通/index.html">来校交通</a></td>
+  <td>交通方式、来校路线、出行指南</td>
+</tr>
+<tr>
+  <td><a href="报到指南/index.html">报到指南</a></td>
+  <td>报到流程、军训须知、入学准备</td>
+</tr>
+<tr>
+  <td><a href="选课/index.html">选课指南</a></td>
+  <td>选课流程、推荐课程、时间线</td>
+</tr>
+<tr>
+  <td><a href="学分绩点/index.html">学分绩点</a></td>
+  <td>学分要求、绩点计算、毕业条件</td>
+</tr>
+<tr>
+  <td><a href="体育军训/index.html">体育军训</a></td>
+  <td>体育课选择、体测要求、军训须知</td>
+</tr>
+<tr>
+  <td><a href="校园生活/index.html">校园生活</a></td>
+  <td>宿舍、食堂、生活设施</td>
+</tr>
+<tr>
+  <td><a href="学习发展/index.html">学习发展</a></td>
+  <td>奖学金、四六级、选修课</td>
+</tr>
+<tr>
+  <td><a href="学生组织/index.html">学生组织</a></td>
+  <td>学生会、社团、班干部</td>
+</tr>
+<tr>
+  <td><a href="心理健康/index.html">心理健康</a></td>
+  <td>心理咨询、自我调节、情绪管理</td>
+</tr>
+<tr>
+  <td><a href="常用信息/index.html">常用信息</a></td>
+  <td>联系电话、紧急通讯录</td>
+</tr>
+<tr>
+  <td><a href="附录/index.html">附录</a></td>
+  <td>地铁指南、公交指南</td>
 </tr>
 </tbody>
 </table>
-<p>如有疑问，请及时咨询教务处和学院教学工作办公室。</p>
+<h2>提示</h2>
+<p>点击上方导航栏或上方链接进入各板块查看详细内容。</p>
 
           </div>
     <div style="max-width:620px;margin:0 0 0 40px;padding:0 20px;">
@@ -559,47 +547,53 @@ body::before {
   <script>
     
     const pages = [
-      { url: '../学校概览/周边配套.html', title: '周边配套', desc: '学校概览 - 周边配套' },
-      { url: '../学校概览/学校简介.html', title: '学校简介', desc: '学校概览 - 学校简介' },
-      { url: '../学校概览/燕郊特色.html', title: '燕郊特色', desc: '学校概览 - 燕郊特色' },
-      { url: '../入学指南/体育课选择.html', title: '体育课选择', desc: '入学指南 - 体育课选择' },
-      { url: '../入学指南/军训须知.html', title: '军训须知', desc: '入学指南 - 军训须知' },
-      { url: '../入学指南/报到流程.html', title: '报到流程', desc: '入学指南 - 报到流程' },
-      { url: '../入学指南/来校路线.html', title: '来校路线', desc: '入学指南 - 来校路线' },
-      { url: '../选课指南/推荐课程.html', title: '推荐课程', desc: '选课指南 - 推荐课程' },
-      { url: '../选课指南/选课时间线.html', title: '选课时间线', desc: '选课指南 - 选课时间线' },
-      { url: '../选课指南/选课流程.html', title: '选课流程', desc: '选课指南 - 选课流程' },
-      { url: '../学分绩点/四六级.html', title: '四六级', desc: '学分绩点 - 四六级' },
-      { url: '../学分绩点/奖学金.html', title: '奖学金', desc: '学分绩点 - 奖学金' },
-      { url: '../学分绩点/学分要求.html', title: '学分要求', desc: '学分绩点 - 学分要求' },
-      { url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '学分绩点 - 毕业条件' },
-      { url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '学分绩点 - 绩点计算' },
-      { url: '../学分绩点/选修课.html', title: '选修课', desc: '学分绩点 - 选修课' },
-      { url: '../校园生活/体测要求.html', title: '体测要求', desc: '校园生活 - 体测要求' },
-      { url: '../校园生活/公交指南.html', title: '公交指南', desc: '校园生活 - 公交指南' },
-      { url: '../校园生活/地铁指南.html', title: '地铁指南', desc: '校园生活 - 地铁指南' },
-      { url: '../校园生活/学生组织.html', title: '学生组织', desc: '校园生活 - 学生组织' },
-      { url: '../校园生活/宿舍篇.html', title: '宿舍篇', desc: '校园生活 - 宿舍篇' },
-      { url: '../校园生活/常用电话.html', title: '常用电话', desc: '校园生活 - 常用电话' },
-      { url: '../校园生活/心理健康.html', title: '心理健康', desc: '校园生活 - 心理健康' },
-      { url: '../校园生活/校园地图.html', title: '校园地图', desc: '校园生活 - 校园地图' },
-      { url: '../校园生活/食堂篇.html', title: '食堂篇', desc: '校园生活 - 食堂篇' },
-      { url: '../学院与专业/应急技术与指挥学院/index.html', title: '应急技术与指挥学院', desc: '应急技术与指挥学院专业介绍' },
-      { url: '../学院与专业/矿山安全学院/index.html', title: '矿山安全学院', desc: '矿山安全学院专业介绍' },
-      { url: '../学院与专业/城市安全学院/index.html', title: '城市安全学院', desc: '城市安全学院专业介绍' },
-      { url: '../学院与专业/地震工程与建筑安全学院/index.html', title: '地震工程与建筑安全学院', desc: '地震工程与建筑安全学院专业介绍' },
-      { url: '../学院与专业/地震科学与技术学院/index.html', title: '地震科学与技术学院', desc: '地震科学与技术学院专业介绍' },
-      { url: '../学院与专业/化工安全学院/index.html', title: '化工安全学院', desc: '化工安全学院专业介绍' },
-      { url: '../学院与专业/环境与灾害治理学院/index.html', title: '环境与灾害治理学院', desc: '环境与灾害治理学院专业介绍' },
-      { url: '../学院与专业/计算机与信息安全学院/index.html', title: '计算机与信息安全学院', desc: '计算机与信息安全学院专业介绍' },
-      { url: '../学院与专业/应急通信与控制工程学院/index.html', title: '应急通信与控制工程学院', desc: '应急通信与控制工程学院专业介绍' },
-      { url: '../学院与专业/应急装备学院/index.html', title: '应急装备学院', desc: '应急装备学院专业介绍' },
-      { url: '../学院与专业/应急经济与物资保障学院/index.html', title: '应急经济与物资保障学院', desc: '应急经济与物资保障学院专业介绍' },
-      { url: '../学院与专业/应急国际交流学院/index.html', title: '应急国际交流学院', desc: '应急国际交流学院专业介绍' },
-      { url: '../学院与专业/应急救援训练中心/index.html', title: '应急救援训练中心', desc: '应急救援训练中心专业介绍' },
-      { url: '../学院与专业/应急文化传播与法学院/index.html', title: '应急文化传播与法学院', desc: '应急文化传播与法学院专业介绍' },
-      { url: '../学院与专业/理学院/index.html', title: '理学院', desc: '理学院专业介绍' },
-      { url: '../学院与专业/防灾减灾工程学院/index.html', title: '防灾减灾工程学院', desc: '防灾减灾工程学院专业介绍' }
+      { url: '学校概览/README.html', title: 'README', desc: '学校概览 - README' },
+      { url: '学校概览/周边配套.html', title: '周边配套', desc: '学校概览 - 周边配套' },
+      { url: '学校概览/学校简介.html', title: '学校简介', desc: '学校概览 - 学校简介' },
+      { url: '学校概览/燕郊特色.html', title: '燕郊特色', desc: '学校概览 - 燕郊特色' },
+      { url: '入学指南/README.html', title: 'README', desc: '入学指南 - README' },
+      { url: '入学指南/体育课选择.html', title: '体育课选择', desc: '入学指南 - 体育课选择' },
+      { url: '入学指南/军训须知.html', title: '军训须知', desc: '入学指南 - 军训须知' },
+      { url: '入学指南/报到流程.html', title: '报到流程', desc: '入学指南 - 报到流程' },
+      { url: '入学指南/来校路线.html', title: '来校路线', desc: '入学指南 - 来校路线' },
+      { url: '选课指南/README.html', title: 'README', desc: '选课指南 - README' },
+      { url: '选课指南/推荐课程.html', title: '推荐课程', desc: '选课指南 - 推荐课程' },
+      { url: '选课指南/选课时间线.html', title: '选课时间线', desc: '选课指南 - 选课时间线' },
+      { url: '选课指南/选课流程.html', title: '选课流程', desc: '选课指南 - 选课流程' },
+      { url: '学分绩点/README.html', title: 'README', desc: '学分绩点 - README' },
+      { url: '学分绩点/四六级.html', title: '四六级', desc: '学分绩点 - 四六级' },
+      { url: '学分绩点/奖学金.html', title: '奖学金', desc: '学分绩点 - 奖学金' },
+      { url: '学分绩点/学分要求.html', title: '学分要求', desc: '学分绩点 - 学分要求' },
+      { url: '学分绩点/毕业条件.html', title: '毕业条件', desc: '学分绩点 - 毕业条件' },
+      { url: '学分绩点/绩点计算.html', title: '绩点计算', desc: '学分绩点 - 绩点计算' },
+      { url: '学分绩点/选修课.html', title: '选修课', desc: '学分绩点 - 选修课' },
+      { url: '校园生活/README.html', title: 'README', desc: '校园生活 - README' },
+      { url: '校园生活/体测要求.html', title: '体测要求', desc: '校园生活 - 体测要求' },
+      { url: '校园生活/公交指南.html', title: '公交指南', desc: '校园生活 - 公交指南' },
+      { url: '校园生活/地铁指南.html', title: '地铁指南', desc: '校园生活 - 地铁指南' },
+      { url: '校园生活/学生组织.html', title: '学生组织', desc: '校园生活 - 学生组织' },
+      { url: '校园生活/宿舍篇.html', title: '宿舍篇', desc: '校园生活 - 宿舍篇' },
+      { url: '校园生活/常用电话.html', title: '常用电话', desc: '校园生活 - 常用电话' },
+      { url: '校园生活/心理健康.html', title: '心理健康', desc: '校园生活 - 心理健康' },
+      { url: '校园生活/校园地图.html', title: '校园地图', desc: '校园生活 - 校园地图' },
+      { url: '校园生活/食堂篇.html', title: '食堂篇', desc: '校园生活 - 食堂篇' },
+      { url: '学院与专业/应急技术与指挥学院/index.html', title: '应急技术与指挥学院', desc: '应急技术与指挥学院专业介绍' },
+      { url: '学院与专业/矿山安全学院/index.html', title: '矿山安全学院', desc: '矿山安全学院专业介绍' },
+      { url: '学院与专业/城市安全学院/index.html', title: '城市安全学院', desc: '城市安全学院专业介绍' },
+      { url: '学院与专业/地震工程与建筑安全学院/index.html', title: '地震工程与建筑安全学院', desc: '地震工程与建筑安全学院专业介绍' },
+      { url: '学院与专业/地震科学与技术学院/index.html', title: '地震科学与技术学院', desc: '地震科学与技术学院专业介绍' },
+      { url: '学院与专业/化工安全学院/index.html', title: '化工安全学院', desc: '化工安全学院专业介绍' },
+      { url: '学院与专业/环境与灾害治理学院/index.html', title: '环境与灾害治理学院', desc: '环境与灾害治理学院专业介绍' },
+      { url: '学院与专业/计算机与信息安全学院/index.html', title: '计算机与信息安全学院', desc: '计算机与信息安全学院专业介绍' },
+      { url: '学院与专业/应急通信与控制工程学院/index.html', title: '应急通信与控制工程学院', desc: '应急通信与控制工程学院专业介绍' },
+      { url: '学院与专业/应急装备学院/index.html', title: '应急装备学院', desc: '应急装备学院专业介绍' },
+      { url: '学院与专业/应急经济与物资保障学院/index.html', title: '应急经济与物资保障学院', desc: '应急经济与物资保障学院专业介绍' },
+      { url: '学院与专业/应急国际交流学院/index.html', title: '应急国际交流学院', desc: '应急国际交流学院专业介绍' },
+      { url: '学院与专业/应急救援训练中心/index.html', title: '应急救援训练中心', desc: '应急救援训练中心专业介绍' },
+      { url: '学院与专业/应急文化传播与法学院/index.html', title: '应急文化传播与法学院', desc: '应急文化传播与法学院专业介绍' },
+      { url: '学院与专业/理学院/index.html', title: '理学院', desc: '理学院专业介绍' },
+      { url: '学院与专业/防灾减灾工程学院/index.html', title: '防灾减灾工程学院', desc: '防灾减灾工程学院专业介绍' },
+      { url: '友情链接/README.html', title: 'README', desc: '友情链接 - README' }
     ];
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
