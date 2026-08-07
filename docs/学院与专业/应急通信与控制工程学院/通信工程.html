@@ -91,7 +91,7 @@ html, body {
 
 
 .markdown-section {
-  max-width: 680px; margin: 0; margin-left: 0; margin-right: 220px;
+  max-width: 920px; margin: 0 auto;
   padding: 48px 60px 80px !important; background: var(--paper);
   animation: fadeIn 0.4s ease-out;
 }
@@ -188,7 +188,7 @@ body::before {
 }
 
 #twikoo-comment {
-  max-width: 680px; margin: 60px 0 0 20px; padding: 0 0 40px;
+  max-width: 920px; margin: 60px auto 0; padding: 0 0 40px;
   border-top: 2px solid var(--ink); padding-top: 30px;
 }
 .twikoo-title {
@@ -204,6 +204,7 @@ body::before {
   body { background: white; }
 }
 @media screen and (max-width: 768px) {
+  .wiki-main { margin-right: 0 !important; }
   .markdown-section { padding: 24px 20px 60px !important; }
   .markdown-section h1 { font-size: 24px; }
   .markdown-section h2 { font-size: 20px; }
@@ -383,9 +384,8 @@ body::before {
 
       .wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
 .content.sidebar-collapsed .markdown-section {
-  max-width: 960px; margin: 0; margin-left: 0; margin-right: 220px; padding-left: 40px; padding-right: 40px;
-  transform: translateX(-176px);
-  transition: max-width 0.3s ease, transform 0.3s ease;
+  max-width: 920px; margin: 0 auto; padding-left: 40px; padding-right: 40px;
+  transition: max-width 0.3s ease, margin 0.3s ease;
 }
       .sidebar-toggle {
         position: fixed; top: 64px; left: 240px;
@@ -435,7 +435,7 @@ body::before {
       border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
     }
     .wiki-main {
-      margin-left: 240px; flex: 1; min-width: 0;
+      margin-left: 240px; margin-right: 220px; flex: 1; min-width: 0;
     }
     /* 移动端侧边栏 */
     @media screen and (max-width: 900px) {
@@ -575,7 +575,7 @@ body::before {
 <p>通信运营商、设备制造商、应急通信保障单位等。</p>
 <hr>
 <blockquote><p><a href="index.html">返回 应急通信与控制工程学院</a></p></blockquote>
-    </div><div style="max-width: 680px; margin: 60px 0 0 20px; padding: 0;">
+    </div><div style="max-width:920px;margin:0 auto;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
       <div id="twikoo-comment"></div>
     </div>
