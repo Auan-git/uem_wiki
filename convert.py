@@ -468,7 +468,7 @@ def build_search_js(search_entries, prefix):
 CSS = '''
 :root {
   --paper: #ffffff;
-  --paper-dark: #eddcba;
+  --paper-dark: #e8f0ff;
   --paper-edge: #e8e0d0;
   --ink: #2c2416;
   --ink-light: #5a4e3c;
@@ -596,10 +596,10 @@ html, body {
   font-weight: 600; color: #fff !important;
 }
 .sidebar-link.has-children.active {
-  color: #ffd700 !important;
+  color: #ffffff !important;
   font-weight: 700;
-  border-left-color: #ffd700;
-  background: rgba(255, 215, 0, 0.1);
+  border-left-color: #7aa7ff;
+  background: rgba(122, 167, 255, 0.18);
 }
 .sidebar-children .sidebar-link {
   padding: 6px 16px; font-size: 13px; font-weight: 400;
@@ -645,8 +645,8 @@ html, body {
 .markdown-section a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--ink-fainter); transition: all 0.2s; }
 .markdown-section a:hover { color: var(--vermilion); border-bottom-color: var(--vermilion); }
 .markdown-section blockquote {
-  margin: 1.5em 0; padding: 16px 20px; background: var(--paper-dark);
-  border-left: 4px solid var(--vermilion); border-radius: 0 4px 4px 0;
+  margin: 1.5em 0; padding: 16px 20px; background: #e8f0ff;
+  border-left: 4px solid #8c8c8c; border-radius: 0 4px 4px 0;
   color: var(--ink-light); font-style: italic;
 }
 .markdown-section blockquote p { text-indent: 0; margin: 0.5em 0; color: var(--ink-light); }
