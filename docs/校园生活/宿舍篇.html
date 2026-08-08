@@ -347,6 +347,8 @@ body::before {
     transition: left 0.3s ease; z-index: 500; box-shadow: none; background: #002f82;
   }
   .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
+  .sidebar-toggle { left: 8px; top: 64px; width: 36px; height: 36px; font-size: 18px; border-radius: 4px; z-index: 600; }
+  .sidebar-toggle.on { left: 268px; }
   .wiki-main { margin-left: 0 !important; }
 }
 @media screen and (max-width: 768px) {
@@ -721,17 +723,34 @@ body::before {
     var sidebar = document.getElementById('wikiSidebar');
     var btn = document.getElementById('sidebarToggle');
     var content = document.querySelector('.content');
-    sidebar.classList.toggle('collapsed');
-    btn.classList.toggle('collapsed');
-    content.classList.toggle('sidebar-collapsed');
-    if (sidebar.classList.contains('collapsed')) {
-      btn.textContent = '▸';
+    if (window.innerWidth < 900) {
+      var open = sidebar.classList.toggle('open');
+      btn.classList.toggle('on', open);
+      btn.textContent = open ? '✕' : '☰';
     } else {
-      btn.textContent = '◂';
+      sidebar.classList.toggle('collapsed');
+      btn.classList.toggle('collapsed');
+      content.classList.toggle('sidebar-collapsed');
+      btn.textContent = sidebar.classList.contains('collapsed') ? '▸' : '◂';
     }
   }
+  // 移动端侧栏抽屉：初始按钮☰；点侧栏外关闭；打开时按钮移到侧栏右沿外避免遮挡
+  (function() {
+    var btn = document.getElementById('sidebarToggle');
+    var sidebar = document.getElementById('wikiSidebar');
+    if (btn && window.innerWidth < 900) btn.textContent = '☰';
+    if (sidebar && btn) {
+      document.addEventListener('click', function(e) {
+        if (window.innerWidth >= 900 || !sidebar.classList.contains('open')) return;
+        if (sidebar.contains(e.target) || btn.contains(e.target)) return;
+        sidebar.classList.remove('open');
+        btn.classList.remove('on');
+        btn.textContent = '☰';
+      });
+    }
+  })();
 
-  // 模块折叠：含子项的模块标题注入箭头；状态用localStorage跨页面记住
+  // 模块折叠：含子项的模块标题注入箭头；当前板块始终展开；其余模块状态用localStorage跨页面记住，默认收起
   (function() {
     var STORE_KEY = 'uem_sidebar_fold';
     var state = {};
@@ -742,12 +761,14 @@ body::before {
       var ul = li.querySelector(':scope > .sidebar-children');
       if (!link || !ul || !ul.querySelector('li')) return;
       var key = (link.textContent || '').trim();
+      var isActive = li.classList.contains('active');
       var collapsed;
-      if (key in state) {
+      if (isActive) {
+        collapsed = false;
+      } else if (key in state) {
         collapsed = state[key] === 'collapsed';
       } else {
-        // 首次访问：只有当前活动模块展开，其余收起
-        collapsed = !li.classList.contains('active');
+        collapsed = true;
       }
       if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');
       var fold = document.createElement('span');
@@ -757,8 +778,7 @@ body::before {
         e.preventDefault();
         e.stopPropagation();
         li.classList.toggle('collapsed');
-        state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded';
-        save();
+        if (!isActive) { state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded'; save(); }
       });
       link.appendChild(fold);
     });
