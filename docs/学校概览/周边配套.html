@@ -666,13 +666,24 @@ body::before {
     }
   }
 
-  // 模块折叠：给含子项的模块标题注入箭头，点击切换；空子项（关于/友情链接）跳过；非当前模块默认收起
+  // 模块折叠：含子项的模块标题注入箭头；状态用 localStorage 跨页面记住；从未操作过的模块按默认（当前展开、其余收起）
   (function() {
+    var STORE_KEY = 'uem_sidebar_fold';
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { state = {}; }
+    function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
     document.querySelectorAll('.sidebar-item').forEach(function(li) {
       var link = li.querySelector(':scope > .sidebar-link.has-children');
       var ul = li.querySelector(':scope > .sidebar-children');
       if (!link || !ul || !ul.querySelector('li')) return;
-      if (!li.classList.contains('active')) li.classList.add('collapsed');
+      var key = (link.textContent || '').trim();
+      var collapsed;
+      if (key in state) {
+        collapsed = state[key] === 'collapsed';
+      } else {
+        collapsed = !li.classList.contains('active');
+      }
+      if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');
       var fold = document.createElement('span');
       fold.className = 'sidebar-fold';
       fold.title = '展开/收起';
@@ -680,6 +691,8 @@ body::before {
         e.preventDefault();
         e.stopPropagation();
         li.classList.toggle('collapsed');
+        state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded';
+        save();
       });
       link.appendChild(fold);
     });
