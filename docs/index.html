@@ -152,6 +152,20 @@ html, body {
   list-style: none; padding: 0; margin: 0;
   border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
 }
+/* 模块折叠箭头 */
+.sidebar-link.has-children { position: relative; padding-right: 30px; }
+.sidebar-fold {
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.55); cursor: pointer; font-size: 12px;
+  border-radius: 3px; user-select: none;
+  transition: color .15s, background .15s, transform .2s;
+}
+.sidebar-fold::after { content: '▾'; }
+.sidebar-fold:hover { color: #fff; background: rgba(255,255,255,0.15); }
+.sidebar-item.collapsed > .sidebar-children { display: none; }
+.sidebar-item.collapsed > .sidebar-link .sidebar-fold { transform: translateY(-50%) rotate(-90deg); }
 .wiki-main {
   margin-left: 240px; margin-right: 220px; flex: 1; min-width: 0;
 }
@@ -358,7 +372,7 @@ body::before {
 </head>
 <body>
   <nav class="app-nav">
-    <a href="index.html" class="nav-brand">
+    <a href="../index.html" class="nav-brand">
       <img src="圆形logo.png" alt="应大Wiki" class="nav-logo">
       <span>应大Wiki</span>
     </a>
@@ -381,7 +395,6 @@ body::before {
 <li class="sidebar-item">
 <a href="学校概览/index.html" class="sidebar-link has-children">学校概览</a>
 <ul class="sidebar-children">
-<li><a href="学校概览/README.html" class="sidebar-link">README</a></li>
 <li><a href="学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
 <li><a href="学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
 <li><a href="学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
@@ -390,7 +403,6 @@ body::before {
 <li class="sidebar-item">
 <a href="入学指南/index.html" class="sidebar-link has-children">入学指南</a>
 <ul class="sidebar-children">
-<li><a href="入学指南/README.html" class="sidebar-link">README</a></li>
 <li><a href="入学指南/体育课选择.html" class="sidebar-link">体育课选择</a></li>
 <li><a href="入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
 <li><a href="入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
@@ -400,7 +412,6 @@ body::before {
 <li class="sidebar-item">
 <a href="选课指南/index.html" class="sidebar-link has-children">选课指南</a>
 <ul class="sidebar-children">
-<li><a href="选课指南/README.html" class="sidebar-link">README</a></li>
 <li><a href="选课指南/推荐课程.html" class="sidebar-link">推荐课程</a></li>
 <li><a href="选课指南/选课时间线.html" class="sidebar-link">选课时间线</a></li>
 <li><a href="选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
@@ -409,7 +420,6 @@ body::before {
 <li class="sidebar-item">
 <a href="学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
-<li><a href="学分绩点/README.html" class="sidebar-link">README</a></li>
 <li><a href="学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
 <li><a href="学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
 <li><a href="学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
@@ -421,7 +431,6 @@ body::before {
 <li class="sidebar-item">
 <a href="校园生活/index.html" class="sidebar-link has-children">校园生活</a>
 <ul class="sidebar-children">
-<li><a href="校园生活/README.html" class="sidebar-link">README</a></li>
 <li><a href="校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
 <li><a href="校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
 <li><a href="校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
@@ -460,7 +469,6 @@ body::before {
 <li class="sidebar-item">
 <a href="友情链接/index.html" class="sidebar-link has-children">友情链接</a>
 <ul class="sidebar-children">
-<li><a href="友情链接/README.html" class="sidebar-link">README</a></li>
 </ul>
 </li>
 </ul>
@@ -550,27 +558,22 @@ body::before {
   <script>
     
     const pages = [
-      { url: '学校概览/README.html', title: 'README', desc: '学校概览 - README' },
       { url: '学校概览/周边配套.html', title: '周边配套', desc: '学校概览 - 周边配套' },
       { url: '学校概览/学校简介.html', title: '学校简介', desc: '学校概览 - 学校简介' },
       { url: '学校概览/燕郊特色.html', title: '燕郊特色', desc: '学校概览 - 燕郊特色' },
-      { url: '入学指南/README.html', title: 'README', desc: '入学指南 - README' },
       { url: '入学指南/体育课选择.html', title: '体育课选择', desc: '入学指南 - 体育课选择' },
       { url: '入学指南/军训须知.html', title: '军训须知', desc: '入学指南 - 军训须知' },
       { url: '入学指南/报到流程.html', title: '报到流程', desc: '入学指南 - 报到流程' },
       { url: '入学指南/来校路线.html', title: '来校路线', desc: '入学指南 - 来校路线' },
-      { url: '选课指南/README.html', title: 'README', desc: '选课指南 - README' },
       { url: '选课指南/推荐课程.html', title: '推荐课程', desc: '选课指南 - 推荐课程' },
       { url: '选课指南/选课时间线.html', title: '选课时间线', desc: '选课指南 - 选课时间线' },
       { url: '选课指南/选课流程.html', title: '选课流程', desc: '选课指南 - 选课流程' },
-      { url: '学分绩点/README.html', title: 'README', desc: '学分绩点 - README' },
       { url: '学分绩点/四六级.html', title: '四六级', desc: '学分绩点 - 四六级' },
       { url: '学分绩点/奖学金.html', title: '奖学金', desc: '学分绩点 - 奖学金' },
       { url: '学分绩点/学分要求.html', title: '学分要求', desc: '学分绩点 - 学分要求' },
       { url: '学分绩点/毕业条件.html', title: '毕业条件', desc: '学分绩点 - 毕业条件' },
       { url: '学分绩点/绩点计算.html', title: '绩点计算', desc: '学分绩点 - 绩点计算' },
       { url: '学分绩点/选修课.html', title: '选修课', desc: '学分绩点 - 选修课' },
-      { url: '校园生活/README.html', title: 'README', desc: '校园生活 - README' },
       { url: '校园生活/体测要求.html', title: '体测要求', desc: '校园生活 - 体测要求' },
       { url: '校园生活/公交指南.html', title: '公交指南', desc: '校园生活 - 公交指南' },
       { url: '校园生活/地铁指南.html', title: '地铁指南', desc: '校园生活 - 地铁指南' },
@@ -596,7 +599,6 @@ body::before {
       { url: '学院与专业/应急文化传播与法学院/index.html', title: '应急文化传播与法学院', desc: '应急文化传播与法学院专业介绍' },
       { url: '学院与专业/理学院/index.html', title: '理学院', desc: '理学院专业介绍' },
       { url: '学院与专业/防灾减灾工程学院/index.html', title: '防灾减灾工程学院', desc: '防灾减灾工程学院专业介绍' },
-      { url: '友情链接/README.html', title: 'README', desc: '友情链接 - README' }
     ];
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
@@ -713,6 +715,25 @@ body::before {
       btn.textContent = '◂';
     }
   }
+
+  // 模块折叠：给含子项的模块标题注入箭头，点击切换展开/收起（无子项如「关于」自动跳过）
+  (function() {
+    document.querySelectorAll('.sidebar-item').forEach(function(li) {
+      var link = li.querySelector(':scope > .sidebar-link.has-children');
+      var ul = li.querySelector(':scope > .sidebar-children');
+      if (!link || !ul || !ul.querySelector('li')) return;
+      if (!li.classList.contains('active')) li.classList.add('collapsed');
+      var fold = document.createElement('span');
+      fold.className = 'sidebar-fold';
+      fold.title = '展开/收起';
+      fold.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        li.classList.toggle('collapsed');
+      });
+      link.appendChild(fold);
+    });
+  })();
   </script>
 </body>
 </html>
