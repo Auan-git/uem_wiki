@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>友情链接 - 应大Wiki</title>
+  <title>写在前面 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,40 +98,35 @@ html, body {
       overflow-y: auto; padding: 0 0 20px 0;
       font-family: var(--font-serif); font-size: 14px;
       z-index: 50;
-      transition: width 0.3s ease, opacity 0.3s ease;
     }
-.wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
-.content.sidebar-collapsed .markdown-section {
-  max-width: 920px; margin: 0 auto; padding-left: 40px; padding-right: 40px;
-  transition: max-width 0.3s ease, margin 0.3s ease;
-}
+    .wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
+.content.sidebar-collapsed .markdown-section { margin-left: 0; }
 .sidebar-toggle {
   position: fixed; top: 64px; left: 240px;
-  width: 18px; height: 36px; border-radius: 0 4px 4px 0;
+  width: 18px; height: 36px;
   background: #002f82; color: #fff;
-  border: none; cursor: pointer; font-size: 12px;
+  border: none; border-radius: 0 4px 4px 0;
+  cursor: pointer; font-size: 12px;
   display: flex; align-items: center; justify-content: center;
   transition: left 0.3s ease; z-index: 51;
 }
 .sidebar-toggle:hover { background: #0040b3; }
 .sidebar-toggle.collapsed { left: 0; }
 .sidebar-title {
-  font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.7);
-  text-transform: uppercase; letter-spacing: 2px;
-  padding: 0 20px 8px 20px; border-bottom: 1px solid rgba(255,255,255,0.2);
-  margin-bottom: 0;
-  position: sticky; top: 56px; background: #002f82; z-index: 10;
+  position: sticky; top: 0; background: #002f82; z-index: 10;
+  padding: 16px 20px 12px; font-size: 16px; font-weight: 700;
+  color: #fff; letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .sidebar-nav { list-style: none; padding: 0; margin: 0; }
 .sidebar-item { margin: 0; }
 .sidebar-link {
   display: block; padding: 8px 20px; color: rgba(255,255,255,0.8) !important;
   text-decoration: none !important; border-bottom: none !important;
-  transition: all 0.15s; border-left: 3px solid transparent;
+  transition: all 0.2s; font-size: 13px;
 }
 .sidebar-link:hover {
-  background: rgba(255,255,255,0.1); color: #fff !important;
-  border-left-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.08); color: #fff !important;
 }
 .sidebar-link.has-children {
   font-weight: 600; color: #fff !important;
@@ -143,11 +138,11 @@ html, body {
   background: rgba(122, 167, 255, 0.18);
 }
 .sidebar-children .sidebar-link {
-  padding: 6px 16px; font-size: 13px; font-weight: 400;
-  color: rgba(255,255,255,0.65) !important;
+  padding-left: 32px; font-size: 13px;
+  color: rgba(255,255,255,0.7) !important;
 }
 .sidebar-children .sidebar-link:hover {
-  color: #fff !important;
+  color: #fff !important; background: rgba(255,255,255,0.05);
 }
 .sidebar-children {
   list-style: none; padding: 0; margin: 0;
@@ -231,40 +226,6 @@ html, body {
 .markdown-section hr { border: none; height: 1px; background: var(--border); margin: 2.5em 0; }
 .markdown-section strong { color: var(--ink); font-weight: 700; }
 .markdown-section em { color: var(--ink-light); font-style: italic; }
-.breadcrumb {
-  font-size: 13px; color: var(--ink-faint); margin-bottom: 16px;
-  font-family: var(--font-serif);
-}
-.breadcrumb a {
-  color: var(--ink-faint) !important; text-decoration: none !important;
-  border-bottom: none !important;
-}
-.breadcrumb a:hover { color: var(--vermilion) !important; }
-.breadcrumb span { margin: 0 6px; }
-.link-section { margin-bottom: 40px; }
-.link-section h2 {
-  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
-  margin-bottom: 16px; color: var(--ink);
-  padding-bottom: 8px; border-bottom: 1px solid var(--border);
-}
-.link-section h2::before { content: none; }
-.link-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-}
-.link-card {
-  border: 1px solid var(--border); border-radius: 8px;
-  padding: 16px; text-decoration: none; color: inherit;
-  transition: all 0.2s; background: white;
-  display: block;
-}
-.link-card:hover {
-  border-color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transform: translateY(-2px);
-}
-.link-card .name { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
-.link-card .desc { font-size: 13px; color: var(--ink-faint); line-height: 1.5; }
-.link-card .url { font-size: 12px; color: var(--link); margin-top: 8px; word-break: break-all; }
 .markdown-section input[type="checkbox"] {
   appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
   border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
@@ -395,15 +356,16 @@ body::before {
   .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
   .search-box { order: 2; margin-left: auto; }
   .back-to-top { bottom: 70px; right: 20px; width: 40px; height: 40px; font-size: 18px; }
+  .sidebar-toggle { display: none; }
+  .toc-toggle { display: flex !important; }
 }
 @media print {
-  .app-nav, .wiki-sidebar, .toc-sidebar, .toc-toggle, .toc-overlay, .back-to-top, body::before { display: none !important; }
-  .markdown-section { max-width: 100%; padding: 20px !important; margin: 0 !important; }
+  .wiki-sidebar { display: none !important; }
   .wiki-main { margin-left: 0 !important; }
-  .content { padding-top: 0 !important; }
-  body { background: white; }
+  .sidebar-toggle { display: none; }
 }
-</style>
+
+  </style>
 </head>
 <body>
   <nav class="app-nav">
@@ -425,14 +387,17 @@ body::before {
   </nav>
   <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">◂</button>
   <div class="content">
-    <nav class="wiki-sidebar" id="wikiSidebar">
+<nav class="wiki-sidebar" id="wikiSidebar">
 <ul class="sidebar-nav">
+<li class="sidebar-item">
+<a href="../写在前面/index.html" class="sidebar-link has-children active">写在前面</a>
+</li>
 <li class="sidebar-item">
 <a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
 <ul class="sidebar-children">
-<li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
 <li><a href="../学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
 <li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
+<li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
@@ -447,37 +412,37 @@ body::before {
 <li class="sidebar-item">
 <a href="../选课指南/index.html" class="sidebar-link has-children">选课指南</a>
 <ul class="sidebar-children">
+<li><a href="../选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
 <li><a href="../选课指南/推荐课程.html" class="sidebar-link">推荐课程</a></li>
 <li><a href="../选课指南/选课时间线.html" class="sidebar-link">选课时间线</a></li>
-<li><a href="../选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
 <a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
-<li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
-<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
 <li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
-<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
 <li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
+<li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
+<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
 <li><a href="../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
 <a href="../校园生活/index.html" class="sidebar-link has-children">校园生活</a>
 <ul class="sidebar-children">
-<li><a href="../校园生活/体育课选择.html" class="sidebar-link">体育课选择</a></li>
-<li><a href="../校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
-<li><a href="../校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
-<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
-<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
 <li><a href="../校园生活/宿舍篇.html" class="sidebar-link">宿舍篇</a></li>
-<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
-<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
-<li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
 <li><a href="../校园生活/食堂篇.html" class="sidebar-link">食堂篇</a></li>
 <li><a href="../校园生活/晚自习.html" class="sidebar-link">晚自习</a></li>
 <li><a href="../校园生活/准军事化管理.html" class="sidebar-link">准军事化管理</a></li>
+<li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
+<li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
+<li><a href="../校园生活/心理健康.html" class="sidebar-link">心理健康</a></li>
+<li><a href="../校园生活/体育课选择.html" class="sidebar-link">体育课选择</a></li>
+<li><a href="../校园生活/体测要求.html" class="sidebar-link">体测要求</a></li>
+<li><a href="../校园生活/常用电话.html" class="sidebar-link">常用电话</a></li>
+<li><a href="../校园生活/地铁指南.html" class="sidebar-link">地铁指南</a></li>
+<li><a href="../校园生活/公交指南.html" class="sidebar-link">公交指南</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
@@ -502,10 +467,10 @@ body::before {
 </ul>
 </li>
 <li class="sidebar-item">
-<a href="../关于我们/index.html" class="sidebar-link has-children">关于</a>
+<a href="../关于我们/index.html" class="sidebar-link">关于</a>
 </li>
-<li class="sidebar-item active">
-<a href="../友情链接/index.html" class="sidebar-link has-children active">友情链接</a>
+<li class="sidebar-item">
+<a href="../常用链接/index.html" class="sidebar-link">常用链接</a>
 </li>
 </ul>
 </nav>
@@ -514,65 +479,33 @@ body::before {
       <div class="toc-title">目录</div>
       <ul class="toc-list" id="tocList"></ul>
     </div>
+
     <div class="toc-overlay" id="tocOverlay"></div>
     <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
-<div class="breadcrumb"><a href="../../index.html">首页</a> <span>/</span> 友情链接</div>
-<h1>友情链接</h1>
+<h1>写在前面</h1>
 
-<div class="link-section">
-<h2>学校组织</h2>
-<div class="link-grid">
-<a href="https://www.ncist.edu.cn/" class="link-card" target="_blank">
-<div class="name">学校官网</div>
-<div class="desc">学校官方网站</div>
-<div class="url">www.ncist.edu.cn</div>
-</a>
-<a href="https://auth.ncist.edu.cn/" class="link-card" target="_blank">
-<div class="name">门户网站</div>
-<div class="desc">统一身份认证登录</div>
-<div class="url">auth.ncist.edu.cn</div>
-</a>
-<a href="https://jwc.ncist.edu.cn/" class="link-card" target="_blank">
-<div class="name">教务处</div>
-<div class="desc">选课、成绩查询</div>
-<div class="url">jwc.ncist.edu.cn</div>
-</a>
-<a href="https://lib.ncist.edu.cn/portal/" class="link-card" target="_blank">
-<div class="name">图书馆</div>
-<div class="desc">图书借阅、数据库</div>
-<div class="url">lib.ncist.edu.cn</div>
-</a>
-</div>
-</div>
+<p>本 Wiki 由东院网络 B242 的 Edge 和物联 B241 的 learnerCodeZ 发起，多名同学共同参与编写的校内生活指南，致力于建立一个完整、准确且中立的应大百科全书。</p>
 
-<div class="link-section">
-<h2>学长学姐博客</h2>
-<div class="link-grid">
-<div class="link-card">
-<div class="name">待添加</div>
-<div class="desc">欢迎提交你的博客链接</div>
-</div>
-</div>
-</div>
+<h2>内容</h2>
 
-<div class="link-section">
-<h2>实用网站</h2>
-<div class="link-grid">
-<a href="https://www.bjsubway.com" class="link-card" target="_blank">
-<div class="name">北京地铁</div>
-<div class="desc">线路查询、运营时间</div>
-<div class="url">www.bjsubway.com</div>
-</a>
-<a href="https://www.12306.cn" class="link-card" target="_blank">
-<div class="name">12306</div>
-<div class="desc">火车票预订</div>
-<div class="url">www.12306.cn</div>
-</a>
-</div>
-</div>
+<p>虽说本Wiki的目标是建立一个中立的百科全书，但校园毕竟是我们自己生活和发展的地方，很难完全排除感情的影响。作为大学生，应当养成良好的辨别能力和信息素养。</p>
 
-          </div>
+<p>授人以鱼不如授人以渔，本文尽力给出一些简单的思考和行为方法，但这些方法仅代表文章原作者的思想与原则，而不是你必须遵守的行动指南。</p>
+
+<h2>真正的指南</h2>
+
+<p>说实话，大学不过是人生中的一个片段，在你的对数感觉中，大学不过是生命中点的记录，应大Wiki 无法囊括校园生活的全部细节。它的目的是为打破一定的信息差，初步的了解校园，规划大学生活，帮助你了解校园中的一些必备知识，但真正生活指南远不止于此。</p>
+
+<img src="fda90eeb5c96aedc0e9a25e82325e012.jpg" alt="写在前面" style="max-width:100%;height:auto;margin:1.5em 0;border-radius:4px;">
+
+<p>实践是检验真理的唯一标准，任何经验和知识都来源于真实的社会实践。在应大，你要经历种种事情，学习，生活，成长，最终会形成独属于你的生活指南。应大wiki能带给你的，只有在你初来乍到时，或者需要面对大学里新的问题时，一本可以随时翻阅的手册，帮助你打开这个大门，更好的开启和适应大学生活。</p>
+
+<p>应大很大，有些人，有些事，刻意去见面，去经历，可能到毕业都很难再遇见，应大又很小，"你会不会突然得出出现"，——你可能会在学校的不同角落，遇见相同的人和事。</p>
+
+<p>应大的时光，只是你人生中小小的一站，但我们希望通过这个wiki，帮助你更好的发现自我，探索世界。</p>
+
+    </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
       <div id="twikoo-comment"></div>
@@ -581,8 +514,9 @@ body::before {
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
-    
+
     const pages = [
+      { url: '../写在前面/index.html', title: '写在前面', desc: '写在前面' },
       { url: '../学校概览/周边配套.html', title: '周边配套', desc: '学校概览 - 周边配套' },
       { url: '../学校概览/学校简介.html', title: '学校简介', desc: '学校概览 - 学校简介' },
       { url: '../学校概览/燕郊特色.html', title: '燕郊特色', desc: '学校概览 - 燕郊特色' },
@@ -744,7 +678,7 @@ body::before {
     }
   }
 
-  // 模块折叠：含子项的模块标题注入箭头；状态用 localStorage 跨页面记住；从未操作过的模块按默认（当前展开、其余收起）
+  // 模块折叠：含子项的模块标题注入箭头；状态用localStorage跨页面记住
   (function() {
     var STORE_KEY = 'uem_sidebar_fold';
     var state = {};
@@ -759,6 +693,7 @@ body::before {
       if (key in state) {
         collapsed = state[key] === 'collapsed';
       } else {
+        // 首次访问：只有当前活动模块展开，其余收起
         collapsed = !li.classList.contains('active');
       }
       if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');

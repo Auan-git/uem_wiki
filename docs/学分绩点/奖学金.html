@@ -394,6 +394,9 @@ body::before {
     <nav class="wiki-sidebar" id="wikiSidebar">
 <ul class="sidebar-nav">
 <li class="sidebar-item">
+<a href="../写在前面/index.html" class="sidebar-link has-children">写在前面</a>
+</li>
+<li class="sidebar-item">
 <a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
 <ul class="sidebar-children">
 <li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
@@ -468,10 +471,10 @@ body::before {
 </ul>
 </li>
     <li class="sidebar-item">
-      <a href="../关于我们/index.html" class="sidebar-link has-children">关于</a>
+      <a href="../关于我们/index.html" class="sidebar-link">关于</a>
     </li>
 <li class="sidebar-item">
-<a href="../友情链接/index.html" class="sidebar-link has-children">友情链接</a>
+<a href="../常用链接/index.html" class="sidebar-link">常用链接</a>
 </li>
 </ul>
 </nav>
@@ -690,7 +693,7 @@ body::before {
     }
   }
 
-  // 模块折叠：含子项的模块标题注入箭头；状态用 localStorage 跨页面记住；从未操作过的模块按默认（当前展开、其余收起）
+  // 模块折叠：含子项的模块标题注入箭头；状态用localStorage跨页面记住
   (function() {
     var STORE_KEY = 'uem_sidebar_fold';
     var state = {};
@@ -705,6 +708,7 @@ body::before {
       if (key in state) {
         collapsed = state[key] === 'collapsed';
       } else {
+        // 首次访问：只有当前活动模块展开，其余收起
         collapsed = !li.classList.contains('active');
       }
       if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');

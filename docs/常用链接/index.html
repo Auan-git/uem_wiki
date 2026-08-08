@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>军训须知 - 应大Wiki</title>
+  <title>常用链接 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -231,6 +231,40 @@ html, body {
 .markdown-section hr { border: none; height: 1px; background: var(--border); margin: 2.5em 0; }
 .markdown-section strong { color: var(--ink); font-weight: 700; }
 .markdown-section em { color: var(--ink-light); font-style: italic; }
+.breadcrumb {
+  font-size: 13px; color: var(--ink-faint); margin-bottom: 16px;
+  font-family: var(--font-serif);
+}
+.breadcrumb a {
+  color: var(--ink-faint) !important; text-decoration: none !important;
+  border-bottom: none !important;
+}
+.breadcrumb a:hover { color: var(--vermilion) !important; }
+.breadcrumb span { margin: 0 6px; }
+.link-section { margin-bottom: 40px; }
+.link-section h2 {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  margin-bottom: 16px; color: var(--ink);
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.link-section h2::before { content: none; }
+.link-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.link-card {
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; text-decoration: none; color: inherit;
+  transition: all 0.2s; background: white;
+  display: block;
+}
+.link-card:hover {
+  border-color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.link-card .name { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+.link-card .desc { font-size: 13px; color: var(--ink-faint); line-height: 1.5; }
+.link-card .url { font-size: 12px; color: var(--link); margin-top: 8px; word-break: break-all; }
 .markdown-section input[type="checkbox"] {
   appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
   border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
@@ -404,11 +438,11 @@ body::before {
 <li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
 </ul>
 </li>
-<li class="sidebar-item active">
-<a href="../入学指南/index.html" class="sidebar-link has-children active">入学指南</a>
+<li class="sidebar-item">
+<a href="../入学指南/index.html" class="sidebar-link has-children">入学指南</a>
 <ul class="sidebar-children">
 <li><a href="../入学指南/防骗指南.html" class="sidebar-link">防骗指南</a></li>
-<li><a href="../入学指南/军训须知.html" class="sidebar-link active">军训须知</a></li>
+<li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
 <li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
 <li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
 </ul>
@@ -470,11 +504,11 @@ body::before {
 <li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
 </ul>
 </li>
-    <li class="sidebar-item">
-      <a href="../关于我们/index.html" class="sidebar-link">关于</a>
-    </li>
 <li class="sidebar-item">
-<a href="../常用链接/index.html" class="sidebar-link">常用链接</a>
+<a href="../关于我们/index.html" class="sidebar-link">关于</a>
+</li>
+<li class="sidebar-item active">
+<a href="../常用链接/index.html" class="sidebar-link active">常用链接</a>
 </li>
 </ul>
 </nav>
@@ -486,99 +520,84 @@ body::before {
     <div class="toc-overlay" id="tocOverlay"></div>
     <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
-<h1>军训须知</h1>
-<blockquote>
-<p>大一新生必经的军训，提前准备更从容</p>
-</blockquote>
-<h2>军训时间</h2>
-<table>
-<thead><tr>
-  <th>阶段</th>
-  <th>时间</th>
-  <th>说明</th>
-</tr></thead>
-<tbody>
-<tr>
-  <td>开训</td>
-  <td>大一开学后</td>
-  <td>通常在9月初</td>
-</tr>
-<tr>
-  <td>时长</td>
-  <td>2-3周</td>
-  <td>具体以学校安排为准</td>
-</tr>
-<tr>
-  <td>结训</td>
-  <td>军训结束</td>
-  <td>有汇报表演</td>
-</tr>
-</tbody>
-</table>
-<h2>必备物品</h2>
-<h3>服装类</h3>
-<ul>
-<li>[ ] 运动服（2-3套）</li>
-<li>[ ] 运动鞋（舒适透气）</li>
-<li>[ ] 帽子（遮阳）</li>
-<li>[ ] 袜子（多双）</li>
-</ul>
-<h3>防护类</h3>
-<ul>
-<li>[ ] 防晒霜（SPF50+）</li>
-<li>[ ] 防晒喷雾</li>
-<li>[ ] 润唇膏</li>
-<li>[ ] 湿巾</li>
-</ul>
-<h3>生活类</h3>
-<ul>
-<li>[ ] 水杯（大容量）</li>
-<li>[ ] 纸巾</li>
-<li>[ ] 常用药品（创可贴、藿香正气水等）</li>
-<li>[ ] 小风扇</li>
-</ul>
-<h3>其他</h3>
-<ul>
-<li>[ ] 学生证</li>
-<li>[ ] 身份证</li>
-<li>[ ] 少量现金</li>
-</ul>
-<h2>军训技巧</h2>
-<h3>站军姿</h3>
-<ul>
-<li>两脚跟并拢，两脚尖分开约60度</li>
-<li>两腿挺直，小腹微收</li>
-<li>挺胸抬头，目视前方</li>
-<li>身体微向前倾</li>
-</ul>
-<h3>防暑降温</h3>
-<ul>
-<li>多喝水，少量多次</li>
-<li>休息时找阴凉处</li>
-<li>感觉不适及时报告</li>
-<li>准备藿香正气水</li>
-</ul>
-<h3>体能储备</h3>
-<ul>
-<li>军训前一周开始锻炼</li>
-<li>早睡早起，调整作息</li>
-<li>饮食清淡，避免油腻</li>
-</ul>
-<h2>注意事项</h2>
-<ol>
-<li><strong>身体不适要报告</strong>：不要硬撑，安全第一</li>
-<li><strong>遵守纪律</strong>：服从教官指挥</li>
-<li><strong>团结同学</strong>：军训是增进友谊的好机会</li>
-<li><strong>保管好物品</strong>：贵重物品随身携带</li>
-</ol>
-<h2>军训荣誉</h2>
-<ul>
-<li><strong>优秀学员</strong>：表现突出可获得荣誉证书</li>
-<li><strong>优秀方阵</strong>：集体荣誉</li>
-<li><strong>优秀教官</strong>：评选优秀教官</li>
-</ul>
-<h2>评论区</h2>
-<p>军训有什么想问的？欢迎在评论区留言，学长学姐在线答疑！</p>
+<div class="breadcrumb"><a href="../../index.html">首页</a> <span>/</span> 常用链接</div>
+<h1>常用链接</h1>
+
+<div class="link-section">
+<h2>官方链接</h2>
+<div class="link-grid">
+<a href="https://www.ncist.edu.cn/" class="link-card" target="_blank">
+<div class="name">学校官网</div>
+<div class="desc">学校官方网站</div>
+<div class="url">www.ncist.edu.cn</div>
+</a>
+<a href="https://auth.ncist.edu.cn/" class="link-card" target="_blank">
+<div class="name">门户网站</div>
+<div class="desc">统一身份认证登录</div>
+<div class="url">auth.ncist.edu.cn</div>
+</a>
+<a href="https://jwc.ncist.edu.cn/" class="link-card" target="_blank">
+<div class="name">教务处</div>
+<div class="desc">选课、成绩查询</div>
+<div class="url">jwc.ncist.edu.cn</div>
+</a>
+<a href="https://lib.ncist.edu.cn/portal/" class="link-card" target="_blank">
+<div class="name">图书馆</div>
+<div class="desc">图书借阅、数据库</div>
+<div class="url">lib.ncist.edu.cn</div>
+</a>
+</div>
+</div>
+
+<div class="link-section">
+<h2>校内组织</h2>
+<div class="link-grid">
+<a href="https://emu-stu.github.io/" class="link-card" target="_blank">
+<div class="name">EMU-Stu</div>
+<div class="desc">面向实验室、开源项目与技术协作的学生组织</div>
+<div class="url">emu-stu.github.io</div>
+</a>
+</div>
+</div>
+
+<div class="link-section">
+<h2>学长学姐博客</h2>
+<div class="link-grid">
+<a href="https://xingqiwu.net.cn" class="link-card" target="_blank" style="position:relative;">
+<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;">发起者</div>
+<div class="name">Edge</div>
+<div class="desc">机器视觉 · 计组原理</div>
+<div class="url">xingqiwu.net.cn</div>
+</a>
+<a href="https://learnercodez.github.io/Z-sBlog/" class="link-card" target="_blank" style="position:relative;">
+<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;">发起者</div>
+<div class="name">learnerCodeZ</div>
+<div class="desc">IoT · Embedded</div>
+<div class="url">learnercodez.github.io</div>
+</a>
+</div>
+</div>
+
+<div class="link-section">
+<h2>实用网站</h2>
+<div class="link-grid">
+<a href="https://www.bjsubway.com" class="link-card" target="_blank">
+<div class="name">北京地铁</div>
+<div class="desc">线路查询、运营时间</div>
+<div class="url">www.bjsubway.com</div>
+</a>
+<a href="https://www.12306.cn" class="link-card" target="_blank">
+<div class="name">12306</div>
+<div class="desc">火车票预订</div>
+<div class="url">www.12306.cn</div>
+</a>
+<a href="https://zh.z-library.sk/" class="link-card" target="_blank">
+<div class="name">Z-Library</div>
+<div class="desc">电子书资源库</div>
+<div class="url">zh.z-library.sk</div>
+</a>
+</div>
+</div>
 
           </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">

@@ -203,8 +203,9 @@ body::before {
   .content { padding-top: 0 !important; }
   body { background: white; }
 }
-@media screen and (max-width: 768px) {
-  /* 模块折叠箭头 */
+}
+
+/* 模块折叠箭头 */
 .sidebar-link.has-children { position: relative; padding-right: 30px; }
 .sidebar-fold {
   position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
@@ -218,6 +219,8 @@ body::before {
 .sidebar-fold:hover { color: #fff; background: rgba(255,255,255,0.15); }
 .sidebar-item.collapsed > .sidebar-children { display: none; }
 .sidebar-item.collapsed > .sidebar-link .sidebar-fold { transform: translateY(-50%) rotate(-90deg); }
+
+@media screen and (max-width: 768px) {
 .wiki-main { margin-right: 0 !important; }
   .markdown-section { padding: 24px 20px 60px !important; }
   .markdown-section h1 { font-size: 24px; }
@@ -563,10 +566,10 @@ body::before {
 </ul>
 </li>
     <li class="sidebar-item">
-      <a href="../../关于我们/index.html" class="sidebar-link has-children">关于</a>
+      <a href="../../关于我们/index.html" class="sidebar-link">关于</a>
     </li>
 <li class="sidebar-item">
-<a href="../../友情链接/index.html" class="sidebar-link has-children">友情链接</a>
+<a href="../../常用链接/index.html" class="sidebar-link">常用链接</a>
 </li>
 </ul></nav>
   <div class="wiki-main">
@@ -748,7 +751,7 @@ body::before {
     }
   }
 
-  // 模块折叠：含子项的模块标题注入箭头；状态用 localStorage 跨页面记住；从未操作过的模块按默认（当前展开、其余收起）
+  // 模块折叠：含子项的模块标题注入箭头；状态用localStorage跨页面记住
   (function() {
     var STORE_KEY = 'uem_sidebar_fold';
     var state = {};
@@ -763,6 +766,7 @@ body::before {
       if (key in state) {
         collapsed = state[key] === 'collapsed';
       } else {
+        // 首次访问：只有当前活动模块展开，其余收起
         collapsed = !li.classList.contains('active');
       }
       if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');
