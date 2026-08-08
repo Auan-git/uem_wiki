@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>燕郊特色 - 应大Wiki</title>
+  <title>学长学姐博客 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -231,6 +231,48 @@ html, body {
 .markdown-section hr { border: none; height: 1px; background: var(--border); margin: 2.5em 0; }
 .markdown-section strong { color: var(--ink); font-weight: 700; }
 .markdown-section em { color: var(--ink-light); font-style: italic; }
+.breadcrumb {
+  font-size: 13px; color: var(--ink-faint); margin-bottom: 16px;
+  font-family: var(--font-serif);
+}
+.breadcrumb a {
+  color: var(--ink-faint) !important; text-decoration: none !important;
+  border-bottom: none !important;
+}
+.breadcrumb a:hover { color: var(--vermilion) !important; }
+.breadcrumb span { margin: 0 6px; }
+.link-section { margin-bottom: 40px; }
+.link-section h2 {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  margin-bottom: 16px; color: var(--ink);
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.link-section h2::before { content: none; }
+.link-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.link-card {
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; text-decoration: none; color: inherit;
+  transition: all 0.2s; background: white;
+  display: block;
+}
+.link-card:hover {
+  border-color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.link-card .name { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+.link-card .desc { font-size: 13px; color: var(--ink-faint); line-height: 1.5; }
+.link-card .url { font-size: 12px; color: var(--link); margin-top: 8px; word-break: break-all; }
+.link-card.avatar-card { display: flex; align-items: center; gap: 14px; }
+.link-card.avatar-card .meta { font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
+.link-card.avatar-card .card-info { flex: 1; min-width: 0; }
+.link-card.avatar-card .card-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--border);
+  flex-shrink: 0; position: relative; z-index: 1;
+}
 .markdown-section input[type="checkbox"] {
   appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
   border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
@@ -398,12 +440,12 @@ body::before {
 <li class="sidebar-item">
 <a href="../写在前面/index.html" class="sidebar-link has-children">写在前面</a>
 </li>
-<li class="sidebar-item active">
-<a href="../学校概览/index.html" class="sidebar-link has-children active">学校概览</a>
+<li class="sidebar-item">
+<a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
 <ul class="sidebar-children">
 <li><a href="../学校概览/周边配套.html" class="sidebar-link">周边配套</a></li>
 <li><a href="../学校概览/学校简介.html" class="sidebar-link">学校简介</a></li>
-<li><a href="../学校概览/燕郊特色.html" class="sidebar-link active">燕郊特色</a></li>
+<li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
@@ -474,14 +516,14 @@ body::before {
 <li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
 </ul>
 </li>
-    <li class="sidebar-item">
-      <a href="../关于我们/index.html" class="sidebar-link">关于</a>
-    </li>
 <li class="sidebar-item">
-<a href="../常用链接/index.html" class="sidebar-link has-children">常用链接</a>
+<a href="../关于我们/index.html" class="sidebar-link">关于</a>
+</li>
+<li class="sidebar-item active">
+<a href="../常用链接/index.html" class="sidebar-link has-children active">常用链接</a>
 <ul class="sidebar-children">
 <li><a href="../常用链接/校内组织.html" class="sidebar-link">校内组织</a></li>
-<li><a href="../常用链接/学长学姐博客.html" class="sidebar-link">学长学姐博客</a></li>
+<li><a href="../常用链接/学长学姐博客.html" class="sidebar-link active">学长学姐博客</a></li>
 </ul>
 </li>
 </ul>
@@ -494,22 +536,55 @@ body::before {
     <div class="toc-overlay" id="tocOverlay"></div>
     <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
-<h1>燕郊特色</h1>
-<h2>一个神奇的地方</h2>
-<h3>行政归属的奇妙交错</h3>
-<p>燕郊位于北京东侧，行政区域属于河北廊坊市，离廊坊却70多公里。然而它与北京仅有一河（潮白河为界，西岸是北京通州，东岸是河北燕郊）之隔，距离国贸有且仅有30公里，由于行政划分和实际距离的交错，燕郊成为了一个神奇的地方——它名字是北京的，地界是河北廊坊的，历史是天津蓟县的，网购是北京通州的，公交是北京八方达，客车是河北客运，满大街几乎都是东北腔。</p>
-<p>IP地址在网络信号没那么好的时候，会在北京和河北来回飘，12306 买火车票注册高校学生信息（大学生火车票优惠）你会发现自己学院被划入北京院校。</p>
-<h3>睡城现象</h3>
-<p>它被称谓"睡城"，住在此地的多为首都上班的外地人，白天在北京上班，晚上在河北过夜，30 万的流动人口，过着中国罕见的"双城生活"。如果你好奇这是如何的一番景象，欢迎早上七八点到白庙检查站来看一看，一定会让你震惊和感叹。</p>
-<h3>经济发展</h3>
-<p>燕郊，燕郊镇，燕郊经济开发区，开发区，必然会在经济上展现出他独特的一幕。</p>
-<p>大型楼盘修建得与北京无二的，各类高端酒店，会所，洗浴中心应有尽有，但他本质上还是一个镇，一个容纳了30多万来自于全国各地人口的镇，街道上奔涌的三轮车、出租车和小贩，喇叭、叫卖声比首都更响。（欢迎你到凌晨四点的小张各庄看一看）</p>
-<p>这里有专家、大师，更不乏农民工兄弟们；这里有高楼大厦，同样有矮屋陋巷；你可以左手拿着星巴克、右手攥着羊肉串……</p>
-<p>关于燕郊的神奇，几天几夜也说不完。你可以在这里创造传说，也可以变成一位待留四年的江湖过客。这四年，这个神奇的地方，一定会给你打上一块不一样的烙印。</p>
-<p>燕郊，是个神奇的地方。</p>
-<h3>燕郊的大学</h3>
-<p>这里有五所大学，三所是中央部委直属，分别是应急管理大学（你未来生活的地方，应急管理部直属）、民政职业大学（民政部）、交通部管理干部学院（成人本科，交通运输部）、燕京理工学院（本科+专科）、北京经济职业技术学院（专科）。</p>
-<p>有人说它是三不管，有人说它是三面争；有人说它是城乡结合部，有人说它是接轨世界的平台……总之，燕郊很神奇。</p>
+<div class="breadcrumb"><a href="../../index.html">首页</a> <span>/</span> <a href="index.html">常用链接</a> <span>/</span> 学长学姐博客</div>
+<h1>学长学姐博客</h1>
+<div class="doc-links">
+<a href="index.html">← 常用链接</a>
+<a href="校内组织.html">校内组织</a>
+</div>
+
+
+
+<div class="link-grid">
+<a href="https://xingqiwu.net.cn" class="link-card avatar-card" target="_blank" style="position:relative;">
+<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;z-index:2;">发起者</div>
+<div class="card-info">
+<div class="name">Edge</div>
+<div class="meta">网络工程24级</div>
+<div class="desc">机器视觉 · 计组原理</div>
+<div class="url">xingqiwu.net.cn</div>
+</div>
+<img class="card-avatar" src="avatars/Edge.jpg" alt="Edge">
+</a>
+<a href="https://learnercodez.github.io/Z-sBlog/" class="link-card avatar-card" target="_blank" style="position:relative;">
+<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;z-index:2;">发起者</div>
+<div class="card-info">
+<div class="name">learnerCodeZ</div>
+<div class="meta">物联网工程24级</div>
+<div class="desc">IoT · 嵌入式</div>
+<div class="url">learnercodez.github.io</div>
+</div>
+<img class="card-avatar" src="avatars/learnerCodeZ.jpg" alt="learnerCodeZ">
+</a>
+<a href="https://karicms.github.io/" class="link-card avatar-card" target="_blank">
+<div class="card-info">
+<div class="name">karicms</div>
+<div class="meta">物联网工程22级</div>
+<div class="desc">嵌入式 · 全栈开发 · 机器学习</div>
+<div class="url">karicms.github.io</div>
+</div>
+<img class="card-avatar" src="avatars/karicms.jpg" alt="karicms">
+</a>
+<a href="https://www.torosamy.net/" class="link-card avatar-card" target="_blank">
+<div class="card-info">
+<div class="name">Torosamy</div>
+<div class="meta">计算机科学与技术23级</div>
+<div class="url">www.torosamy.net</div>
+</div>
+<img class="card-avatar" src="avatars/Torosamy.jpg" alt="Torosamy">
+</a>
+</div>
+
 
           </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">

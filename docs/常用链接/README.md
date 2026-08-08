@@ -1,5 +1,7 @@
 # 常用链接
 
+> ⚠️ 本板块为**手工维护**页面（index.html / 校内组织.html / 学长学姐博客.html），不由 convert.py 生成；下表仅作内容参考，实际展示以 HTML 为准。
+
 欢迎提交你的博客或推荐实用网站！
 
 ## 提交方式
@@ -36,6 +38,8 @@
 |------|------|------|
 | Edge（发起者） | 机器视觉 · 计组原理 | [访问](https://xingqiwu.net.cn) |
 | learnerCodeZ（参与者） | IoT · Embedded | [访问](https://learnercodez.github.io/Z-sBlog/) |
+| karicms | 嵌入式 · 全栈开发 · 机器学习 | [访问](https://karicms.github.io/) |
+| Torosamy | — | [访问](https://www.torosamy.net/) |
 
 ### 实用网站
 
