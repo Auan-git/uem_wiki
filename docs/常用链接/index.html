@@ -265,6 +265,13 @@ html, body {
 .link-card .name { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
 .link-card .desc { font-size: 13px; color: var(--ink-faint); line-height: 1.5; }
 .link-card .url { font-size: 12px; color: var(--link); margin-top: 8px; word-break: break-all; }
+.link-card.avatar-card { display: flex; align-items: center; gap: 14px; }
+.link-card.avatar-card .card-info { flex: 1; min-width: 0; }
+.link-card.avatar-card .card-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--border);
+  flex-shrink: 0; position: relative; z-index: 1;
+}
 .markdown-section input[type="checkbox"] {
   appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
   border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
@@ -565,17 +572,23 @@ body::before {
 <div class="link-section">
 <h2>学长学姐博客</h2>
 <div class="link-grid">
-<a href="https://xingqiwu.net.cn" class="link-card" target="_blank" style="position:relative;">
-<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;">发起者</div>
+<a href="https://xingqiwu.net.cn" class="link-card avatar-card" target="_blank" style="position:relative;">
+<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;z-index:2;">发起者</div>
+<div class="card-info">
 <div class="name">Edge</div>
 <div class="desc">机器视觉 · 计组原理</div>
 <div class="url">xingqiwu.net.cn</div>
+</div>
+<img class="card-avatar" src="avatars/Edge.jpg" alt="Edge">
 </a>
-<a href="https://learnercodez.github.io/Z-sBlog/" class="link-card" target="_blank" style="position:relative;">
-<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;">发起者</div>
+<a href="https://learnercodez.github.io/Z-sBlog/" class="link-card avatar-card" target="_blank" style="position:relative;">
+<div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;z-index:2;">发起者</div>
+<div class="card-info">
 <div class="name">learnerCodeZ</div>
-<div class="desc">IoT · Embedded</div>
+<div class="desc">IoT · 嵌入式</div>
 <div class="url">learnercodez.github.io</div>
+</div>
+<img class="card-avatar" src="avatars/learnerCodeZ.jpg" alt="learnerCodeZ">
 </a>
 </div>
 </div>
