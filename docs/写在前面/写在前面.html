@@ -154,8 +154,22 @@ html, body {
   list-style: none; padding: 0; margin: 0;
   border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
 }
+/* 模块折叠箭头 */
+.sidebar-link.has-children { position: relative; padding-right: 30px; }
+.sidebar-fold {
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.55); cursor: pointer; font-size: 12px;
+  border-radius: 3px; user-select: none;
+  transition: color .15s, background .15s, transform .2s;
+}
+.sidebar-fold::after { content: '▾'; }
+.sidebar-fold:hover { color: #fff; background: rgba(255,255,255,0.15); }
+.sidebar-item.collapsed > .sidebar-children { display: none; }
+.sidebar-item.collapsed > .sidebar-link .sidebar-fold { transform: translateY(-50%) rotate(-90deg); }
 .wiki-main {
-  margin-left: 240px; flex: 1; min-width: 0;
+  margin-left: 240px; margin-right: 220px; flex: 1; min-width: 0;
 }
 
 /* 文章内容 */
@@ -650,6 +664,44 @@ body::before {
       btn.textContent = '◂';
     }
   }
+  </script>
+
+  <script>
+  
+  // 模块折叠：含子项的模块标题注入箭头；当前板块始终展开；其余模块状态用 localStorage 跨页面记住，默认收起
+  (function() {
+    var STORE_KEY = 'uem_sidebar_fold';
+    var state = {};
+    try { state = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { state = {}; }
+    function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
+    document.querySelectorAll('.sidebar-item').forEach(function(li) {
+      var link = li.querySelector(':scope > .sidebar-link.has-children');
+      var ul = li.querySelector(':scope > .sidebar-children');
+      if (!link || !ul || !ul.querySelector('li')) return;
+      var key = (link.textContent || '').trim();
+      var isActive = li.classList.contains('active');
+      var collapsed;
+      if (isActive) {
+        collapsed = false;
+      } else if (key in state) {
+        collapsed = state[key] === 'collapsed';
+      } else {
+        collapsed = true;
+      }
+      if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');
+      var fold = document.createElement('span');
+      fold.className = 'sidebar-fold';
+      fold.title = '展开/收起';
+      fold.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        li.classList.toggle('collapsed');
+        if (!isActive) { state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded'; save(); }
+      });
+      link.appendChild(fold);
+    });
+  })();
+
   </script>
 
 </body>

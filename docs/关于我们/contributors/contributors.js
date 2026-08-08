@@ -8,6 +8,7 @@ window.CONTRIBUTORS = [
   { name: '陈文轩', avatar: 'contributors/陈文轩.jpg', group: 'content' },
   { name: '张栩豪', avatar: 'contributors/张栩豪.jpg', group: 'content' },
   { name: '桓佳宁', avatar: 'contributors/桓佳宁.jpg', group: 'content' },
+  { name: '刘德乾', avatar: 'contributors/刘德乾.jpg', group: 'content' },
   // —— 技术支持 ——
   { name: '陈文轩', avatar: 'contributors/陈文轩.jpg', group: 'tech' },
   { name: '张栩豪', avatar: 'contributors/张栩豪.jpg', group: 'tech' }

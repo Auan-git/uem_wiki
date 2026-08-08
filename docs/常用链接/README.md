@@ -31,6 +31,7 @@
 | 名称 | 说明 | 链接 |
 |------|------|------|
 | EMU-Stu | 面向实验室、开源项目与技术协作的学生组织 | [访问](https://emu-stu.github.io/) |
+| PC极客社 | 应急创新实验室 (YjLab) | [访问](https://deqianliu5-boop.github.io/pc-geeks-site/) |
 
 ### 学长学姐博客
 
