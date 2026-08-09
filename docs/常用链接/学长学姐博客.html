@@ -199,6 +199,12 @@ html, body {
 .markdown-section h4 { font-weight: 600; font-size: 16px; color: var(--ink-light); margin: 1.2em 0 0.4em; }
 .markdown-section a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--ink-fainter); transition: all 0.2s; }
 .markdown-section a:hover { color: var(--vermilion); border-bottom-color: var(--vermilion); }
+/* 入驻登记入口横幅 */
+.join-banner { display: flex; align-items: center; gap: 10px; background: var(--paper-dark); border: 1px solid var(--border); border-left: 4px solid var(--vermilion); border-radius: 6px; padding: 12px 16px; margin: 16px 0 22px; text-decoration: none !important; color: var(--ink) !important; transition: background .2s, box-shadow .2s, transform .2s; }
+.join-banner:hover { background: var(--paper); box-shadow: 0 2px 10px rgba(0,0,0,.07); transform: translateY(-1px); border-left-color: var(--vermilion-light); }
+.join-banner .join-emoji { font-size: 18px; flex-shrink: 0; line-height: 1; }
+.join-banner .join-text { font-size: 14px; line-height: 1.5; }
+.join-banner .join-text strong { color: var(--vermilion); font-weight: 700; }
 .markdown-section blockquote {
   margin: 1.5em 0; padding: 16px 20px; background: #e8f0ff;
   border-left: 4px solid #8c8c8c; border-radius: 0 4px 4px 0;
@@ -551,6 +557,9 @@ body::before {
 
 
 
+<a class="join-banner" href="https://www.kdocs.cn/l/cmMDrGPezE52" target="_blank" rel="noopener">
+  <span class="join-text"><strong>欢迎入驻应大 Wiki</strong> · 有博客的同学 / 社团 / 实验室 / 兴趣组，点此登记上墙 →</span>
+</a>
 <div class="link-grid">
 <a href="https://xingqiwu.net.cn" class="link-card avatar-card" target="_blank" style="position:relative;">
 <div style="position:absolute;top:0;right:0;background:#002f82;color:#fff;font-size:11px;padding:2px 8px;border-radius:0 6px 0 6px;z-index:2;">发起者</div>
