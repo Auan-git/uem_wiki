@@ -274,6 +274,64 @@ html, body {
 }
 .link-card.avatar-card.logo-card .card-avatar { border-radius: 8px; }
 .link-card.avatar-card .card-avatar.avatar-placeholder { border: 1px dashed var(--border); background: var(--paper-dark); display: flex; align-items: center; justify-content: center; }
+
+/* 翻转卡片（试点：EMU-Stu）*/
+.flip-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+.flip-card { perspective: 1000px; width: 220px; height: 220px; cursor: pointer; }
+.flip-inner { position: relative; width: 100%; height: 100%; transition: transform .55s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }  /* 触屏：点击翻转 */
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-inner,
+  .flip-card:focus-within .flip-inner { transform: rotateY(180deg); }  /* 桌面：悬停/聚焦翻转 */
+}
+.flip-face {
+  position: absolute; inset: 0; box-sizing: border-box; padding: 14px 16px;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  border-radius: 8px; display: flex;
+}
+.flip-front {
+  background: #fff; border: 1px solid var(--border);
+  flex-direction: column; justify-content: center; align-items: center; gap: 10px;
+  text-align: center;
+  transition: border-color .2s, box-shadow .2s;
+}
+.flip-card:not(.flipped):hover .flip-front { border-color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.flip-front .flip-logo { width: 72px; height: 72px; border-radius: 14px; object-fit: cover; border: 1px solid var(--border); }
+.flip-front .flip-placeholder { background: var(--paper-dark); border: 1px dashed var(--ink-fainter); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 22px; color: var(--ink-light); }
+.flip-front .flip-name { font-weight: 700; font-size: 16px; color: var(--ink); }
+.flip-tags { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+.flip-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--paper-dark); color: var(--ink-light); border: 1px solid var(--border); }
+.flip-back {
+  background: #fff; border: 1px solid var(--border); color: var(--ink); transform: rotateY(180deg);
+  flex-direction: column; justify-content: center;
+}
+.flip-back::before {  /* 翻转后 logo 虚影底层 */
+  content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: var(--wm, none) no-repeat center / 60%; opacity: .08;
+}
+.flip-back > * { position: relative; z-index: 1; }
+.flip-back .bk-name { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+.flip-back .bk-desc { font-size: 12.5px; line-height: 1.55; color: var(--ink-light); margin-bottom: 9px; }
+.flip-back .bk-loc { font-size: 12.5px; color: var(--ink-light); margin-bottom: 10px; }
+.flip-back .bk-link {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 4px;
+  font-size: 12.5px; color: var(--ink) !important; text-decoration: none !important;
+  background: var(--paper-dark); border: 1px solid var(--border); padding: 3px 11px; border-radius: 4px; transition: all .2s;
+}
+.flip-back .bk-link:hover { background: var(--ink); color: var(--paper) !important; border-color: var(--ink); }
+.flip-back .bk-loc svg { vertical-align: -2px; margin-right: 5px; }
+.flip-back .bk-copy { cursor: pointer; }
+.flip-back .bk-copy .bk-copy-val { border-bottom: 1px dashed var(--ink-fainter); transition: color .2s, border-color .2s; }
+.flip-back .bk-copy:hover .bk-copy-val { color: var(--vermilion); border-bottom-color: var(--vermilion); }
+.flip-back .bk-copy.copied .bk-copy-val { color: var(--vermilion); border-bottom: none; }
+/* 不支持 3D 的浏览器降级为正反面切换 */
+@supports not ((transform-style: preserve-3d) and (backface-visibility: hidden)) {
+  .flip-inner { transform: none !important; }
+  .flip-face { position: relative; -webkit-backface-visibility: visible; backface-visibility: visible; }
+  .flip-back { display: none; transform: none; }
+  .flip-card.flipped .flip-front { display: none; }
+  .flip-card.flipped .flip-back { display: flex; }
+}
 .markdown-section input[type="checkbox"] {
   appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
   border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
@@ -545,23 +603,38 @@ body::before {
 </div>
 
 
-<div class="link-grid">
-<a href="https://emu-stu.github.io/" class="link-card avatar-card logo-card" target="_blank">
-<div class="card-info">
-<div class="name">EMU-Stu</div>
-<div class="desc">面向实验室、开源项目与技术协作的学生组织</div>
-<div class="url">emu-stu.github.io</div>
-</div>
-<img class="card-avatar" src="logos/EMU-Stu.png" alt="EMU-Stu">
-</a>
-<a href="https://deqianliu5-boop.github.io/pc-geeks-site/" class="link-card avatar-card logo-card" target="_blank">
-<div class="card-info">
-<div class="name">PC极客社</div>
-<div class="desc">应急创新实验室 (YjLab)</div>
-<div class="url">deqianliu5-boop.github.io/pc-geeks-site</div>
-</div>
-<div class="card-avatar avatar-placeholder" aria-label="头像待补"></div>
-</a>
+<div class="flip-grid">
+  <div class="flip-card" data-flip style="--wm:url('logos/EMU-Stu.png')">
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <img class="flip-logo" src="logos/EMU-Stu.png" alt="EMU-Stu">
+        <div class="flip-name">EMU-Stu</div>
+        <div class="flip-tags"><span class="flip-tag">开源</span><span class="flip-tag">技术协作</span><span class="flip-tag">实验室</span></div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">EMU-Stu</div>
+        <div class="bk-desc">面向实验室、开源项目与技术协作的学生组织</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>计算机学院</div>
+        <a class="bk-link" href="https://emu-stu.github.io/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3H3v10h10v-6"/><path d="M9 3h4v4"/><path d="M6.5 9.5L13 3"/></svg>官网</a>
+      </div>
+    </div>
+  </div>
+  <div class="flip-card" data-flip>
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div class="flip-logo flip-placeholder">PC</div>
+        <div class="flip-name">PC极客社</div>
+        <div class="flip-tags"><span class="flip-tag">极客</span><span class="flip-tag">硬件</span><span class="flip-tag">实验室</span></div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">PC极客社</div>
+        <div class="bk-desc">应急创新实验室 (YjLab)</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14s5-4.4 5-8A5 5 0 0 0 3 6c0 3.6 5 8 5 8Z"/><circle cx="8" cy="6" r="1.7"/></svg>立新楼809</div>
+        <div class="bk-loc bk-copy" data-copy="670461317" title="点击复制"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7.5l-3 2.5V10.5a2 2 0 0 1-2-2v-4Z"/></svg>QQ群：<span class="bk-copy-val">670461317</span></div>
+        <a class="bk-link" href="https://deqianliu5-boop.github.io/pc-geeks-site/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3H3v10h10v-6"/><path d="M9 3h4v4"/><path d="M6.5 9.5L13 3"/></svg>官网</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -788,6 +861,56 @@ body::before {
         if (!isActive) { state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded'; save(); }
       });
       link.appendChild(fold);
+    });
+  })();
+  </script>
+  <script>
+  // 翻转卡片交互：桌面用 CSS hover/focus 翻转；触屏（hover:none）用点击翻转
+  (function() {
+    var cards = document.querySelectorAll('.flip-card');
+    if (!cards.length) return;
+    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    cards.forEach(function(card) {
+      card.setAttribute('tabindex', '0');  // 桌面键盘聚焦也能翻（:focus-within）
+      if (canHover) return;  // 桌面：纯 CSS hover，无需 JS
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-pressed', 'false');
+      function toggle() {
+        var on = card.classList.toggle('flipped');
+        card.setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.bk-link, .bk-copy')) return;  // 点官网链接/复制QQ：不翻转
+        toggle();
+      });
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+    // 点击复制 QQ 群号
+    function legacyCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    document.querySelectorAll('.bk-copy').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.stopPropagation();  // 不触发卡片翻转
+        var val = el.getAttribute('data-copy');
+        var valEl = el.querySelector('.bk-copy-val');
+        function done() {
+          if (!valEl) return;
+          el.classList.add('copied');
+          valEl.textContent = '已复制 ✓';
+          clearTimeout(el._t);
+          el._t = setTimeout(function() { valEl.textContent = val; el.classList.remove('copied'); }, 1200);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(val).then(done).catch(function() { legacyCopy(val); done(); });
+        } else { legacyCopy(val); done(); }
+      });
     });
   })();
   </script>
