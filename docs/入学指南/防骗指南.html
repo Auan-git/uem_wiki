@@ -294,7 +294,6 @@ body::before {
 .toc-list a:hover { color: var(--ink) !important; border-left-color: var(--ink-faint); }
 .toc-list a.active { color: var(--vermilion) !important; border-left-color: var(--vermilion); font-weight: 600; }
 .toc-list .toc-h3 { padding-left: 24px; font-size: 12px; }
-.toc-list .toc-h4 { padding-left: 36px; font-size: 12px; }
 .toc-toggle {
   display: none; position: fixed; bottom: 20px; right: 20px;
   width: 44px; height: 44px; border-radius: 50%;
@@ -376,16 +375,16 @@ body::before {
 </head>
 <body>
   <nav class="app-nav">
-    <a href="../../index.html" class="nav-brand">
-      <img src="../../圆形logo.png" alt="应大Wiki" class="nav-logo">
+    <a href="./index.html" class="nav-brand">
+      <img src="./圆形logo.png" alt="应大Wiki" class="nav-logo">
       <span>应大Wiki</span>
     </a>
     <div class="nav-links">
-      <a href="../学校概览/index.html">概览</a>
-      <a href="../入学指南/index.html">入学</a>
-      <a href="../选课指南/index.html">选课</a>
-      <a href="../学分绩点/index.html">学业</a>
-      <a href="../校园生活/index.html">生活</a>
+      <a href="./docs/学校概览/index.html">概览</a>
+      <a href="./docs/入学指南/index.html">入学</a>
+      <a href="./docs/选课指南/index.html">选课</a>
+      <a href="./docs/学分绩点/index.html">学业</a>
+      <a href="./docs/校园生活/index.html">生活</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
@@ -397,7 +396,7 @@ body::before {
     <nav class="wiki-sidebar" id="wikiSidebar">
 <ul class="sidebar-nav">
 <li class="sidebar-item">
-<a href="../写在前面/index.html" class="sidebar-link has-children">写在前面</a>
+<a href="../写在前面/index.html" class="sidebar-link">写在前面</a>
 </li>
 <li class="sidebar-item">
 <a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
@@ -407,10 +406,10 @@ body::before {
 <li><a href="../学校概览/燕郊特色.html" class="sidebar-link">燕郊特色</a></li>
 </ul>
 </li>
-<li class="sidebar-item active">
-<a href="../入学指南/index.html" class="sidebar-link has-children active">入学指南</a>
+<li class="sidebar-item">
+<a href="../入学指南/index.html" class="sidebar-link has-children">入学指南</a>
 <ul class="sidebar-children">
-<li><a href="../入学指南/防骗指南.html" class="sidebar-link active">防骗指南</a></li>
+<li><a href="../入学指南/防骗指南.html" class="sidebar-link">防骗指南</a></li>
 <li><a href="../入学指南/军训须知.html" class="sidebar-link">军训须知</a></li>
 <li><a href="../入学指南/报到流程.html" class="sidebar-link">报到流程</a></li>
 <li><a href="../入学指南/来校路线.html" class="sidebar-link">来校路线</a></li>
@@ -452,6 +451,7 @@ body::before {
 <li><a href="../校园生活/准军事化管理.html" class="sidebar-link">准军事化管理</a></li>
 <li><a href="../校园生活/作息时间.html" class="sidebar-link">作息时间</a></li>
 <li><a href="../校园生活/校历.html" class="sidebar-link">校历</a></li>
+<li><a href="../校园生活/恋爱.html" class="sidebar-link">恋爱</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
@@ -475,9 +475,9 @@ body::before {
 <li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
 </ul>
 </li>
-    <li class="sidebar-item">
-      <a href="../关于我们/index.html" class="sidebar-link">关于</a>
-    </li>
+<li class="sidebar-item">
+<a href="../关于我们/index.html" class="sidebar-link">关于我们</a>
+</li>
 <li class="sidebar-item">
 <a href="../常用链接/index.html" class="sidebar-link has-children">常用链接</a>
 <ul class="sidebar-children">
@@ -496,13 +496,11 @@ body::before {
     <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
 <h1>防骗指南</h1>
-<p>另请参阅：</p>
+<p>另请参阅</p>
 <ul>
-<li><a href="https://ac-wiki.org/campus-life/first-lesson-of-school/?h=诈骗#_1" target="_blank">开学第 0 课：防骗/套路 - Ac-Wiki</a></li>
+<li>[开学第 0 课：防骗/套路 - Ac-Wiki](https://ac-wiki.org/campus-life/first-lesson-of-school/?h=诈骗#_1)</li>
 </ul>
-
 <h2>低阶骗局</h2>
-
 <h3>冒充官方群组</h3>
 <p>这种骗局主要是自称是学校官方组建新生群或校园墙，谎称在群内发布入学、选课、转专业等事宜，吸引新生加入后则通过买课、领取课程等方式实施诈骗或引流。常见文案如下：</p>
 <blockquote>
@@ -510,8 +508,7 @@ body::before {
 <p>- 新生须知，加校园墙了解录取通知、宿舍安排、开学事项等。</p>
 <p>- 大学必备的，了解大学生活、转团关系、录取预测等，别错过！</p>
 </blockquote>
-<p>这些群组为了广撒网，多使用"20xx新生通知群"、"24事宜通知群"等不指定学校的名称，所以<strong>群组名称不包含学校或学院名称</strong>的大概率都是假的，同学们不要加入。</p>
-
+<p>这些群组为了广撒网，多使用“20xx新生通知群”、“24事宜通知群”等不指定学校的名称，所以<strong>群组名称不包含学校或学院名称</strong>的大概率都是假的，同学们不要加入。</p>
 <h3>以学习课程为名的网贷诱骗</h3>
 <p>这种骗局一般打着免费分享课程和学习技能的幌子，常见有PS、Office、编程、绘画等。吸引新生加群后诱导添加所谓老师微信或扫描二维码领取课程。常见文案如下：</p>
 <blockquote>
@@ -519,9 +516,8 @@ body::before {
 <p>- 免费分享绘画、插画等大学必备技能，为学分、实习、工作打基础。</p>
 <p>- 名额有限，100人满员，速度加入！</p>
 </blockquote>
-<p>诈骗方式：邀请至绘画、PS、剪辑群中，先发放免费课程，随后私下加好友，宣传报名后可以兼职接单赚钱。报名时会签订<strong>分期付款</strong>协议，实际为高利贷，待无法还款后会推荐其他网贷平台<strong>借新还旧</strong>。放贷机构大概率已经通过APP拿到个人身份信息、通讯录好友，便于后续威胁还款。</p>
+<p>诈骗方式：邀请至绘画、PS、剪辑群中，先发放免费课程，随后私下加好友，宣传报名后可以兼职接单赚钱。报名时会签订<strong>分期付款</strong>协议，实际为高利贷，待无法还款后会推荐其他网贷平台<em></em>借新还旧**。放贷机构大概率已经通过APP拿到个人身份信息、通讯录好友，便于后续威胁还款。</p>
 <p>建议：Office、编程等技能确实是进入大学后的必备技能，而B站上就有很多免费的课程，对于想在假期学习一门技能的同学建议去B站学习。</p>
-
 <h3>购物返利、刷单、寄拍等</h3>
 <p>假期很多同学想利用这段时间打工赚点生活费，而这些骗子就是抓住了这种心理，通过宣传动动手就能赚钱的方法吸引新生入坑。常见文案如下：</p>
 <blockquote>
@@ -530,101 +526,79 @@ body::before {
 <p>- 抖音 快手 小红书 视频号评论，一条1米，简单复制粘贴，免费靠谱，可长期做，每天轻松一杯奶茶钱，做的私我</p>
 <p>- 打扰啦 我是网拍买家秀模特博主想找我几个模特来拍衣服✌🏻群是朋友给的嘻嘻都是正规渠道🍑合作的 衣服也都是森马 海澜之家 拉夏贝儿美女帅哥都可以来简单不拍照的也有想做的可以➕我打扰啦😽</p>
 </blockquote>
-<p>这些骗子在前期通常会给予一定的报酬，在取得信任后以"充值越多、返利越多"诱骗受害者继续做任务，再以"连单""卡单"等借口诱骗受害者不断转账，最后卷钱跑路。这些骗局不仅容易造成<strong>财产损失</strong>，而且其中还可能涉及<strong>违法犯罪</strong>，请同学们提高警惕。</p>
+<p>这些骗子在前期通常会给予一定的报酬，在取得信任后以“充值越多、返利越多”诱骗受害者继续做任务，再以“连单”“卡单”等借口诱骗受害者不断转账，最后卷钱跑路。这些骗局不仅容易造成<strong>财产损失</strong>，而且其中还可能涉及<em></em>违法犯罪**，请同学们提高警惕。</p>
 <p>建议：对于想在校期间赚生活费的同学，我校有勤工助学、导员助理等岗位提供薪水，可以在入校后留意相关信息或向辅导员咨询。</p>
-
 <h3>预付卡消费后商家跑路</h3>
 <p>常见场景：健身房、理发店年卡优惠，享受全年服务。</p>
 <p>隐患：（数月后）商家关门，预付卡无法使用，消费者损失惨重。</p>
 <p>建议：办理健身房会员前请先评估一下自己是否能坚持自律，不要冲动消费。</p>
-
 <h3>诱骗转账</h3>
-<p>常见场景：利用紧急事件（如突发疾病、事故）骗取同情心和信任，要求快速转账。如"表姐住院急需用钱，银行卡转账不便，请帮忙微信转账"。</p>
+<p>常见场景：利用紧急事件（如突发疾病、事故）骗取同情心和信任，要求快速转账。如“表姐住院急需用钱，银行卡转账不便，请帮忙微信转账”。</p>
 <p>建议：保持警惕，核实信息来源，不轻易转账，是防范此类骗局的关键。</p>
-
 <h2>校园网/校园卡相关</h2>
-
 <h3>你需要知道的</h3>
-
 <h4>校园网与校园卡的区别</h4>
-<p>首先明确校园网本质是一个<strong>局域网</strong>，可以理解为一个覆盖全校的路由器，校园内的上网活动都是通过校园网进行的，而校园卡其实是一张<strong>手机卡</strong>。此处应与新生入校时领取的，印有学生信息的卡片区分。新生入学报道时在小班处领取的卡片亦可以称作校园卡或者"一卡通"，这张卡片的功能包括吃饭、借书以及门禁。</p>
-
+<p>首先明确校园网本质是一个<strong>局域网</strong>，可以理解为一个覆盖全校的路由器，校园内的上网活动都是通过校园网进行的，而校园卡其实是一张<em></em>手机卡**。此处应与新生入校时领取的，印有学生信息的卡片区分。新生入学报道时在小班处领取的卡片亦可以称作校园卡或者“一卡通”，这张卡片的功能包括吃饭、借书以及门禁。</p>
 <h4>校园网与校园卡的关系</h4>
-<p>是否办理校园卡与能否使用校园网<strong>没有必然联系</strong>，学校内的校园网由三家运营商提供。未办理校园卡时，同学们可以使用手机<strong>流量上网</strong>；同学们均可以通过<strong>WIFI或宽带</strong>接入校园网，只是没有办理校园卡的同学接入校园网仅可以访问学校内网。</p>
-
+<p>是否办理校园卡与能否使用校园网<strong>没有必然联系</strong>，学校内的校园网由三家运营商提供。未办理校园卡时，同学们可以使用手机<em></em>流量上网**；同学们均可以通过**WIFI或宽带**接入校园网，只是没有办理校园卡的同学接入校园网仅可以访问学校内网。</p>
 <h4>是否需要办理校园卡</h4>
 <p>是否需要办理校园卡主要取决于你的流量使用量。对于原本手机套餐内流量额度较少的同学，办理校园后可以通过覆盖全校的校园网WIFI使用网络，同时校园卡又是一张大流量卡，无需担心流量费用。</p>
-
 <h3>常见骗局/误区</h3>
-
 <h4>不办理校园卡不能上网？</h4>
 <p>错误！办理了校园卡后可以使用WIFI等方式接入网络，不办理校园卡仍可以在校园内使用手机流量上网。</p>
-
 <h4>不办理校园卡不能参与选课？</h4>
-<p>错误！选课期间同学们需要通过数字校园统一身份认证进入教务系统选课，任何一台连接了网络的设备均可以登录教务系统，与是否办理校园卡没有关系。</p>
-
+<p>错误！选课期间同学们需要通过[数字校园统一身份认证](http://cas.xiyou.edu.cn/cas/login)进入教务系统选课，任何一台连接了网络的设备均可以登录教务系统，与是否办理校园卡没有关系。</p>
 <h3>其他注意事项</h3>
-
 <h4>留意校园卡套餐月租</h4>
 <p>有些运营商在办理套餐时可能偷偷加一些不太用得上的服务，比如自定义铃声。这些服务在办理的前几个月是免费的，但几个月后这些服务就会开始扣费。想要取消这些原本套餐外的服务可以拨打对应运营商客服电话或直接拨打12345市民热线举报并要求退还多扣的费用。</p>
-
 <h4>小心套餐升级</h4>
 <p>办理手机卡一段时间后，可能接到运营商的电话推销，声称可以免费升级套餐，需要注意的是升级后的套餐价格是否变化。</p>
-
 <h2>中阶骗局</h2>
-
 <h3>志愿者证书</h3>
 <p>正值新生开学，有不少自媒体营销号会推荐参加一些所谓志愿活动，声称这些活动可以免费参加，而且可以加综测，如保护大熊猫、保护珍惜动植物问答、传统文化宣传等。常见文案如下：</p>
 <blockquote>
 <p>参加公益活动，免费获得志愿者证书，加综测，不容错过！ 保护大熊猫活动，免费参加，领取志愿者证书！</p>
 </blockquote>
-<p>首先，这些活动大多不是官方组织举办，学校不可认可这些活动，也<strong>不能加综测</strong>；同时，这些活动虽然可以免费参加，但活动后通常会要求支付<strong>工本费或快递费</strong>才能获得证书；最后，这些活动可能要求填写过多的个人信息和转发宣传，可能<strong>泄露个人隐私</strong>。</p>
+<p>首先，这些活动大多不是官方组织举办，学校不可认可这些活动，也<strong>不能加综测</strong>；同时，这些活动虽然可以免费参加，但活动后通常会要求支付<em></em>工本费或快递费**才能获得证书；最后，这些活动可能要求填写过多的个人信息和转发宣传，可能**泄露个人隐私**。</p>
 <p>建议：新生入学后会发放<strong>学生手册</strong>，里面对志愿者活动及综测都有非常详细的解释，对于热心的同学，入学后可参阅学生手册或留意校青年志愿者协会有关通知。</p>
-
 <h3>有偿投票</h3>
-
 <h4>面向普通学生</h4>
-<p><strong>原则：</strong></p>
+<p>原则</p>
 <ul>
-<li>能"付费买票数"的活动不参与，切勿贪图投票奖品而付费投票。</li>
+<li>能“付费买票数”的活动不参与，切勿贪图投票奖品而付费投票。</li>
 </ul>
-<p><strong>特征：</strong></p>
+<p>特征：</p>
 <ul>
-<li>投票奖品通常是<strong>高价值的奖品</strong>，如手机、平板、笔记本电脑等。</li>
+<li>投票奖品通常是**高价值的奖品**，如手机、平板、笔记本电脑等。</li>
 <li>投稿内容简单，通常是校花/校草排名，摄影作品投票，新时代好青年投票等。</li>
 <li>投票规则简单，通常一天一票。</li>
 <li>主办方不明确，或是提供的奖品价值与校园社团经费明显不符的。</li>
 </ul>
-<p><strong>诈骗方式：</strong></p>
+<p>诈骗方式：</p>
 <ul>
 <li>待投票后期，会产生若干位票数较高有希望拿到奖品的选手，他们是诈骗的目标。</li>
-<li>会有票数迅速上升的"托"即内部人员，他们的票数会超过票数较高的选手。</li>
+<li>会有票数迅速上升的“托”即内部人员，他们的票数会超过票数较高的选手。</li>
 <li>此时会出现付费投票选项，票数较高的选手由于不愿意让前期努力拉票的沉没成本浪费，往往会选择付费投票。</li>
-<li>但"托"的票数数据是可以随意修改的，之前有希望拿到奖品的选手很难拿到目标奖品，如果能拿到，其价值也远远不如投票付出的费用，并且常出现"货不对板""产品不符"的情况，也难以维权，吃了哑巴亏。</li>
+<li>但“托”的票数数据是可以随意修改的，之前有希望拿到奖品的选手很难拿到目标奖品，如果能拿到，其价值也远远不如投票付出的费用，并且常出现“货不对板”“产品不符”的情况，也难以维权，吃了哑巴亏。</li>
 </ul>
-
 <h4>面向社团负责人</h4>
-<p><strong>提示：</strong>有偿投票都会说自己是"无偿投票"，直到活动后期才会暴露出真面目。</p>
-<p><strong>特征：</strong></p>
+<p>提示</p>
+<p>有偿投票都会说自己是“无偿投票”，直到活动后期才会暴露出真面目。</p>
+<p>特征：</p>
 <ul>
-<li>有陌生账号联系负责人，声称为"校园赞助商家"；有的会说是本校的，但问几个小问题就露馅。</li>
-<li>会提供"奖品""活动费用"用来举办"开学赞助活动"。</li>
+<li>有陌生账号联系负责人，声称为“校园赞助商家”；有的会说是本校的，但问几个小问题就露馅。</li>
+<li>会提供“奖品”“活动费用”用来举办“开学赞助活动”。</li>
 </ul>
-
 <h3>生活用品推广</h3>
-<p>新生入校后可能会有自称是学长的人到寝室推销各类产品，其中包括<strong>清洗剂、笔</strong>等生活用品。在推销时，骗子通常会展示一张购物平台的截图对比，然后称从他这买的可以有优惠。但是实际上他所展示的截图是伪造的，而所谓的"优惠价格"比正常价格要高得多，非常典型的就是清洗剂。</p>
+<p>新生入校后可能会有自称是学长的人到寝室推销各类产品，其中包括<strong>清洗剂、笔</strong>等生活用品。在推销时，骗子通常会展示一张购物平台的截图对比，然后称从他这买的可以有优惠。但是实际上他所展示的截图是伪造的，而所谓的“优惠价格”比正常价格要高得多，非常典型的就是清洗剂。</p>
 <p>建议：新生对这类推广一定要提高警惕，对于生活用品，新生可以选择自带或者在学校内的超市购买。</p>
-
 <h3>付费课程</h3>
 <p>这类骗局主要是入学后有所谓学长学姐到宿舍宣传一起学习英语等课程，需要缴纳一定的费用。我校2023级新生在入学当天，有校外人员假扮学长/学姐以组建英语小组为名，骗取了数十位新生每人50元。好在有小班及时报警并拦截才将骗子抓获并追回被骗财产。</p>
-
 <h3>扫码领礼品</h3>
-<p>学校周边有派发小礼品的人士，扫码即可领取礼物。但这些二维码一般是 "微信扫码辅助注册"，即通过扫描二维码来帮助他人注册微信账号。实际上，对方每成功诱导一人辅助注册，就能拿到 50 元佣金，你所获得的小礼品价值远远无法与之相比。更严重的是，这些被辅助注册的账号一般会被用于非法用途，一旦相关账号涉及违法犯罪，你也会承担连带责任。</p>
-
+<p>学校周边有派发小礼品的人士，扫码即可领取礼物。但这些二维码一般是 “微信扫码辅助注册”，即通过扫描二维码来帮助他人注册微信账号。实际上，对方每成功诱导一人辅助注册，就能拿到 50 元佣金，你所获得的小礼品价值远远无法与之相比。更严重的是，这些被辅助注册的账号一般会被用于非法用途，一旦相关账号涉及违法犯罪，你也会承担连带责任。</p>
 <blockquote>
-<p>本文修改自<a href="https://wiki.cooo.site/campus/anti-fraud#%E9%98%B2%E9%AA%97%E6%8C%87%E5%8D%97" target="_blank">西邮wilki</a>以及<a href="https://ac-wiki.org/campus-life/first-lesson-of-school/?h=诈骗#_1" target="_blank">开学第 0 课：防骗/套路 - Ac-Wiki</a></p>
+<p>本文修改自[西邮wilki](https://wiki.cooo.site/campus/anti-fraud#%E9%98%B2%E9%AA%97%E6%8C%87%E5%8D%97)以及[开学第 0 课：防骗/套路 - Ac-Wiki](https://ac-wiki.org/campus-life/first-lesson-of-school/?h=诈骗#_1)</p>
 </blockquote>
-
           </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
@@ -636,53 +610,242 @@ body::before {
   <script>
 
     const pages = [
-      { url: '../学校概览/周边配套.html', title: '周边配套', desc: '学校概览 - 周边配套' },
-      { url: '../学校概览/学校简介.html', title: '学校简介', desc: '学校概览 - 学校简介' },
-      { url: '../学校概览/燕郊特色.html', title: '燕郊特色', desc: '学校概览 - 燕郊特色' },
-      { url: '../入学指南/防骗指南.html', title: '防骗指南', desc: '入学指南 - 防骗指南' },
-      { url: '../入学指南/军训须知.html', title: '军训须知', desc: '入学指南 - 军训须知' },
-      { url: '../入学指南/报到流程.html', title: '报到流程', desc: '入学指南 - 报到流程' },
-      { url: '../入学指南/来校路线.html', title: '来校路线', desc: '入学指南 - 来校路线' },
-      { url: '../选课指南/推荐课程.html', title: '推荐课程', desc: '选课指南 - 推荐课程' },
-      { url: '../选课指南/选课时间线.html', title: '选课时间线', desc: '选课指南 - 选课时间线' },
-      { url: '../选课指南/选课流程.html', title: '选课流程', desc: '选课指南 - 选课流程' },
-      { url: '../学分绩点/四六级.html', title: '四六级', desc: '学分绩点 - 四六级' },
-      { url: '../学分绩点/奖学金.html', title: '奖学金', desc: '学分绩点 - 奖学金' },
-      { url: '../学分绩点/学分要求.html', title: '学分要求', desc: '学分绩点 - 学分要求' },
-      { url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '学分绩点 - 毕业条件' },
-      { url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '学分绩点 - 绩点计算' },
-      { url: '../学分绩点/选修课.html', title: '选修课', desc: '学分绩点 - 选修课' },
-      { url: '../校园生活/体育课选择.html', title: '体育课选择', desc: '校园生活 - 体育课选择' },
-      { url: '../校园生活/体测要求.html', title: '体测要求', desc: '校园生活 - 体测要求' },
-      { url: '../校园生活/公交指南.html', title: '公交指南', desc: '校园生活 - 公交指南' },
-      { url: '../校园生活/地铁指南.html', title: '地铁指南', desc: '校园生活 - 地铁指南' },
-      { url: '../校园生活/学生组织.html', title: '学生组织', desc: '校园生活 - 学生组织' },
-      { url: '../校园生活/宿舍篇.html', title: '宿舍篇', desc: '校园生活 - 宿舍篇' },
-      { url: '../校园生活/常用电话.html', title: '常用电话', desc: '校园生活 - 常用电话' },
-      { url: '../校园生活/心理健康.html', title: '心理健康', desc: '校园生活 - 心理健康' },
-      { url: '../校园生活/校园地图.html', title: '校园地图', desc: '校园生活 - 校园地图' },
-      { url: '../校园生活/食堂篇.html', title: '食堂篇', desc: '校园生活 - 食堂篇' },
-      { url: '../校园生活/晚自习.html', title: '晚自习', desc: '校园生活 - 晚自习' },
-      { url: '../校园生活/准军事化管理.html', title: '准军事化管理', desc: '校园生活 - 准军事化管理' },
-      { url: '../校园生活/作息时间.html', title: '作息时间', desc: '校园生活 - 作息时间' },
-      { url: '../校园生活/校历.html', title: '校历', desc: '校园生活 - 校历' },
-      { url: '../学院与专业/应急技术与指挥学院/index.html', title: '应急技术与指挥学院', desc: '应急技术与指挥学院专业介绍' },
-      { url: '../学院与专业/矿山安全学院/index.html', title: '矿山安全学院', desc: '矿山安全学院专业介绍' },
-      { url: '../学院与专业/城市安全学院/index.html', title: '城市安全学院', desc: '城市安全学院专业介绍' },
-      { url: '../学院与专业/地震工程与建筑安全学院/index.html', title: '地震工程与建筑安全学院', desc: '地震工程与建筑安全学院专业介绍' },
-      { url: '../学院与专业/地震科学与技术学院/index.html', title: '地震科学与技术学院', desc: '地震科学与技术学院专业介绍' },
-      { url: '../学院与专业/化工安全学院/index.html', title: '化工安全学院', desc: '化工安全学院专业介绍' },
-      { url: '../学院与专业/环境与灾害治理学院/index.html', title: '环境与灾害治理学院', desc: '环境与灾害治理学院专业介绍' },
-      { url: '../学院与专业/计算机与信息安全学院/index.html', title: '计算机与信息安全学院', desc: '计算机与信息安全学院专业介绍' },
-      { url: '../学院与专业/应急通信与控制工程学院/index.html', title: '应急通信与控制工程学院', desc: '应急通信与控制工程学院专业介绍' },
-      { url: '../学院与专业/应急装备学院/index.html', title: '应急装备学院', desc: '应急装备学院专业介绍' },
-      { url: '../学院与专业/应急经济与物资保障学院/index.html', title: '应急经济与物资保障学院', desc: '应急经济与物资保障学院专业介绍' },
-      { url: '../学院与专业/应急国际交流学院/index.html', title: '应急国际交流学院', desc: '应急国际交流学院专业介绍' },
-      { url: '../学院与专业/应急救援训练中心/index.html', title: '应急救援训练中心', desc: '应急救援训练中心专业介绍' },
-      { url: '../学院与专业/应急文化传播与法学院/index.html', title: '应急文化传播与法学院', desc: '应急文化传播与法学院专业介绍' },
-      { url: '../学院与专业/理学院/index.html', title: '理学院', desc: '理学院专业介绍' },
-      { url: '../学院与专业/防灾减灾工程学院/index.html', title: '防灾减灾工程学院', desc: '防灾减灾工程学院专业介绍' }
-    ];
+  {
+    "url": "../学校概览/周边配套.html",
+    "title": "周边配套",
+    "desc": "学校概览 - 周边配套"
+  },
+  {
+    "url": "../学校概览/学校简介.html",
+    "title": "学校简介",
+    "desc": "学校概览 - 学校简介"
+  },
+  {
+    "url": "../学校概览/燕郊特色.html",
+    "title": "燕郊特色",
+    "desc": "学校概览 - 燕郊特色"
+  },
+  {
+    "url": "../校园生活/体育课选择.html",
+    "title": "体育课选择",
+    "desc": "校园生活 - 体育课选择"
+  },
+  {
+    "url": "../入学指南/军训须知.html",
+    "title": "军训须知",
+    "desc": "入学指南 - 军训须知"
+  },
+  {
+    "url": "../入学指南/防骗指南.html",
+    "title": "防骗指南",
+    "desc": "入学指南 - 防骗指南"
+  },
+  {
+    "url": "../入学指南/报到流程.html",
+    "title": "报到流程",
+    "desc": "入学指南 - 报到流程"
+  },
+  {
+    "url": "../入学指南/来校路线.html",
+    "title": "来校路线",
+    "desc": "入学指南 - 来校路线"
+  },
+  {
+    "url": "../选课指南/推荐课程.html",
+    "title": "推荐课程",
+    "desc": "选课指南 - 推荐课程"
+  },
+  {
+    "url": "../选课指南/选课时间线.html",
+    "title": "选课时间线",
+    "desc": "选课指南 - 选课时间线"
+  },
+  {
+    "url": "../选课指南/选课流程.html",
+    "title": "选课流程",
+    "desc": "选课指南 - 选课流程"
+  },
+  {
+    "url": "../学分绩点/四六级.html",
+    "title": "四六级",
+    "desc": "学分绩点 - 四六级"
+  },
+  {
+    "url": "../学分绩点/奖学金.html",
+    "title": "奖学金",
+    "desc": "学分绩点 - 奖学金"
+  },
+  {
+    "url": "../学分绩点/学分要求.html",
+    "title": "学分要求",
+    "desc": "学分绩点 - 学分要求"
+  },
+  {
+    "url": "../学分绩点/毕业条件.html",
+    "title": "毕业条件",
+    "desc": "学分绩点 - 毕业条件"
+  },
+  {
+    "url": "../学分绩点/绩点计算.html",
+    "title": "绩点计算",
+    "desc": "学分绩点 - 绩点计算"
+  },
+  {
+    "url": "../学分绩点/选修课.html",
+    "title": "选修课",
+    "desc": "学分绩点 - 选修课"
+  },
+  {
+    "url": "../校园生活/体测要求.html",
+    "title": "体测要求",
+    "desc": "校园生活 - 体测要求"
+  },
+  {
+    "url": "../校园生活/公交指南.html",
+    "title": "公交指南",
+    "desc": "校园生活 - 公交指南"
+  },
+  {
+    "url": "../校园生活/地铁指南.html",
+    "title": "地铁指南",
+    "desc": "校园生活 - 地铁指南"
+  },
+  {
+    "url": "../校园生活/学生组织.html",
+    "title": "学生组织",
+    "desc": "校园生活 - 学生组织"
+  },
+  {
+    "url": "../校园生活/宿舍篇.html",
+    "title": "宿舍篇",
+    "desc": "校园生活 - 宿舍篇"
+  },
+  {
+    "url": "../校园生活/常用电话.html",
+    "title": "常用电话",
+    "desc": "校园生活 - 常用电话"
+  },
+  {
+    "url": "../校园生活/心理健康.html",
+    "title": "心理健康",
+    "desc": "校园生活 - 心理健康"
+  },
+  {
+    "url": "../校园生活/校园地图.html",
+    "title": "校园地图",
+    "desc": "校园生活 - 校园地图"
+  },
+  {
+    "url": "../校园生活/食堂篇.html",
+    "title": "食堂篇",
+    "desc": "校园生活 - 食堂篇"
+  },
+  {
+    "url": "../校园生活/晚自习.html",
+    "title": "晚自习",
+    "desc": "校园生活 - 晚自习"
+  },
+  {
+    "url": "../校园生活/准军事化管理.html",
+    "title": "准军事化管理",
+    "desc": "校园生活 - 准军事化管理"
+  },
+  {
+    "url": "../校园生活/作息时间.html",
+    "title": "作息时间",
+    "desc": "校园生活 - 作息时间"
+  },
+  {
+    "url": "../校园生活/校历.html",
+    "title": "校历",
+    "desc": "校园生活 - 校历"
+  },
+  {
+    "url": "../校园生活/恋爱.html",
+    "title": "恋爱",
+    "desc": "校园生活 - 恋爱"
+  },
+  {
+    "url": "../学院与专业/应急技术与指挥学院/index.html",
+    "title": "应急技术与指挥学院",
+    "desc": "应急技术与指挥学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/矿山安全学院/index.html",
+    "title": "矿山安全学院",
+    "desc": "矿山安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/城市安全学院/index.html",
+    "title": "城市安全学院",
+    "desc": "城市安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/地震工程与建筑安全学院/index.html",
+    "title": "地震工程与建筑安全学院",
+    "desc": "地震工程与建筑安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/地震科学与技术学院/index.html",
+    "title": "地震科学与技术学院",
+    "desc": "地震科学与技术学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/化工安全学院/index.html",
+    "title": "化工安全学院",
+    "desc": "化工安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/环境与灾害治理学院/index.html",
+    "title": "环境与灾害治理学院",
+    "desc": "环境与灾害治理学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/计算机与信息安全学院/index.html",
+    "title": "计算机与信息安全学院",
+    "desc": "计算机与信息安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急通信与控制工程学院/index.html",
+    "title": "应急通信与控制工程学院",
+    "desc": "应急通信与控制工程学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急装备学院/index.html",
+    "title": "应急装备学院",
+    "desc": "应急装备学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急经济与物资保障学院/index.html",
+    "title": "应急经济与物资保障学院",
+    "desc": "应急经济与物资保障学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急国际交流学院/index.html",
+    "title": "应急国际交流学院",
+    "desc": "应急国际交流学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急救援训练中心/index.html",
+    "title": "应急救援训练中心",
+    "desc": "应急救援训练中心专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急文化传播与法学院/index.html",
+    "title": "应急文化传播与法学院",
+    "desc": "应急文化传播与法学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/理学院/index.html",
+    "title": "理学院",
+    "desc": "理学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/防灾减灾工程学院/index.html",
+    "title": "防灾减灾工程学院",
+    "desc": "防灾减灾工程学院专业介绍"
+  }
+];
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     if (searchInput && searchResults) {
@@ -729,7 +892,7 @@ body::before {
     var tocList = document.getElementById('tocList');
     if (!section || !tocList) return;
 
-    var headings = section.querySelectorAll('h2, h3, h4');
+    var headings = section.querySelectorAll('h2, h3');
     if (headings.length === 0) return;
 
     headings.forEach(function(h, i) {
@@ -738,8 +901,7 @@ body::before {
       var a = document.createElement('a');
       a.href = '#' + h.id;
       a.textContent = h.textContent.replace(/^§\s*/, '');
-      if (h.tagName === 'H4') a.className = 'toc-h4';
-      else if (h.tagName === 'H3') a.className = 'toc-h3';
+      a.className = h.tagName === 'H3' ? 'toc-h3' : '';
       li.appendChild(a);
       tocList.appendChild(li);
     });
@@ -846,40 +1008,6 @@ body::before {
         e.stopPropagation();
         li.classList.toggle('collapsed');
         if (!isActive) { state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded'; save(); }
-      });
-      link.appendChild(fold);
-    });
-  })();
-
-
-  // 侧边栏模块折叠
-  (function() {
-    var state = {};
-    try { state = JSON.parse(localStorage.getItem('sidebarState') || '{}'); } catch(e) {}
-    function save() {
-      try { localStorage.setItem('sidebarState', JSON.stringify(state)); } catch(e) {}
-    }
-    document.querySelectorAll('.sidebar-item').forEach(function(li) {
-      var link = li.querySelector(':scope > .sidebar-link.has-children');
-      var ul = li.querySelector(':scope > .sidebar-children');
-      if (!link || !ul || !ul.querySelector('li')) return;
-      var key = (link.textContent || '').trim();
-      var collapsed;
-      if (key in state) {
-        collapsed = state[key] === 'collapsed';
-      } else {
-        collapsed = !li.classList.contains('active');
-      }
-      if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');
-      var fold = document.createElement('span');
-      fold.className = 'sidebar-fold';
-      fold.title = '展开/收起';
-      fold.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        li.classList.toggle('collapsed');
-        state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded';
-        save();
       });
       link.appendChild(fold);
     });

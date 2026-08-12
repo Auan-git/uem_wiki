@@ -375,16 +375,16 @@ body::before {
 </head>
 <body>
   <nav class="app-nav">
-    <a href="../../index.html" class="nav-brand">
-      <img src="../../圆形logo.png" alt="应大Wiki" class="nav-logo">
+    <a href="./index.html" class="nav-brand">
+      <img src="./圆形logo.png" alt="应大Wiki" class="nav-logo">
       <span>应大Wiki</span>
     </a>
     <div class="nav-links">
-      <a href="../学校概览/index.html">概览</a>
-      <a href="../入学指南/index.html">入学</a>
-      <a href="../选课指南/index.html">选课</a>
-      <a href="../学分绩点/index.html">学业</a>
-      <a href="../校园生活/index.html">生活</a>
+      <a href="./docs/学校概览/index.html">概览</a>
+      <a href="./docs/入学指南/index.html">入学</a>
+      <a href="./docs/选课指南/index.html">选课</a>
+      <a href="./docs/学分绩点/index.html">学业</a>
+      <a href="./docs/校园生活/index.html">生活</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
@@ -396,7 +396,7 @@ body::before {
     <nav class="wiki-sidebar" id="wikiSidebar">
 <ul class="sidebar-nav">
 <li class="sidebar-item">
-<a href="../写在前面/index.html" class="sidebar-link has-children">写在前面</a>
+<a href="../写在前面/index.html" class="sidebar-link">写在前面</a>
 </li>
 <li class="sidebar-item">
 <a href="../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
@@ -423,14 +423,14 @@ body::before {
 <li><a href="../选课指南/选课流程.html" class="sidebar-link">选课流程</a></li>
 </ul>
 </li>
-<li class="sidebar-item active">
-<a href="../学分绩点/index.html" class="sidebar-link has-children active">学分绩点</a>
+<li class="sidebar-item">
+<a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
 <li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
 <li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
 <li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
 <li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
-<li><a href="../学分绩点/绩点计算.html" class="sidebar-link active">绩点计算</a></li>
+<li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
 <li><a href="../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
 </ul>
 </li>
@@ -451,6 +451,7 @@ body::before {
 <li><a href="../校园生活/准军事化管理.html" class="sidebar-link">准军事化管理</a></li>
 <li><a href="../校园生活/作息时间.html" class="sidebar-link">作息时间</a></li>
 <li><a href="../校园生活/校历.html" class="sidebar-link">校历</a></li>
+<li><a href="../校园生活/恋爱.html" class="sidebar-link">恋爱</a></li>
 </ul>
 </li>
 <li class="sidebar-item">
@@ -474,9 +475,9 @@ body::before {
 <li><a href="../学院与专业/防灾减灾工程学院/index.html" class="sidebar-link">防灾减灾工程学院</a></li>
 </ul>
 </li>
-    <li class="sidebar-item">
-      <a href="../关于我们/index.html" class="sidebar-link">关于</a>
-    </li>
+<li class="sidebar-item">
+<a href="../关于我们/index.html" class="sidebar-link">关于我们</a>
+</li>
 <li class="sidebar-item">
 <a href="../常用链接/index.html" class="sidebar-link has-children">常用链接</a>
 <ul class="sidebar-children">
@@ -496,92 +497,52 @@ body::before {
     <div class="markdown-section">
 <h1>绩点计算</h1>
 <blockquote>
-<p>绩点是衡量学习成绩的重要指标，影响奖学金、评优等</p>
+<p>绩点是衡量学习成绩的重要指标，影响保研、奖学金、出国等</p>
 </blockquote>
-<h2>课程绩点</h2>
-<p>如果课程是五等级分制，需要先换算为百分制，作为课程分数。</p>
-<h3>五等级分制换算</h3>
-<table>
-<thead><tr>
-  <th>五等级分制</th>
-  <th>优秀</th>
-  <th>良好</th>
-  <th>中等</th>
-  <th>及格</th>
-  <th>不及格</th>
-</tr></thead>
-<tbody>
-<tr>
-  <td>百分制</td>
-  <td>90-100</td>
-  <td>80-89</td>
-  <td>70-79</td>
-  <td>60-69</td>
-  <td>0-59</td>
-</tr>
-<tr>
-  <td>绩点计算取值</td>
-  <td>95</td>
-  <td>85</td>
-  <td>75</td>
-  <td>65</td>
-  <td>50</td>
-</tr>
-</tbody>
-</table>
-<h3>绩点计算公式</h3>
-<p>绩点根据课程分数等价换算：</p>
-<pre><code>课程绩点 = 课程分数(成绩) / 10 − 5</code></pre>
-<p>因此，如果一门课分数为 60，换算为绩点是 1.0；满分 100 则换算为绩点 5.0。</p>
-<p><strong>未通过课程（挂科）的绩点为 0。补考、重修通过的绩点一般为 3.0。</strong></p>
-<h2>学分绩点</h2>
-<p>学分绩点是课程绩点的加权和。权重为课程学分。</p>
-<pre><code>学分绩点 = 课程学分 × 课程绩点</code></pre>
-<p>未通过课程（挂科）的学分绩点为 0。</p>
-<h2>平均绩点 (GPA)</h2>
-<p>平均绩点 (GPA) 是课程绩点的加权平均值。权重为课程学分。</p>
-<pre><code>平均绩点(GPA) = 学分绩点之和 / 课程学分之和
-
-             = Σ(课程学分 × 课程绩点) / Σ课程学分</code></pre>
-<p>平均绩点能在一定程度上反映一个人课内学业水平。但评优一般是根据综测进行排名评选。</p>
+<h2>绩点计算公式</h2>
+<h3>标准算法</h3>
+<pre><code>GPA = Σ(课程学分 × 课程绩点) / Σ课程学分</code></pre>
+<h3>等级对应表</h3>
+<p>| 等级 | 分数范围 | 绩点 |</p>
+<p>|------|----------|------|</p>
+<p>| A+ | 95-100 | 4.3 |</p>
+<p>| A | 90-94 | 4.0 |</p>
+<p>| A- | 85-89 | 3.7 |</p>
+<p>| B+ | 82-84 | 3.3 |</p>
+<p>| B | 78-81 | 3.0 |</p>
+<p>| B- | 75-77 | 2.7 |</p>
+<p>| C+ | 72-74 | 2.3 |</p>
+<p>| C | 68-71 | 2.0 |</p>
+<p>| C- | 65-67 | 1.7 |</p>
+<p>| D | 60-64 | 1.0 |</p>
+<p>| F | <60 | 0 |</p>
+<blockquote>
+<p>注：不同学校可能有差异，请以学校规定为准</p>
+</blockquote>
 <h2>计算示例</h2>
 <p>假设你选了以下课程：</p>
-<table>
-<thead><tr>
-  <th>课程</th>
-  <th>学分</th>
-  <th>成绩</th>
-  <th>绩点</th>
-</tr></thead>
-<tbody>
-<tr>
-  <td>高等数学</td>
-  <td>4</td>
-  <td>85</td>
-  <td>3.5</td>
-</tr>
-<tr>
-  <td>大学英语</td>
-  <td>3</td>
-  <td>90</td>
-  <td>4.0</td>
-</tr>
-<tr>
-  <td>程序设计</td>
-  <td>3</td>
-  <td>75</td>
-  <td>2.5</td>
-</tr>
-</tbody>
-</table>
-<pre><code>学分绩点 = 4×3.5 + 3×4.0 + 3×2.5
-        = 14.0 + 12.0 + 7.5
-        = 33.5
-
-GPA = 33.5 / (4+3+3)
-    = 33.5 / 10
-    = 3.35</code></pre>
-
+<p>| 课程 | 学分 | 成绩 | 绩点 |</p>
+<p>|------|------|------|------|</p>
+<p>| 高等数学 | 4 | 85 | 3.7 |</p>
+<p>| 大学英语 | 3 | 90 | 4.0 |</p>
+<p>| 程序设计 | 3 | 82 | 3.3 |</p>
+<pre><code>GPA = (4×3.7 + 3×4.0 + 3×3.3) / (4+3+3)
+    = (14.8 + 12.0 + 9.9) / 10
+    = 36.7 / 10
+    = 3.67</code></pre>
+<h2>绩点提升建议</h2>
+<ol>
+<li>**重课要重视**：学分高的课程对绩点影响大</li>
+<li>**不要偏科**：每门课都要认真对待</li>
+<li>**及时补救**：如果期中成绩不理想，期末要加把劲</li>
+<li>**利用补考**：如果有挂科，及时补考</li>
+</ol>
+<h2>注意事项</h2>
+<ul>
+<li>绩点是累积计算的，每门课都很重要</li>
+<li>重修成绩会覆盖原成绩（具体以学校规定为准）</li>
+<li>保研、出国通常要求 GPA 3.5 以上</li>
+</ul>
           </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
@@ -591,55 +552,244 @@ GPA = 33.5 / (4+3+3)
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
-    
+
     const pages = [
-      { url: '../学校概览/周边配套.html', title: '周边配套', desc: '学校概览 - 周边配套' },
-      { url: '../学校概览/学校简介.html', title: '学校简介', desc: '学校概览 - 学校简介' },
-      { url: '../学校概览/燕郊特色.html', title: '燕郊特色', desc: '学校概览 - 燕郊特色' },
-      { url: '../校园生活/体育课选择.html', title: '体育课选择', desc: '校园生活 - 体育课选择' },
-      { url: '../入学指南/军训须知.html', title: '军训须知', desc: '入学指南 - 军训须知' },
-      { url: '../入学指南/防骗指南.html', title: '防骗指南', desc: '入学指南 - 防骗指南' },
-      { url: '../入学指南/报到流程.html', title: '报到流程', desc: '入学指南 - 报到流程' },
-      { url: '../入学指南/来校路线.html', title: '来校路线', desc: '入学指南 - 来校路线' },
-      { url: '../选课指南/推荐课程.html', title: '推荐课程', desc: '选课指南 - 推荐课程' },
-      { url: '../选课指南/选课时间线.html', title: '选课时间线', desc: '选课指南 - 选课时间线' },
-      { url: '../选课指南/选课流程.html', title: '选课流程', desc: '选课指南 - 选课流程' },
-      { url: '../学分绩点/四六级.html', title: '四六级', desc: '学分绩点 - 四六级' },
-      { url: '../学分绩点/奖学金.html', title: '奖学金', desc: '学分绩点 - 奖学金' },
-      { url: '../学分绩点/学分要求.html', title: '学分要求', desc: '学分绩点 - 学分要求' },
-      { url: '../学分绩点/毕业条件.html', title: '毕业条件', desc: '学分绩点 - 毕业条件' },
-      { url: '../学分绩点/绩点计算.html', title: '绩点计算', desc: '学分绩点 - 绩点计算' },
-      { url: '../学分绩点/选修课.html', title: '选修课', desc: '学分绩点 - 选修课' },
-      { url: '../校园生活/体测要求.html', title: '体测要求', desc: '校园生活 - 体测要求' },
-      { url: '../校园生活/公交指南.html', title: '公交指南', desc: '校园生活 - 公交指南' },
-      { url: '../校园生活/地铁指南.html', title: '地铁指南', desc: '校园生活 - 地铁指南' },
-      { url: '../校园生活/学生组织.html', title: '学生组织', desc: '校园生活 - 学生组织' },
-      { url: '../校园生活/宿舍篇.html', title: '宿舍篇', desc: '校园生活 - 宿舍篇' },
-      { url: '../校园生活/常用电话.html', title: '常用电话', desc: '校园生活 - 常用电话' },
-      { url: '../校园生活/心理健康.html', title: '心理健康', desc: '校园生活 - 心理健康' },
-      { url: '../校园生活/校园地图.html', title: '校园地图', desc: '校园生活 - 校园地图' },
-      { url: '../校园生活/食堂篇.html', title: '食堂篇', desc: '校园生活 - 食堂篇' },
-      { url: '../校园生活/晚自习.html', title: '晚自习', desc: '校园生活 - 晚自习' },
-      { url: '../校园生活/准军事化管理.html', title: '准军事化管理', desc: '校园生活 - 准军事化管理' },
-      { url: '../校园生活/作息时间.html', title: '作息时间', desc: '校园生活 - 作息时间' },
-      { url: '../校园生活/校历.html', title: '校历', desc: '校园生活 - 校历' },
-      { url: '../学院与专业/应急技术与指挥学院/index.html', title: '应急技术与指挥学院', desc: '应急技术与指挥学院专业介绍' },
-      { url: '../学院与专业/矿山安全学院/index.html', title: '矿山安全学院', desc: '矿山安全学院专业介绍' },
-      { url: '../学院与专业/城市安全学院/index.html', title: '城市安全学院', desc: '城市安全学院专业介绍' },
-      { url: '../学院与专业/地震工程与建筑安全学院/index.html', title: '地震工程与建筑安全学院', desc: '地震工程与建筑安全学院专业介绍' },
-      { url: '../学院与专业/地震科学与技术学院/index.html', title: '地震科学与技术学院', desc: '地震科学与技术学院专业介绍' },
-      { url: '../学院与专业/化工安全学院/index.html', title: '化工安全学院', desc: '化工安全学院专业介绍' },
-      { url: '../学院与专业/环境与灾害治理学院/index.html', title: '环境与灾害治理学院', desc: '环境与灾害治理学院专业介绍' },
-      { url: '../学院与专业/计算机与信息安全学院/index.html', title: '计算机与信息安全学院', desc: '计算机与信息安全学院专业介绍' },
-      { url: '../学院与专业/应急通信与控制工程学院/index.html', title: '应急通信与控制工程学院', desc: '应急通信与控制工程学院专业介绍' },
-      { url: '../学院与专业/应急装备学院/index.html', title: '应急装备学院', desc: '应急装备学院专业介绍' },
-      { url: '../学院与专业/应急经济与物资保障学院/index.html', title: '应急经济与物资保障学院', desc: '应急经济与物资保障学院专业介绍' },
-      { url: '../学院与专业/应急国际交流学院/index.html', title: '应急国际交流学院', desc: '应急国际交流学院专业介绍' },
-      { url: '../学院与专业/应急救援训练中心/index.html', title: '应急救援训练中心', desc: '应急救援训练中心专业介绍' },
-      { url: '../学院与专业/应急文化传播与法学院/index.html', title: '应急文化传播与法学院', desc: '应急文化传播与法学院专业介绍' },
-      { url: '../学院与专业/理学院/index.html', title: '理学院', desc: '理学院专业介绍' },
-      { url: '../学院与专业/防灾减灾工程学院/index.html', title: '防灾减灾工程学院', desc: '防灾减灾工程学院专业介绍' }
-    ];
+  {
+    "url": "../学校概览/周边配套.html",
+    "title": "周边配套",
+    "desc": "学校概览 - 周边配套"
+  },
+  {
+    "url": "../学校概览/学校简介.html",
+    "title": "学校简介",
+    "desc": "学校概览 - 学校简介"
+  },
+  {
+    "url": "../学校概览/燕郊特色.html",
+    "title": "燕郊特色",
+    "desc": "学校概览 - 燕郊特色"
+  },
+  {
+    "url": "../校园生活/体育课选择.html",
+    "title": "体育课选择",
+    "desc": "校园生活 - 体育课选择"
+  },
+  {
+    "url": "../入学指南/军训须知.html",
+    "title": "军训须知",
+    "desc": "入学指南 - 军训须知"
+  },
+  {
+    "url": "../入学指南/防骗指南.html",
+    "title": "防骗指南",
+    "desc": "入学指南 - 防骗指南"
+  },
+  {
+    "url": "../入学指南/报到流程.html",
+    "title": "报到流程",
+    "desc": "入学指南 - 报到流程"
+  },
+  {
+    "url": "../入学指南/来校路线.html",
+    "title": "来校路线",
+    "desc": "入学指南 - 来校路线"
+  },
+  {
+    "url": "../选课指南/推荐课程.html",
+    "title": "推荐课程",
+    "desc": "选课指南 - 推荐课程"
+  },
+  {
+    "url": "../选课指南/选课时间线.html",
+    "title": "选课时间线",
+    "desc": "选课指南 - 选课时间线"
+  },
+  {
+    "url": "../选课指南/选课流程.html",
+    "title": "选课流程",
+    "desc": "选课指南 - 选课流程"
+  },
+  {
+    "url": "../学分绩点/四六级.html",
+    "title": "四六级",
+    "desc": "学分绩点 - 四六级"
+  },
+  {
+    "url": "../学分绩点/奖学金.html",
+    "title": "奖学金",
+    "desc": "学分绩点 - 奖学金"
+  },
+  {
+    "url": "../学分绩点/学分要求.html",
+    "title": "学分要求",
+    "desc": "学分绩点 - 学分要求"
+  },
+  {
+    "url": "../学分绩点/毕业条件.html",
+    "title": "毕业条件",
+    "desc": "学分绩点 - 毕业条件"
+  },
+  {
+    "url": "../学分绩点/绩点计算.html",
+    "title": "绩点计算",
+    "desc": "学分绩点 - 绩点计算"
+  },
+  {
+    "url": "../学分绩点/选修课.html",
+    "title": "选修课",
+    "desc": "学分绩点 - 选修课"
+  },
+  {
+    "url": "../校园生活/体测要求.html",
+    "title": "体测要求",
+    "desc": "校园生活 - 体测要求"
+  },
+  {
+    "url": "../校园生活/公交指南.html",
+    "title": "公交指南",
+    "desc": "校园生活 - 公交指南"
+  },
+  {
+    "url": "../校园生活/地铁指南.html",
+    "title": "地铁指南",
+    "desc": "校园生活 - 地铁指南"
+  },
+  {
+    "url": "../校园生活/学生组织.html",
+    "title": "学生组织",
+    "desc": "校园生活 - 学生组织"
+  },
+  {
+    "url": "../校园生活/宿舍篇.html",
+    "title": "宿舍篇",
+    "desc": "校园生活 - 宿舍篇"
+  },
+  {
+    "url": "../校园生活/常用电话.html",
+    "title": "常用电话",
+    "desc": "校园生活 - 常用电话"
+  },
+  {
+    "url": "../校园生活/心理健康.html",
+    "title": "心理健康",
+    "desc": "校园生活 - 心理健康"
+  },
+  {
+    "url": "../校园生活/校园地图.html",
+    "title": "校园地图",
+    "desc": "校园生活 - 校园地图"
+  },
+  {
+    "url": "../校园生活/食堂篇.html",
+    "title": "食堂篇",
+    "desc": "校园生活 - 食堂篇"
+  },
+  {
+    "url": "../校园生活/晚自习.html",
+    "title": "晚自习",
+    "desc": "校园生活 - 晚自习"
+  },
+  {
+    "url": "../校园生活/准军事化管理.html",
+    "title": "准军事化管理",
+    "desc": "校园生活 - 准军事化管理"
+  },
+  {
+    "url": "../校园生活/作息时间.html",
+    "title": "作息时间",
+    "desc": "校园生活 - 作息时间"
+  },
+  {
+    "url": "../校园生活/校历.html",
+    "title": "校历",
+    "desc": "校园生活 - 校历"
+  },
+  {
+    "url": "../校园生活/恋爱.html",
+    "title": "恋爱",
+    "desc": "校园生活 - 恋爱"
+  },
+  {
+    "url": "../学院与专业/应急技术与指挥学院/index.html",
+    "title": "应急技术与指挥学院",
+    "desc": "应急技术与指挥学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/矿山安全学院/index.html",
+    "title": "矿山安全学院",
+    "desc": "矿山安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/城市安全学院/index.html",
+    "title": "城市安全学院",
+    "desc": "城市安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/地震工程与建筑安全学院/index.html",
+    "title": "地震工程与建筑安全学院",
+    "desc": "地震工程与建筑安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/地震科学与技术学院/index.html",
+    "title": "地震科学与技术学院",
+    "desc": "地震科学与技术学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/化工安全学院/index.html",
+    "title": "化工安全学院",
+    "desc": "化工安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/环境与灾害治理学院/index.html",
+    "title": "环境与灾害治理学院",
+    "desc": "环境与灾害治理学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/计算机与信息安全学院/index.html",
+    "title": "计算机与信息安全学院",
+    "desc": "计算机与信息安全学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急通信与控制工程学院/index.html",
+    "title": "应急通信与控制工程学院",
+    "desc": "应急通信与控制工程学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急装备学院/index.html",
+    "title": "应急装备学院",
+    "desc": "应急装备学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急经济与物资保障学院/index.html",
+    "title": "应急经济与物资保障学院",
+    "desc": "应急经济与物资保障学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急国际交流学院/index.html",
+    "title": "应急国际交流学院",
+    "desc": "应急国际交流学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急救援训练中心/index.html",
+    "title": "应急救援训练中心",
+    "desc": "应急救援训练中心专业介绍"
+  },
+  {
+    "url": "../学院与专业/应急文化传播与法学院/index.html",
+    "title": "应急文化传播与法学院",
+    "desc": "应急文化传播与法学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/理学院/index.html",
+    "title": "理学院",
+    "desc": "理学院专业介绍"
+  },
+  {
+    "url": "../学院与专业/防灾减灾工程学院/index.html",
+    "title": "防灾减灾工程学院",
+    "desc": "防灾减灾工程学院专业介绍"
+  }
+];
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     if (searchInput && searchResults) {
