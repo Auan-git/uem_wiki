@@ -149,6 +149,13 @@ html, body {
 .sidebar-children .sidebar-link:hover {
   color: #fff !important;
 }
+/* 当前子页面高亮 */
+.sidebar-children .sidebar-link.active {
+  color: #fff !important;
+  font-weight: 600;
+  background: rgba(122, 167, 255, 0.18);
+  border-left-color: #7aa7ff;
+}
 .sidebar-children {
   list-style: none; padding: 0; margin: 0;
   border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
@@ -977,6 +984,31 @@ body::before {
         if (!isActive) { state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded'; save(); }
       });
       link.appendChild(fold);
+    });
+  })();
+
+  // 侧边栏当前页高亮：根据 URL 自动匹配子页面链接
+  (function() {
+    var parts = location.pathname.split('/');
+    var current = decodeURIComponent(parts.pop()) || 'index.html';
+    var parent = decodeURIComponent(parts.pop()) || '';
+    var isCollege = decodeURIComponent(location.pathname).indexOf('学院与专业') !== -1;
+    document.querySelectorAll('.sidebar-children .sidebar-link').forEach(function(a) {
+      var ahref = decodeURIComponent(a.getAttribute('href') || '');
+      var page = ahref.split('/').pop();
+      var match = false;
+      if (isCollege && ahref.indexOf('学院与专业') !== -1 && page === 'index.html') {
+        // 学院与专业：学院主页或专业页面都按学院目录名匹配
+        var college = ahref.split('/').slice(-2, -1)[0];
+        match = (college === parent);
+      } else {
+        match = (page === current);
+      }
+      if (match) {
+        a.classList.add('active');
+        var item = a.closest('.sidebar-item');
+        if (item) item.classList.remove('collapsed');
+      }
     });
   })();
   </script>

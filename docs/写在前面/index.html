@@ -358,13 +358,11 @@ body::before {
   .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
   .search-box { order: 2; margin-left: auto; }
   .back-to-top { bottom: 70px; right: 20px; width: 40px; height: 40px; font-size: 18px; }
-  .sidebar-toggle { display: none; }
   .toc-toggle { display: flex !important; }
 }
 @media print {
   .wiki-sidebar { display: none !important; }
   .wiki-main { margin-left: 0 !important; }
-  .sidebar-toggle { display: none; }
 }
 
   </style>
@@ -439,7 +437,7 @@ body::before {
 <li><a href="../校园生活/准军事化管理.html" class="sidebar-link">准军事化管理</a></li>
 <li><a href="../校园生活/作息时间.html" class="sidebar-link">作息时间</a></li>
 <li><a href="../校园生活/校历.html" class="sidebar-link">校历</a></li>
-<li><a href="../校园生活/恋爱.html" class="sidebar-link">恋爱</a></li>
+
 <li><a href="../校园生活/恋爱.html" class="sidebar-link">恋爱</a></li>
 <li><a href="../校园生活/校园地图.html" class="sidebar-link">校园地图</a></li>
 <li><a href="../校园生活/学生组织.html" class="sidebar-link">学生组织</a></li>
@@ -739,6 +737,30 @@ body::before {
         if (!isActive) { state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded'; save(); }
       });
       link.appendChild(fold);
+    });
+  })();
+  // 侧边栏当前页高亮：根据 URL 自动匹配子页面链接
+  (function() {
+    var parts = location.pathname.split('/');
+    var current = decodeURIComponent(parts.pop()) || 'index.html';
+    var parent = decodeURIComponent(parts.pop()) || '';
+    var isCollege = decodeURIComponent(location.pathname).indexOf('学院与专业') !== -1;
+    document.querySelectorAll('.sidebar-children .sidebar-link').forEach(function(a) {
+      var ahref = decodeURIComponent(a.getAttribute('href') || '');
+      var page = ahref.split('/').pop();
+      var match = false;
+      if (isCollege && ahref.indexOf('学院与专业') !== -1 && page === 'index.html') {
+        // 学院与专业：学院主页或专业页面都按学院目录名匹配
+        var college = ahref.split('/').slice(-2, -1)[0];
+        match = (college === parent);
+      } else {
+        match = (page === current);
+      }
+      if (match) {
+        a.classList.add('active');
+        var item = a.closest('.sidebar-item');
+        if (item) item.classList.remove('collapsed');
+      }
     });
   })();
   </script>
