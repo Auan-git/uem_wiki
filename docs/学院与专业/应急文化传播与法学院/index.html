@@ -203,7 +203,7 @@ body::before {
   .content { padding-top: 0 !important; }
   body { background: white; }
 }
-}
+
 
 /* 模块折叠箭头 */
 .sidebar-link.has-children { position: relative; padding-right: 30px; }
@@ -215,10 +215,8 @@ body::before {
   border-radius: 3px; user-select: none;
   transition: color .15s, background .15s, transform .2s;
 }
-.sidebar-fold::after { content: '▾'; }
 .sidebar-fold:hover { color: #fff; background: rgba(255,255,255,0.15); }
 .sidebar-item.collapsed > .sidebar-children { display: none; }
-.sidebar-item.collapsed > .sidebar-link .sidebar-fold { transform: translateY(-50%) rotate(-90deg); }
 
 @media screen and (max-width: 768px) {
 .wiki-main { margin-right: 0 !important; }
@@ -477,7 +475,11 @@ body::before {
     @media print {
       .wiki-sidebar { display: none !important; }
       .wiki-main { margin-left: 0 !important; }
-    }  </style>
+    }  
+/* 侧边栏平滑过渡（追加） */
+.wiki-main { transition: margin-left 0.3s ease; }
+.content.sidebar-collapsed .wiki-main { margin-left: 0; }
+</style>
 </head>
 <body>
   <nav class="app-nav">
@@ -792,62 +794,61 @@ body::before {
     }
   })();
 
-  // 模块折叠：含子项的模块标题注入箭头；当前板块始终展开；其余模块状态用localStorage跨页面记住，默认收起
+  // 模块折叠：含子项的模块标题注入箭头（▸收起/▾展开）；当前板块展开，其余默认收起（不记忆状态）
   (function() {
-    var STORE_KEY = 'uem_sidebar_fold';
-    var state = {};
-    try { state = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) { state = {}; }
-    function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e) {} }
+    try {
+    function setArrow(fold, collapsed) { fold.textContent = collapsed ? '\u25B8' : '\u25BE'; }
     document.querySelectorAll('.sidebar-item').forEach(function(li) {
       var link = li.querySelector(':scope > .sidebar-link.has-children');
       var ul = li.querySelector(':scope > .sidebar-children');
       if (!link || !ul || !ul.querySelector('li')) return;
-      var key = (link.textContent || '').trim();
-      var isActive = li.classList.contains('active');
-      var collapsed;
-      if (isActive) {
-        collapsed = false;
-      } else if (key in state) {
-        collapsed = state[key] === 'collapsed';
-      } else {
-        collapsed = true;
-      }
+      var collapsed = !li.classList.contains('active');
       if (collapsed) li.classList.add('collapsed'); else li.classList.remove('collapsed');
       var fold = document.createElement('span');
       fold.className = 'sidebar-fold';
       fold.title = '展开/收起';
+      setArrow(fold, collapsed);
       fold.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         li.classList.toggle('collapsed');
-        if (!isActive) { state[key] = li.classList.contains('collapsed') ? 'collapsed' : 'expanded'; save(); }
+        setArrow(fold, li.classList.contains('collapsed'));
       });
       link.appendChild(fold);
     });
+    } catch(e) { console.warn('sidebar fold error:', e); }
   })();
-  // 侧边栏当前页高亮：根据 URL 自动匹配子页面链接
+  // 侧边栏当前页高亮：按完整路径匹配，避免板块首页误点亮其他 index.html 链接
   (function() {
-    var parts = location.pathname.split('/');
-    var current = decodeURIComponent(parts.pop()) || 'index.html';
-    var parent = decodeURIComponent(parts.pop()) || '';
-    var isCollege = decodeURIComponent(location.pathname).indexOf('学院与专业') !== -1;
-    document.querySelectorAll('.sidebar-children .sidebar-link').forEach(function(a) {
-      var ahref = decodeURIComponent(a.getAttribute('href') || '');
-      var page = ahref.split('/').pop();
-      var match = false;
-      if (isCollege && ahref.indexOf('学院与专业') !== -1 && page === 'index.html') {
-        // 学院与专业：学院主页或专业页面都按学院目录名匹配
-        var college = ahref.split('/').slice(-2, -1)[0];
-        match = (college === parent);
-      } else {
-        match = (page === current);
-      }
-      if (match) {
+    var currentPath = decodeURIComponent(location.pathname);
+    if (/\/$/.test(currentPath)) currentPath += 'index.html';
+    var links = document.querySelectorAll('.sidebar-children .sidebar-link');
+    var matched = false;
+    links.forEach(function(a) {
+      var target = '';
+      try {
+        target = decodeURIComponent(new URL(a.getAttribute('href') || '', location.href).pathname);
+      } catch (e) { return; }
+      if (/\/$/.test(target)) target += 'index.html';
+      if (target === currentPath) {
+        matched = true;
         a.classList.add('active');
         var item = a.closest('.sidebar-item');
         if (item) item.classList.remove('collapsed');
       }
     });
+    // 学院与专业：专业页面（不在侧边栏中）按所属学院目录名高亮
+    if (!matched && currentPath.indexOf('/学院与专业/') !== -1) {
+      var college = currentPath.split('/').slice(-2, -1)[0];
+      links.forEach(function(a) {
+        var href = decodeURIComponent(a.getAttribute('href') || '');
+        if (href.indexOf('学院与专业') !== -1 && href.split('/').slice(-2, -1)[0] === college) {
+          a.classList.add('active');
+          var item = a.closest('.sidebar-item');
+          if (item) item.classList.remove('collapsed');
+        }
+      });
+    }
   })();
   </script>
 </body>
