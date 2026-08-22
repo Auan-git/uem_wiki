@@ -436,7 +436,7 @@ body::before {
 <a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
 <li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
-<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/奖学金与资助.html" class="sidebar-link">奖学金与资助</a></li>
 <li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
 <li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
 <li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
@@ -705,9 +705,9 @@ body::before {
     "desc": "学分绩点 - 四六级"
   },
   {
-    "url": "../学分绩点/奖学金.html",
-    "title": "奖学金",
-    "desc": "学分绩点 - 奖学金"
+    "url": "../学分绩点/奖学金与资助.html",
+    "title": "奖学金与资助",
+    "desc": "学分绩点 - 奖学金与资助：奖学金评定、基层就业学费补偿贷款代偿、学生资助平台"
   },
   {
     "url": "../学分绩点/学分要求.html",
@@ -1053,7 +1053,11 @@ body::before {
         matched = true;
         a.classList.add('active');
         var item = a.closest('.sidebar-item');
-        if (item) item.classList.remove('collapsed');
+        if (item) {
+          item.classList.remove('collapsed');
+          var foldEl = item.querySelector(':scope > .sidebar-link .sidebar-fold');
+          if (foldEl) foldEl.textContent = '\u25BE';
+        }
       }
     });
     // 学院与专业：专业页面（不在侧边栏中）按所属学院目录名高亮

@@ -436,7 +436,7 @@ body::before {
 <a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
 <li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
-<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/奖学金与资助.html" class="sidebar-link">奖学金与资助</a></li>
 <li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
 <li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
 <li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
@@ -574,6 +574,11 @@ body::before {
 <p>到地铁1号线大望路站下车，换乘812路公交到华北科技学院站。</p>
 <h3>公交</h3>
 <p>北京公交"前门上车刷一次，后门下车刷一次"，下车忘记刷会被扣全程最高票价。</p>
+<h3>小贴士：北京一卡通 APP</h3>
+<blockquote>
+<p>💡 常去北京玩？</p>
+<p>推荐下载「北京一卡通」APP，刷手机乘公交地铁有优惠。</p>
+</blockquote>
 <hr>
           </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">
@@ -647,9 +652,9 @@ body::before {
     "desc": "学分绩点 - 四六级"
   },
   {
-    "url": "../学分绩点/奖学金.html",
-    "title": "奖学金",
-    "desc": "学分绩点 - 奖学金"
+    "url": "../学分绩点/奖学金与资助.html",
+    "title": "奖学金与资助",
+    "desc": "学分绩点 - 奖学金与资助：奖学金评定、基层就业学费补偿贷款代偿、学生资助平台"
   },
   {
     "url": "../学分绩点/学分要求.html",
@@ -979,7 +984,6 @@ body::before {
     });
     } catch(e) { console.warn('sidebar fold error:', e); }
   })();
-
   // 侧边栏当前页高亮：按完整路径匹配，避免板块首页误点亮其他 index.html 链接
   (function() {
     var currentPath = decodeURIComponent(location.pathname);
@@ -996,7 +1000,11 @@ body::before {
         matched = true;
         a.classList.add('active');
         var item = a.closest('.sidebar-item');
-        if (item) item.classList.remove('collapsed');
+        if (item) {
+          item.classList.remove('collapsed');
+          var foldEl = item.querySelector(':scope > .sidebar-link .sidebar-fold');
+          if (foldEl) foldEl.textContent = '\u25BE';
+        }
       }
     });
     // 学院与专业：专业页面（不在侧边栏中）按所属学院目录名高亮

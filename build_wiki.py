@@ -177,7 +177,7 @@ def generate_sidebar(current_page, relative_depth):
         ]},
         {"name": "学分绩点", "path": "学分绩点/index.html", "children": [
             {"name": "四六级", "path": "学分绩点/四六级.html"},
-            {"name": "奖学金", "path": "学分绩点/奖学金.html"},
+            {"name": "奖学金与资助", "path": "学分绩点/奖学金与资助.html"},
             {"name": "学分要求", "path": "学分绩点/学分要求.html"},
             {"name": "毕业条件", "path": "学分绩点/毕业条件.html"},
             {"name": "绩点计算", "path": "学分绩点/绩点计算.html"},
@@ -266,7 +266,7 @@ def generate_search_data():
         {"url": "../选课指南/选课时间线.html", "title": "选课时间线", "desc": "选课指南 - 选课时间线"},
         {"url": "../选课指南/选课流程.html", "title": "选课流程", "desc": "选课指南 - 选课流程"},
         {"url": "../学分绩点/四六级.html", "title": "四六级", "desc": "学分绩点 - 四六级"},
-        {"url": "../学分绩点/奖学金.html", "title": "奖学金", "desc": "学分绩点 - 奖学金"},
+        {"url": "../学分绩点/奖学金与资助.html", "title": "奖学金与资助", "desc": "学分绩点 - 奖学金与资助：奖学金评定、基层就业学费补偿贷款代偿、学生资助平台"},
         {"url": "../学分绩点/学分要求.html", "title": "学分要求", "desc": "学分绩点 - 学分要求"},
         {"url": "../学分绩点/毕业条件.html", "title": "毕业条件", "desc": "学分绩点 - 毕业条件"},
         {"url": "../学分绩点/绩点计算.html", "title": "绩点计算", "desc": "学分绩点 - 绩点计算"},

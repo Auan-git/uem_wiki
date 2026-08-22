@@ -534,7 +534,7 @@ body::before {
 <li><a href="../../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
 <li><a href="../../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
 <li><a href="../../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
-<li><a href="../../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../../学分绩点/奖学金与资助.html" class="sidebar-link">奖学金与资助</a></li>
 <li><a href="../../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
 <li><a href="../../学分绩点/选修课.html" class="sidebar-link">选修课</a></li>
 </ul>
@@ -836,7 +836,11 @@ body::before {
         matched = true;
         a.classList.add('active');
         var item = a.closest('.sidebar-item');
-        if (item) item.classList.remove('collapsed');
+        if (item) {
+          item.classList.remove('collapsed');
+          var foldEl = item.querySelector(':scope > .sidebar-link .sidebar-fold');
+          if (foldEl) foldEl.textContent = '\u25BE';
+        }
       }
     });
     // 学院与专业：专业页面（不在侧边栏中）按所属学院目录名高亮

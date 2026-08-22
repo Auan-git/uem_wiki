@@ -436,7 +436,7 @@ body::before {
 <a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
 <li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
-<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/奖学金与资助.html" class="sidebar-link">奖学金与资助</a></li>
 <li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
 <li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
 <li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
@@ -556,7 +556,7 @@ body::before {
 <h4>不办理校园卡不能上网？</h4>
 <p>错误！办理了校园卡后可以使用WIFI等方式接入网络，不办理校园卡仍可以在校园内使用手机流量上网。</p>
 <h4>不办理校园卡不能参与选课？</h4>
-<p>错误！选课期间同学们需要通过[数字校园统一身份认证](http://cas.xiyou.edu.cn/cas/login)进入教务系统选课，任何一台连接了网络的设备均可以登录教务系统，与是否办理校园卡没有关系。</p>
+<p>错误！选课期间同学们需要通过<a href="http://cas.xiyou.edu.cn/cas/login">数字校园统一身份认证</a>进入教务系统选课，任何一台连接了网络的设备均可以登录教务系统，与是否办理校园卡没有关系。</p>
 <h3>其他注意事项</h3>
 <h4>留意校园卡套餐月租</h4>
 <p>有些运营商在办理套餐时可能偷偷加一些不太用得上的服务，比如自定义铃声。这些服务在办理的前几个月是免费的，但几个月后这些服务就会开始扣费。想要取消这些原本套餐外的服务可以拨打对应运营商客服电话或直接拨打12345市民热线举报并要求退还多扣的费用。</p>
@@ -680,9 +680,9 @@ body::before {
     "desc": "学分绩点 - 四六级"
   },
   {
-    "url": "../学分绩点/奖学金.html",
-    "title": "奖学金",
-    "desc": "学分绩点 - 奖学金"
+    "url": "../学分绩点/奖学金与资助.html",
+    "title": "奖学金与资助",
+    "desc": "学分绩点 - 奖学金与资助：奖学金评定、基层就业学费补偿贷款代偿、学生资助平台"
   },
   {
     "url": "../学分绩点/学分要求.html",
@@ -1028,7 +1028,11 @@ body::before {
         matched = true;
         a.classList.add('active');
         var item = a.closest('.sidebar-item');
-        if (item) item.classList.remove('collapsed');
+        if (item) {
+          item.classList.remove('collapsed');
+          var foldEl = item.querySelector(':scope > .sidebar-link .sidebar-fold');
+          if (foldEl) foldEl.textContent = '\u25BE';
+        }
       }
     });
     // 学院与专业：专业页面（不在侧边栏中）按所属学院目录名高亮

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>奖学金与学习 - 应大Wiki</title>
+  <title>奖学金与资助 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -436,7 +436,7 @@ body::before {
 <a href="../学分绩点/index.html" class="sidebar-link has-children">学分绩点</a>
 <ul class="sidebar-children">
 <li><a href="../学分绩点/四六级.html" class="sidebar-link">四六级</a></li>
-<li><a href="../学分绩点/奖学金.html" class="sidebar-link">奖学金</a></li>
+<li><a href="../学分绩点/奖学金与资助.html" class="sidebar-link">奖学金与资助</a></li>
 <li><a href="../学分绩点/学分要求.html" class="sidebar-link">学分要求</a></li>
 <li><a href="../学分绩点/毕业条件.html" class="sidebar-link">毕业条件</a></li>
 <li><a href="../学分绩点/绩点计算.html" class="sidebar-link">绩点计算</a></li>
@@ -504,7 +504,7 @@ body::before {
     <div class="toc-overlay" id="tocOverlay"></div>
     <button class="toc-toggle" id="tocToggle" onclick="toggleToc()">☰</button>
     <div class="markdown-section">
-<h1>奖学金与学习</h1>
+<h1>奖学金与资助</h1>
 <h2>奖学金概述</h2>
 <p>应大是部委大学，相应地各类奖学金会很多，同类型奖学金一般会多于同水平的高校，而且贫困补助也会多于一般的学校。</p>
 <h3>重要提醒</h3>
@@ -538,6 +538,18 @@ body::before {
 <li>影响入党、评优评先</li>
 <li>严重者影响毕业</li>
 </ul>
+<h2>基层就业学费补偿贷款代偿</h2>
+<p>毕业时去基层工作的同学，国家帮你把学费"退回来"，或者帮你还清国家助学贷款。应大是应急管理部直属的中央高校，毕业生符合申请资格。</p>
+<ul>
+<li>对象：应届全日制毕业生（定向、委培除外）</li>
+<li>标准：本专科每年最高 16000 元，研究生每年最高 20000 元，按学制分年发放</li>
+<li>条件：到中西部、艰苦边远地区的县以下基层单位就业，签订 3 年以上合同</li>
+<li>河北属中部地区，大部分区域符合（雄安新区除外）；地震、地质、煤炭、核工业等艰苦行业生产一线也符合，应大很多专业直接对口</li>
+<li>不予批准：县级以上机关、高校，以及金融、房地产、通讯等非艰苦行业</li>
+<li>学费补偿和助学贷款代偿只能二选一，具体以学校学生资助部门通知为准</li>
+</ul>
+<p>相关申请通过全国学生资助管理与服务平台办理：<a href="https://yd.xszz.edu.cn/#/">yd.xszz.edu.cn</a>（应大专属入口，奖学金、助学金、助学贷款都在这里）。</p>
+<p>审核说明原件：<a href="学费补偿代偿审核说明2024版.pdf" target="_blank">在线查看（PDF）</a>｜<a href="学费补偿代偿审核说明2024版.doc" download>下载原件（Word 版）</a></p>
           </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
@@ -610,9 +622,9 @@ body::before {
     "desc": "学分绩点 - 四六级"
   },
   {
-    "url": "../学分绩点/奖学金.html",
-    "title": "奖学金",
-    "desc": "学分绩点 - 奖学金"
+    "url": "../学分绩点/奖学金与资助.html",
+    "title": "奖学金与资助",
+    "desc": "学分绩点 - 奖学金与资助：奖学金评定、基层就业学费补偿贷款代偿、学生资助平台"
   },
   {
     "url": "../学分绩点/学分要求.html",
@@ -958,7 +970,11 @@ body::before {
         matched = true;
         a.classList.add('active');
         var item = a.closest('.sidebar-item');
-        if (item) item.classList.remove('collapsed');
+        if (item) {
+          item.classList.remove('collapsed');
+          var foldEl = item.querySelector(':scope > .sidebar-link .sidebar-fold');
+          if (foldEl) foldEl.textContent = '\u25BE';
+        }
       }
     });
     // 学院与专业：专业页面（不在侧边栏中）按所属学院目录名高亮

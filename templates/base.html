@@ -149,6 +149,13 @@ html, body {
 .sidebar-children .sidebar-link:hover {
   color: #fff !important;
 }
+/* 当前子页面高亮 */
+.sidebar-children .sidebar-link.active {
+  color: #fff !important;
+  font-weight: 600;
+  background: rgba(122, 167, 255, 0.18);
+  border-left-color: #7aa7ff;
+}
 .sidebar-children {
   list-style: none; padding: 0; margin: 0;
   border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
@@ -591,7 +598,11 @@ body::before {
         matched = true;
         a.classList.add('active');
         var item = a.closest('.sidebar-item');
-        if (item) item.classList.remove('collapsed');
+        if (item) {
+          item.classList.remove('collapsed');
+          var foldEl = item.querySelector(':scope > .sidebar-link .sidebar-fold');
+          if (foldEl) foldEl.textContent = '\u25BE';
+        }
       }
     });
     // 学院与专业：专业页面（不在侧边栏中）按所属学院目录名高亮
