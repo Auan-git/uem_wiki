@@ -9,6 +9,9 @@ window.CONTRIBUTORS = [
   { name: '张栩豪', avatar: 'contributors/张栩豪.jpg', group: 'content' },
   { name: '桓佳宁', avatar: 'contributors/桓佳宁.jpg', group: 'content' },
   { name: '刘德乾', avatar: 'contributors/刘德乾.jpg', group: 'content' },
+  // pseudonym: true = 非真名（悬停名字提示框显示为红色，实名为蓝色）
+  { name: '影', avatar: 'contributors/影.jpg', group: 'content', pseudonym: true },
+  { name: '刷子', avatar: 'contributors/刷子.jpg', group: 'content', pseudonym: true },
   // —— 技术支持 ——
   { name: '陈文轩', avatar: 'contributors/陈文轩.jpg', group: 'tech' },
   { name: '张栩豪', avatar: 'contributors/张栩豪.jpg', group: 'tech' }

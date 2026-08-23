@@ -50,6 +50,8 @@
   opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 10;
 }
 .contributor-card:hover .contributor-tip { opacity: 1; }
+/* 昵称贡献者：名字提示框为红色（实名为蓝色） */
+.contributor-card.is-pseudonym .contributor-tip { background: rgba(214, 32, 32, 0.92); }
 html, body {
   margin: 0; padding: 0;
   background: var(--paper); color: var(--ink);
@@ -674,7 +676,7 @@ body::before {
       var g = wall.getAttribute('data-group');
       list.filter(function(c) { return c.group === g; }).forEach(function(c) {
         var card = document.createElement('div');
-        card.className = 'contributor-card';
+        card.className = 'contributor-card' + (c.pseudonym ? ' is-pseudonym' : '');
         card.innerHTML = '<img src="' + c.avatar + '" alt="' + c.name + '" title="' + c.name + '" loading="lazy">' +
                          '<span class="contributor-tip">' + c.name + '</span>';
         wall.appendChild(card);
