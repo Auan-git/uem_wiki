@@ -923,6 +923,7 @@ body::before {
   (function() {
     var currentPath = decodeURIComponent(location.pathname);
     if (/\/$/.test(currentPath)) currentPath += 'index.html';
+    currentPath = currentPath.replace(/\.html$/, '');
     var links = document.querySelectorAll('.sidebar-children .sidebar-link');
     var matched = false;
     links.forEach(function(a) {
@@ -931,6 +932,7 @@ body::before {
         target = decodeURIComponent(new URL(a.getAttribute('href') || '', location.href).pathname);
       } catch (e) { return; }
       if (/\/$/.test(target)) target += 'index.html';
+      target = target.replace(/\.html$/, '');
       if (target === currentPath) {
         matched = true;
         a.classList.add('active');
