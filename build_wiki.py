@@ -26,14 +26,64 @@ CACHE_FILE = BASE_DIR / ".build_cache.json"
 
 
 def md_to_html(md_content):
-    """将Markdown转换为HTML"""
+    """将Markdown转换为HTML（支持表格、嵌套列表、行内格式全量转换）"""
+    import re
+
+    def convert_inline(text):
+        # 图片
+        text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'<img src="\2" alt="\1" style="max-width:100%;border-radius:4px;">', text)
+        # 链接
+        text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
+        # 粗体（全部对，非贪婪）
+        text = re.sub(r'\*\*([^*]+?)\*\*', r'<strong>\1</strong>', text)
+        # 斜体（全部对，避开 **）
+        text = re.sub(r'(?<!\*)\*([^*\s][^*]*?)\*(?!\*)', r'<em>\1</em>', text)
+        # 行内代码
+        if '`' in text:
+            parts = text.split('`')
+            text = ''.join(p if i % 2 == 0 else f'<code>{p}</code>' for i, p in enumerate(parts))
+        return text
+
     lines = md_content.split('\n')
     html_lines = []
-    in_list = False
-    in_ordered_list = False
     in_blockquote = False
     in_code_block = False
     code_content = []
+    table_lines = []
+    list_stack = []  # [{'tag': 'ul'/'ol', 'level': int, 'li_open': bool}]
+
+    LIST_RE = re.compile(r'^(\s*)([-*]|\d+[.)]) (.*)$')
+    TABLE_ROW_RE = re.compile(r'^\s*\|.*\|\s*$')
+    SEP_CELL_RE = re.compile(r'^:?-{2,}:?$')
+
+    def close_top_li():
+        if list_stack and list_stack[-1]['li_open']:
+            html_lines.append('</li>')
+            list_stack[-1]['li_open'] = False
+
+    def close_all_lists():
+        while list_stack:
+            close_top_li()
+            html_lines.append(f"</{list_stack[-1]['tag']}>")
+            list_stack.pop()
+
+    def flush_table():
+        nonlocal table_lines
+        rows = []
+        for tl in table_lines:
+            cells = [c.strip() for c in tl.strip().strip('|').split('|')]
+            if cells and all(SEP_CELL_RE.match(c) for c in cells if c != ''):
+                continue  # 分隔行
+            rows.append(cells)
+        table_lines = []
+        if not rows:
+            return
+        html_lines.append('<table>')
+        html_lines.append('<thead><tr>' + ''.join(f'<th>{convert_inline(c)}</th>' for c in rows[0]) + '</tr></thead>')
+        html_lines.append('<tbody>')
+        for r in rows[1:]:
+            html_lines.append('<tr>' + ''.join(f'<td>{convert_inline(c)}</td>' for c in r) + '</tr>')
+        html_lines.append('</tbody></table>')
 
     for line in lines:
         stripped = line.strip()
@@ -45,21 +95,24 @@ def md_to_html(md_content):
                 in_code_block = False
                 code_content = []
             else:
+                close_all_lists()
                 in_code_block = True
             continue
-
         if in_code_block:
             code_content.append(line)
             continue
 
+        # 表格行收集（先于其他分支，保证表格被任何行打断时都能先落盘）
+        if TABLE_ROW_RE.match(line):
+            close_all_lists()
+            table_lines.append(stripped)
+            continue
+        if table_lines:
+            flush_table()
+
         # 空行
         if not stripped:
-            if in_list:
-                html_lines.append('</ul>')
-                in_list = False
-            if in_ordered_list:
-                html_lines.append('</ol>')
-                in_ordered_list = False
+            close_all_lists()
             if in_blockquote:
                 html_lines.append('</blockquote>')
                 in_blockquote = False
@@ -67,50 +120,61 @@ def md_to_html(md_content):
 
         # 标题
         if stripped.startswith('#'):
-            level = len(stripped) - len(stripped.lstrip('#'))
+            close_all_lists()
+            if in_blockquote:
+                html_lines.append('</blockquote>')
+                in_blockquote = False
+            level = min(len(stripped) - len(stripped.lstrip('#')), 4)
             text = stripped[level:].strip()
-            html_lines.append(f'<h{level}>{text}</h{level}>')
+            html_lines.append(f'<h{level}>{convert_inline(text)}</h{level}>')
             continue
 
         # 引用
         if stripped.startswith('>'):
+            close_all_lists()
             if not in_blockquote:
                 html_lines.append('<blockquote>')
                 in_blockquote = True
             text = stripped[1:].strip()
-            html_lines.append(f'<p>{text}</p>')
+            html_lines.append(f'<p>{convert_inline(text)}</p>')
             continue
-
-        # 无序列表
-        if stripped.startswith('- ') or stripped.startswith('* '):
-            if not in_list:
-                html_lines.append('<ul>')
-                in_list = True
-            text = stripped[2:].strip()
-            html_lines.append(f'<li>{text}</li>')
-            continue
-
-        # 有序列表
-        if len(stripped) > 2 and stripped[0].isdigit() and stripped[1] in '.)' and stripped[2] == ' ':
-            if not in_ordered_list:
-                html_lines.append('<ol>')
-                in_ordered_list = True
-            text = stripped[3:].strip()
-            html_lines.append(f'<li>{text}</li>')
-            continue
-
-        # 关闭列表
-        if in_list and not stripped.startswith('- ') and not stripped.startswith('* '):
-            html_lines.append('</ul>')
-            in_list = False
-        if in_ordered_list and not (len(stripped) > 2 and stripped[0].isdigit() and stripped[1] in '.)' and stripped[2] == ' '):
-            html_lines.append('</ol>')
-            in_ordered_list = False
-
-        # 关闭引用
-        if in_blockquote and not stripped.startswith('>'):
+        if in_blockquote:
             html_lines.append('</blockquote>')
             in_blockquote = False
+
+        # 列表（含嵌套）
+        m = LIST_RE.match(line)
+        if m:
+            indent_str, marker, content = m.group(1), m.group(2), m.group(3)
+            level = len(indent_str) // 2
+            tag = 'ul' if marker in '-*' else 'ol'
+            if not list_stack:
+                html_lines.append(f'<{tag}>')
+                list_stack.append({'tag': tag, 'level': level, 'li_open': False})
+            else:
+                top = list_stack[-1]
+                if level > top['level']:
+                    # 嵌套层级：进入当前未闭合 <li> 内部
+                    html_lines.append(f'<{tag}>')
+                    list_stack.append({'tag': tag, 'level': level, 'li_open': False})
+                else:
+                    while len(list_stack) > 1 and list_stack[-1]['level'] > level:
+                        close_top_li()
+                        html_lines.append(f"</{list_stack[-1]['tag']}>")
+                        list_stack.pop()
+                    if list_stack[-1]['tag'] != tag:
+                        close_top_li()
+                        html_lines.append(f"</{list_stack[-1]['tag']}>")
+                        list_stack.pop()
+                        html_lines.append(f'<{tag}>')
+                        list_stack.append({'tag': tag, 'level': level, 'li_open': False})
+            close_top_li()
+            html_lines.append(f'<li>{convert_inline(content)}')
+            list_stack[-1]['li_open'] = True
+            continue
+
+        # 普通文本前关闭列表
+        close_all_lists()
 
         # 水平线
         if stripped in ('---', '***', '___'):
@@ -118,34 +182,11 @@ def md_to_html(md_content):
             continue
 
         # 普通段落
-        # 处理图片 ![alt](url)
-        import re
-        text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'<img src="\2" alt="\1" style="max-width:100%;border-radius:4px;">', stripped)
+        html_lines.append(f'<p>{convert_inline(stripped)}</p>')
 
-        # 处理链接 [text](url)
-        text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
-
-        # 处理粗体和斜体
-        text = text.replace('**', '<strong>', 1).replace('**', '</strong>', 1)
-        text = text.replace('*', '<em>', 1).replace('*', '</em>', 1)
-
-        # 处理行内代码
-        if '`' in text:
-            parts = text.split('`')
-            text = ''
-            for i, part in enumerate(parts):
-                if i % 2 == 0:
-                    text += part
-                else:
-                    text += f'<code>{part}</code>'
-
-        html_lines.append(f'<p>{text}</p>')
-
-    # 关闭未关闭的标签
-    if in_list:
-        html_lines.append('</ul>')
-    if in_ordered_list:
-        html_lines.append('</ol>')
+    if table_lines:
+        flush_table()
+    close_all_lists()
     if in_blockquote:
         html_lines.append('</blockquote>')
     if in_code_block:
