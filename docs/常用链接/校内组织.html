@@ -316,9 +316,9 @@ html, body {
   background: #fff; border: 1px solid var(--border); color: var(--ink); transform: rotateY(180deg);
   flex-direction: column; justify-content: center;
 }
-.flip-back::before {  /* 翻转后 logo 虚影底层 */
+.flip-back::before {  /* 翻转后 logo 底纹 */
   content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: var(--wm, none) no-repeat center / 60%; opacity: .08;
+  background: var(--wm, none) no-repeat center / 62%; opacity: .2;
 }
 .flip-back > * { position: relative; z-index: 1; }
 .flip-back .bk-name { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
@@ -475,6 +475,19 @@ body::before {
   .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
   .search-box { order: 2; margin-left: auto; }
   .back-to-top { bottom: 70px; right: 20px; width: 40px; height: 40px; font-size: 18px; }
+  /* 校内组织卡片：一行三个 */
+  .flip-grid { gap: 8px; }
+  .flip-card { width: calc((100% - 16px) / 3); height: auto; aspect-ratio: 1 / 1; }
+  .flip-front { padding: 8px 5px; gap: 6px; }
+  .flip-front .flip-logo { width: 40px; height: 40px; border-radius: 9px; }
+  .flip-front .flip-name { font-size: 11.5px; line-height: 1.3; }
+  .flip-tag { font-size: 9.5px; padding: 1px 6px; }
+  .flip-back { padding: 9px 10px; }
+  .flip-back .bk-name { font-size: 11.5px; margin-bottom: 4px; }
+  .flip-back .bk-desc { font-size: 10px; line-height: 1.4; margin-bottom: 5px; }
+  .flip-back .bk-loc { font-size: 10px; line-height: 1.4; margin-bottom: 5px; }
+  .flip-back .bk-link { font-size: 10px; padding: 2px 8px; }
+  .flip-back .bk-loc svg { width: 10px; height: 10px; margin-right: 3px; }
 }
 @media print {
   .app-nav, .wiki-sidebar, .toc-sidebar, .toc-toggle, .toc-overlay, .back-to-top, body::before { display: none !important; }
@@ -624,6 +637,22 @@ body::before {
   <span class="join-text"><strong>欢迎入驻应大 Wiki</strong> · 社团 / 实验室 / 兴趣组 / 有博客的同学，点此登记上墙 →</span>
 </a>
 <div class="flip-grid">
+  <div class="flip-card" data-flip style="--wm:url('logos/大学生创新实验室.jpg')">
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <img class="flip-logo" src="logos/大学生创新实验室.jpg" alt="大学生创新实验室">
+        <div class="flip-name">大学生创新实验室</div>
+        <div class="flip-tags"><span class="flip-tag">RM</span><span class="flip-tag">风暴战队</span><span class="flip-tag">实验室</span></div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">大学生创新实验室</div>
+        <div class="bk-desc">RoboMaster 风暴战队</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14s5-4.4 5-8A5 5 0 0 0 3 6c0 3.6 5 8 5 8Z"/><circle cx="8" cy="6" r="1.7"/></svg>崇实楼418</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>应急通信与控制工程学院</div>
+        <div class="bk-loc bk-copy" data-copy="UEM风暴机器人战队" title="点击复制"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2 4 9h3l-.5 5L12 7H9l.5-5Z"/></svg>微信公众号：<span class="bk-copy-val">UEM风暴机器人战队</span>（点击复制，微信搜索关注）</div>
+      </div>
+    </div>
+  </div>
   <div class="flip-card" data-flip style="--wm:url('logos/EMU-Stu.png')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
@@ -877,14 +906,12 @@ body::before {
   })();
   </script>
   <script>
-  // 翻转卡片交互：桌面用 CSS hover/focus 翻转；触屏（hover:none）用点击翻转
+  // 翻转卡片交互：桌面 CSS hover 翻转 + 点击也可翻转；触屏（hover:none）纯点击翻转
   (function() {
     var cards = document.querySelectorAll('.flip-card');
     if (!cards.length) return;
-    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     cards.forEach(function(card) {
       card.setAttribute('tabindex', '0');  // 桌面键盘聚焦也能翻（:focus-within）
-      if (canHover) return;  // 桌面：纯 CSS hover，无需 JS
       card.setAttribute('role', 'button');
       card.setAttribute('aria-pressed', 'false');
       function toggle() {
