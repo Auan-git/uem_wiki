@@ -289,15 +289,17 @@ html, body {
 /* 翻转卡片（试点：EMU-Stu）*/
 .flip-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
 .flip-card { perspective: 1000px; width: 220px; height: 220px; cursor: pointer; }
-.flip-inner { position: relative; width: 100%; height: 100%; }
+.flip-inner { position: relative; width: 100%; height: 100%; transition: transform .55s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }  /* 触屏：点击翻转 */
+@media (hover: hover) and (pointer: fine) {
+  .flip-card:hover .flip-inner,
+  .flip-card:focus-within .flip-inner { transform: rotateY(180deg); }  /* 桌面：悬停/聚焦翻转 */
+}
 .flip-face {
   position: absolute; inset: 0; box-sizing: border-box; padding: 14px 16px;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
   border-radius: 8px; display: flex;
-  transition: opacity .3s ease;
 }
-.flip-back { opacity: 0; pointer-events: none; }
-.flip-card.flipped .flip-front { opacity: 0; pointer-events: none; }
-.flip-card.flipped .flip-back { opacity: 1; pointer-events: auto; }
 .flip-front {
   background: #fff; border: 1px solid var(--border);
   flex-direction: column; justify-content: center; align-items: center; gap: 10px;
@@ -334,8 +336,13 @@ html, body {
 .flip-back .bk-copy:hover .bk-copy-val { color: var(--vermilion); border-bottom-color: var(--vermilion); }
 .flip-back .bk-copy.copied .bk-copy-val { color: var(--vermilion); border-bottom: none; }
 /* 不支持 3D 的浏览器降级为正反面切换 */
-/* 降级：不支持 3D transform 的浏览器用 display 切换代替翻转动画 */
-.flip-face { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+@supports not ((transform-style: preserve-3d) and (backface-visibility: hidden)) {
+  .flip-inner { transform: none !important; }
+  .flip-face { position: relative; -webkit-backface-visibility: visible; backface-visibility: visible; }
+  .flip-back { display: none; transform: none; }
+  .flip-card.flipped .flip-front { display: none; }
+  .flip-card.flipped .flip-back { display: flex; }
+}
 .markdown-section input[type="checkbox"] {
   appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
   border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
