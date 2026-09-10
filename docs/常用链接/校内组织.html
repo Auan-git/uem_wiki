@@ -292,8 +292,7 @@ html, body {
 .flip-inner { position: relative; width: 100%; height: 100%; transition: transform .55s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
 .flip-card.flipped .flip-inner { transform: rotateY(180deg); }  /* 触屏：点击翻转 */
 @media (hover: hover) and (pointer: fine) {
-  .flip-card:hover .flip-inner,
-  .flip-card:focus-within .flip-inner { transform: rotateY(180deg); }  /* 桌面：悬停/聚焦翻转 */
+  /* 桌面端翻转完全由 JS click toggle 控制 */
 }
 .flip-face {
   position: absolute; inset: 0; box-sizing: border-box; padding: 14px 16px;
@@ -684,10 +683,650 @@ body::before {
       </div>
     </div>
   </div>
-</div>
+  <div class="flip-card" data-flip style="--wm:url('logos/E-link科创室.jpg')">
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <img class="flip-logo" src="logos/E-link科创室.jpg" alt="E-link科创室">
+        <div class="flip-name">E-link科创室</div>
+        <div class="flip-tags"><span class="flip-tag">机械</span><span class="flip-tag">嵌入式</span><span class="flip-tag">硬件</span></div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">E-link科创室</div>
+        <div class="bk-desc">校级 · 崇实楼217</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>应急通信与控制工程学院</div>
+        <div class="bk-loc bk-copy" data-copy="1101733152" title="点击复制"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H7.5l-3 2.5V10.5a2 2 0 0 1-2-2v-4Z"/></svg>QQ群：<span class="bk-copy-val">1101733152</span></div>
+        <a class="bk-link" href="https://link.forevers.love" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3H3v10h10v-6"/><path d="M9 3h4v4"/><path d="M6.5 9.5L13 3"/></svg>官网</a>
+      </div>
+    </div>
+  </div>
+  <div class="flip-card" data-flip style="--wm:url('logos/利刃网安.jpg')">
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <img class="flip-logo" src="logos/利刃网安.jpg" alt="利刃网安攻防实验室">
+        <div class="flip-name">利刃网安攻防实验室</div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">利刃网安攻防实验室</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>计算机信息与安全学院</div>
+      </div>
+    </div>
+  </div>
+  <div class="flip-card" data-flip style="--wm:url('logos/电脑门诊.jpg')">
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <img class="flip-logo" src="logos/电脑门诊.jpg" alt="电脑门诊">
+        <div class="flip-name">电脑门诊</div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">电脑门诊</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>计算机信息与安全学院</div>
+      </div>
+    </div>
+  </div>
+  <div class="flip-card" data-flip>
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div class="flip-logo flip-placeholder">应大</div>
+        <div class="flip-name">应大之声广播电台</div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">应大之声广播电台</div>
+      </div>
+    </div>
+  </div>
+  <div class="flip-card" data-flip>
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div class="flip-logo flip-placeholder">国旗</div>
+        <div class="flip-name">国旗护卫队</div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">国旗护卫队</div>
+      </div>
+    </div>
+  </div>
+  <div class="flip-card" data-flip>
+    <div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div class="flip-logo flip-placeholder">IT</div>
+        <div class="flip-name">IT智云社</div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="bk-name">IT智云社</div>
+        <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>计算机信息与安全学院</div>
+      </div>
+    </div>
+  </div>
+  <!-- ===== 以下组织暂时隐藏，后续开放 =====>
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">法律</div> -->
+  <!--         <div class="flip-name">法律援助中心</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">法律援助中心</div> -->
+  <!--         <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>文法学院</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">轮滑</div> -->
+  <!--         <div class="flip-name">轮滑协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">轮滑协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">跆拳</div> -->
+  <!--         <div class="flip-name">跆拳道协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">跆拳道协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">水上</div> -->
+  <!--         <div class="flip-name">水上应急救援队</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">水上应急救援队</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">犬力</div> -->
+  <!--         <div class="flip-name">犬力应急志愿协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">犬力应急志愿协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">摄影</div> -->
+  <!--         <div class="flip-name">摄影协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">摄影协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">疏桐</div> -->
+  <!--         <div class="flip-name">疏桐人文社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">疏桐人文社</div> -->
+  <!--         <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>文法学院</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">动物</div> -->
+  <!--         <div class="flip-name">动物保护协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">动物保护协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">应大</div> -->
+  <!--         <div class="flip-name">应大模特队</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">应大模特队</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">白夜</div> -->
+  <!--         <div class="flip-name">白夜民谣</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">白夜民谣</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">羽幻</div> -->
+  <!--         <div class="flip-name">羽幻动漫社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">羽幻动漫社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">电声</div> -->
+  <!--         <div class="flip-name">电声乐队</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">电声乐队</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">大学</div> -->
+  <!--         <div class="flip-name">大学生救援队</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">大学生救援队</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">应急</div> -->
+  <!--         <div class="flip-name">应急中队</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">应急中队</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">校学</div> -->
+  <!--         <div class="flip-name">校学生会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">校学生会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">应大</div> -->
+  <!--         <div class="flip-name">应大历史与实践协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">应大历史与实践协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">大学</div> -->
+  <!--         <div class="flip-name">大学生心理健康团</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">大学生心理健康团</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">自行</div> -->
+  <!--         <div class="flip-name">自行车协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">自行车协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">数学</div> -->
+  <!--         <div class="flip-name">数学建模协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">数学建模协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">应急</div> -->
+  <!--         <div class="flip-name">应急手语社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">应急手语社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">电子</div> -->
+  <!--         <div class="flip-name">电子商务协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">电子商务协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">易简</div> -->
+  <!--         <div class="flip-name">易简国学社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">易简国学社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">阳光</div> -->
+  <!--         <div class="flip-name">阳光志愿团</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">阳光志愿团</div> -->
+  <!--         <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>计算机信息与安全学院</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">应大</div> -->
+  <!--         <div class="flip-name">应大管弦乐团</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">应大管弦乐团</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">乒乓</div> -->
+  <!--         <div class="flip-name">乒乓球爱好者协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">乒乓球爱好者协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">青年</div> -->
+  <!--         <div class="flip-name">青年马克思主义学社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">青年马克思主义学社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">红城</div> -->
+  <!--         <div class="flip-name">红城诗词协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">红城诗词协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">美食</div> -->
+  <!--         <div class="flip-name">美食爱好者协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">美食爱好者协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">英语</div> -->
+  <!--         <div class="flip-name">英语爱好者协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">英语爱好者协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">演讲</div> -->
+  <!--         <div class="flip-name">演讲与口才协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">演讲与口才协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">六奕</div> -->
+  <!--         <div class="flip-name">六奕棋院</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">六奕棋院</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">华艺</div> -->
+  <!--         <div class="flip-name">华艺戏剧社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">华艺戏剧社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">KA</div> -->
+  <!--         <div class="flip-name">KAB创业俱乐部</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">KAB创业俱乐部</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">吉他</div> -->
+  <!--         <div class="flip-name">吉他协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">吉他协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">民族</div> -->
+  <!--         <div class="flip-name">民族音乐爱好者协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">民族音乐爱好者协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">四叶</div> -->
+  <!--         <div class="flip-name">四叶草日语协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">四叶草日语协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">武术</div> -->
+  <!--         <div class="flip-name">武术协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">武术协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">蓝帧</div> -->
+  <!--         <div class="flip-name">蓝帧合唱团</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">蓝帧合唱团</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">熠达</div> -->
+  <!--         <div class="flip-name">熠达桌游社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">熠达桌游社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">公益</div> -->
+  <!--         <div class="flip-name">公益实践协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">公益实践协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">影视</div> -->
+  <!--         <div class="flip-name">影视协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">影视协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">电子</div> -->
+  <!--         <div class="flip-name">电子竞技社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">电子竞技社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">HK</div> -->
+  <!--         <div class="flip-name">HK街舞社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">HK街舞社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">书画</div> -->
+  <!--         <div class="flip-name">书画协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">书画协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">ER</div> -->
+  <!--         <div class="flip-name">ERP沙盘协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">ERP沙盘协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">智飞</div> -->
+  <!--         <div class="flip-name">智飞创新俱乐部</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">智飞创新俱乐部</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">羽毛</div> -->
+  <!--         <div class="flip-name">羽毛球爱好者协会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">羽毛球爱好者协会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">雁行</div> -->
+  <!--         <div class="flip-name">雁行国际关系学会</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">雁行国际关系学会</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">汉韵</div> -->
+  <!--         <div class="flip-name">汉韵社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">汉韵社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">RS</div> -->
+  <!--         <div class="flip-name">RS嘻哈文化社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">RS嘻哈文化社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!--   <div class="flip-card" data-flip> -->
+  <!--     <div class="flip-inner"> -->
+  <!--       <div class="flip-face flip-front"> -->
+  <!--         <div class="flip-logo flip-placeholder">扶翼</div> -->
+  <!--         <div class="flip-name">扶翼相声社</div> -->
+  <!--       </div> -->
+  <!--       <div class="flip-face flip-back"> -->
+  <!--         <div class="bk-name">扶翼相声社</div> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </div> -->
 
 
 
+  <!-- ===== 隐藏结束 =====>
           </div>
     <div style="max-width:920px;margin:0 auto;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
