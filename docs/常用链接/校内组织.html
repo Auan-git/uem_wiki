@@ -335,13 +335,8 @@ html, body {
 .flip-back .bk-copy:hover .bk-copy-val { color: var(--vermilion); border-bottom-color: var(--vermilion); }
 .flip-back .bk-copy.copied .bk-copy-val { color: var(--vermilion); border-bottom: none; }
 /* 不支持 3D 的浏览器降级为正反面切换 */
-@supports not ((transform-style: preserve-3d) and (backface-visibility: hidden)) {
-  .flip-inner { transform: none !important; }
-  .flip-face { position: relative; -webkit-backface-visibility: visible; backface-visibility: visible; }
-  .flip-back { display: none; transform: none; }
-  .flip-card.flipped .flip-front { display: none; }
-  .flip-card.flipped .flip-back { display: flex; }
-}
+/* 降级：不支持 3D transform 的浏览器用 display 切换代替翻转动画 */
+.flip-face { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .markdown-section input[type="checkbox"] {
   appearance: none; -webkit-appearance: none; width: 16px; height: 16px;
   border: 2px solid var(--ink-faint); border-radius: 3px; background: var(--paper);
