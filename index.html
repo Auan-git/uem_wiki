@@ -21,9 +21,28 @@
       --link: #0645ad;
       --link-hover: #c23616;
       --border: #e0e0e0;
+      --primary-text: #ffffff;  /* 深色按钮上的文字 */
       --font-serif: 'Noto Serif SC', 'Georgia', serif;
       --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
+
+    /* 系统深色模式自动覆盖 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #1a1a1a;
+        --paper-dark: #242424;
+        --ink: #e8e8e8;
+        --ink-light: #b0b0b0;
+        --ink-faint: #7a7a7a;
+        --vermilion: #e85a3c;
+        --link: #6ea8fe;
+        --link-hover: #e85a3c;
+        --border: #444444;
+        --primary-text: #1a1a1a;  /* 浅色按钮上的文字 */
+      }
+    }
+
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       background: var(--paper);
@@ -69,7 +88,8 @@
       border-radius: 4px;
       font-size: 14px;
       width: 280px;
-      background: white;
+      background: var(--paper-dark);
+      color: var(--ink);
     }
     .top-bar .search:focus {
       outline: none;
@@ -80,7 +100,7 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
+      background: var(--paper-dark);
       border: 1px solid var(--border);
       border-radius: 4px;
       margin-top: 4px;
@@ -172,10 +192,12 @@
     }
     .hero-links .primary {
       background: var(--ink);
-      color: white;
+      color: var(--primary-text);
+      border: 1px solid transparent;
     }
     .hero-links .primary:hover {
       background: var(--vermilion);
+      border-color: var(--vermilion);
     }
     .hero-links .secondary {
       border: 1px solid var(--border);
@@ -200,7 +222,7 @@
       text-decoration: none;
       color: inherit;
       transition: all 0.2s;
-      background: white;
+      background: var(--paper);
     }
     .section-card:hover {
       border-color: var(--ink);
