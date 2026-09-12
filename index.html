@@ -10,10 +10,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
+  <script>
+    // 防止主题闪烁
+    (function () {
+      var saved = localStorage.getItem('uem-theme');
+      var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
   <style>
     :root {
       --paper: #ffffff;
       --paper-dark: #f8f6f1;
+      --paper-card: #ffffff;
+      --paper-card-end: #faf9f6;
       --ink: #1a1a1a;
       --ink-light: #4a4a4a;
       --ink-faint: #8a8a8a;
@@ -21,8 +31,29 @@
       --link: #0645ad;
       --link-hover: #c23616;
       --border: #e0e0e0;
+      --card-border-hover: #c5c0b4;
+      --input-bg: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.1);
       --font-serif: 'Noto Serif SC', 'Georgia', serif;
       --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color-scheme: light;
+    }
+    html[data-theme="dark"] {
+      --paper: #12141a;
+      --paper-dark: #1a1d26;
+      --paper-card: #1c1f28;
+      --paper-card-end: #181b23;
+      --ink: #e8eaef;
+      --ink-light: #b4bac6;
+      --ink-faint: #8b92a0;
+      --vermilion: #e25a3c;
+      --link: #7aa7ff;
+      --link-hover: #e25a3c;
+      --border: #2c313c;
+      --card-border-hover: #4a5160;
+      --input-bg: #12141a;
+      --shadow: rgba(0, 0, 0, 0.45);
+      color-scheme: dark;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -31,6 +62,7 @@
       font-family: var(--font-sans);
       font-size: 16px;
       line-height: 1.6;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     /* 顶部栏 */
@@ -40,13 +72,14 @@
       padding: 12px 24px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 16px;
     }
     .top-bar .logo {
       display: flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
+      margin-right: auto;
     }
     .top-bar .logo-img {
       width: 36px;
@@ -69,7 +102,31 @@
       border-radius: 4px;
       font-size: 14px;
       width: 280px;
-      background: white;
+      background: var(--input-bg);
+      color: var(--ink);
+    }
+    .top-bar .search::placeholder {
+      color: var(--ink-faint);
+    }
+    .theme-toggle {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .theme-toggle:hover {
+      border-color: var(--card-border-hover);
+      transform: scale(1.05);
     }
     .top-bar .search:focus {
       outline: none;
@@ -80,14 +137,14 @@
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
+      background: var(--paper-card);
       border: 1px solid var(--border);
       border-radius: 4px;
       margin-top: 4px;
       max-height: 400px;
       overflow-y: auto;
       display: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px var(--shadow);
       z-index: 1000;
     }
     .search-results.active {
@@ -140,7 +197,15 @@
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+    .hero h3 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--ink-faint);
+      margin: -8px 0 16px;
+      letter-spacing: 4px;
     }
     .hero h1 {
       font-family: var(--font-serif);
@@ -171,22 +236,23 @@
       transition: all 0.2s;
     }
     .hero-links .primary {
-      background: var(--ink);
+      background: #002f82;
       color: white;
     }
     .hero-links .primary:hover {
-      background: var(--vermilion);
+      background: #0040b3;
     }
     .hero-links .secondary {
       border: 1px solid var(--border);
       color: var(--ink-light);
+      background: transparent;
     }
     .hero-links .secondary:hover {
       border-color: var(--ink);
       color: var(--ink);
     }
 
-    /* 板块卡片 */
+    /* 板块卡片：emoji 作背景水印 */
     .sections {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -194,22 +260,42 @@
       margin-bottom: 48px;
     }
     .section-card {
+      position: relative;
+      overflow: hidden;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px;
+      border-radius: 12px;
+      padding: 24px 24px 28px;
       text-decoration: none;
       color: inherit;
       transition: all 0.2s;
-      background: white;
+      background: linear-gradient(145deg, var(--paper-card) 0%, var(--paper-card-end) 100%);
+      min-height: 148px;
     }
     .section-card:hover {
-      border-color: var(--ink);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transform: translateY(-2px);
+      border-color: var(--card-border-hover);
+      box-shadow: 0 8px 24px var(--shadow);
+      transform: translateY(-3px);
     }
     .section-card .icon {
-      font-size: 32px;
-      margin-bottom: 12px;
+      position: absolute;
+      right: -6px;
+      bottom: -18px;
+      font-size: 96px;
+      line-height: 1;
+      opacity: 0.18;
+      pointer-events: none;
+      user-select: none;
+      transform: rotate(-8deg);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .section-card:hover .icon {
+      opacity: 0.28;
+      transform: rotate(-4deg) scale(1.05);
+    }
+    .section-card h3,
+    .section-card p {
+      position: relative;
+      z-index: 1;
     }
     .section-card h3 {
       font-family: var(--font-serif);
@@ -222,6 +308,143 @@
       font-size: 14px;
       color: var(--ink-faint);
       line-height: 1.6;
+      max-width: 85%;
+    }
+
+    /* 最近更新 */
+    .recent {
+      margin: 8px 0 28px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--paper-card);
+    }
+    .recent h2 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+    .recent ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .recent li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .recent li:last-child { border-bottom: none; }
+    .recent a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .recent a:hover { color: var(--vermilion); }
+    .recent span {
+      color: var(--ink-faint);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    /* 联系我们 */
+    .contact {
+      margin: 8px 0 48px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--paper-card);
+    }
+    .contact h2 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .contact-body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .contact-qr {
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .contact-qr img {
+      width: 160px;
+      height: 160px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fff;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+    .contact-qr .qr-hint {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+    .contact-info {
+      flex: 1;
+      min-width: 220px;
+    }
+    .contact-line {
+      font-size: 15px;
+      color: var(--ink-light);
+      margin-bottom: 14px;
+      line-height: 1.7;
+    }
+    .contact-qq {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .contact-qq .label {
+      font-size: 13px;
+      color: var(--ink-faint);
+      letter-spacing: 1px;
+    }
+    .contact-qq code {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 18px;
+      font-weight: 600;
+      color: #002f82;
+      letter-spacing: 0.5px;
+      user-select: all;
+    }
+    html[data-theme="dark"] .contact-qq code {
+      color: #7aa7ff;
+    }
+    .copy-btn {
+      border: 1px solid var(--border);
+      background: var(--paper);
+      color: var(--ink-light);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .copy-btn:hover {
+      border-color: #002f82;
+      color: #002f82;
+    }
+    html[data-theme="dark"] .copy-btn:hover {
+      border-color: #7aa7ff;
+      color: #7aa7ff;
+    }
+    .contact-note {
+      font-size: 13px;
+      color: var(--ink-faint);
     }
 
     /* 页脚 */
@@ -238,6 +461,8 @@
       .hero h1 { font-size: 32px; }
       .hero-links { flex-direction: column; }
       .top-bar .search { width: 160px; }
+      .section-card .icon { font-size: 72px; right: -4px; bottom: -12px; }
+      .section-card p { max-width: 100%; }
     }
   </style>
 </head>
@@ -251,6 +476,7 @@
       <input type="text" id="searchInput" class="search" placeholder="搜索页面内容..." autocomplete="off">
       <div id="searchResults" class="search-results"></div>
     </div>
+    <button type="button" class="theme-toggle" id="themeToggle" title="切换深浅色" aria-label="切换深浅色">🌙</button>
   </div>
 
   <div class="container">
@@ -258,63 +484,141 @@
       <img src="圆形logo.png" alt="应急管理大学" class="hero-logo">
       <h1>应大Wiki</h1>
       <h3>厚德启智，扶危安国</h3>
-      <p></p>
       <p>应大wiki是一个内容自由、任何人都能参与的协作计划，其目标是建立一个完整、准确且中立的应大百科全书。</p>
       <div class="hero-links">
-        <a href="docs/写在前面/index.html" class="secondary">开始阅读</a>
-        <a href="docs/关于我们/index.html" class="primary">关于我们</a>
+        <a href="docs/写在前面/index.html" class="primary">开始阅读</a>
+        <a href="docs/关于我们/index.html" class="secondary">关于我们</a>
       </div>
     </div>
 
     <div class="sections" id="sections">
       <a href="docs/写在前面/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">👋</div>
         <h3>写在前面</h3>
         <p>欢迎来到应大Wiki，了解本站的使用方式。</p>
       </a>
       <a href="docs/学校概览/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">🏫</div>
         <h3>学校概览</h3>
         <p>学校简介、燕郊特色、周边配套，了解应大。</p>
       </a>
       <a href="docs/入学指南/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">🎒</div>
         <h3>入学指南</h3>
         <p>来校交通、报到流程、军训体育。</p>
       </a>
       <a href="docs/选课指南/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">📚</div>
         <h3>选课指南</h3>
         <p>选课流程、推荐课程、选课时间线。</p>
       </a>
       <a href="docs/学分绩点/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">💯</div>
         <h3>学分绩点</h3>
         <p>学分、绩点、奖学金、四六级、选修课。</p>
       </a>
       <a href="docs/校园生活/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">🏠</div>
         <h3>校园生活</h3>
         <p>宿舍食堂、学生组织、心理健康、常用电话。</p>
       </a>
       <a href="docs/常用链接/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">🔗</div>
         <h3>常用链接</h3>
         <p>学校组织、学长学姐博客、实用网站。</p>
       </a>
       <a href="docs/学院与专业/index.html" class="section-card">
-        <div class="icon"></div>
+        <div class="icon">🎓</div>
         <h3>学院与专业</h3>
         <p>16 个学院、68 个本科专业，选专业不迷茫。</p>
       </a>
+      <a href="docs/关于我们/index.html" class="section-card">
+        <div class="icon">💝</div>
+        <h3>关于我们</h3>
+        <p>贡献者、联系方式，欢迎一起共建。</p>
+      </a>
     </div>
+
+    <section class="recent">
+      <h2>最近更新</h2>
+      <ul>
+        <li><a href="docs/常用链接/校内组织.html">校内组织</a><span>2026-09-10</span></li>
+        <li><a href="docs/关于我们/index.html">关于我们 · 贡献者</a><span>2026-08-23</span></li>
+        <li><a href="docs/学分绩点/奖学金与资助.html">奖学金与资助</a><span>2026-08</span></li>
+        <li><a href="docs/入学指南/来校路线.html">来校路线</a><span>2026-08</span></li>
+      </ul>
+    </section>
+
+    <section class="contact">
+      <h2>联系我们</h2>
+      <div class="contact-body">
+        <div class="contact-qr">
+          <img src="assets/qq-group-qr.jpg" alt="应大Wiki QQ 群二维码" width="160" height="160">
+          <p class="qr-hint">QQ 群 · 扫码加入</p>
+        </div>
+        <div class="contact-info">
+          <p class="contact-line">反馈建议、纠错补充、社团入驻，欢迎进群交流或联系站长。</p>
+          <p class="contact-qq">
+            <span class="label">站长 QQ</span>
+            <code id="qqNum">1103920408</code>
+            <button type="button" class="copy-btn" id="copyQq" title="复制QQ号">复制</button>
+          </p>
+          <p class="contact-note">也可在文章页评论区留言，我们会尽快处理。</p>
+        </div>
+        <div class="contact-qr">
+          <img src="assets/donate-qr.jpg" alt="赞赏码" width="160" height="160">
+          <p class="qr-hint">赞赏支持 · 自愿打赏</p>
+        </div>
+      </div>
+    </section>
 
   </div>
 
   <footer>
-    <p>应大Wiki — 学长学姐经验传承</p>
+    <p>应大Wiki — 非官方 · 学生共建 · 与学校无关</p>
+    <p style="margin-top:6px;opacity:.85;">内容仅供参考，请以学校官方通知为准 · <a href="docs/关于我们/index.html" style="color:inherit;">参与贡献</a></p>
   </footer>
 
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+      function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+      function apply(theme, save) {
+        if (theme === 'dark') root.setAttribute('data-theme', 'dark');
+        else root.removeAttribute('data-theme');
+        if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+        if (save) localStorage.setItem('uem-theme', theme);
+      }
+      apply(isDark() ? 'dark' : 'light', false);
+      if (btn) {
+        btn.addEventListener('click', function () {
+          apply(isDark() ? 'light' : 'dark', true);
+        });
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var btn = document.getElementById('copyQq');
+      var el = document.getElementById('qqNum');
+      if (!btn || !el) return;
+      btn.addEventListener('click', function () {
+        var text = el.textContent.trim();
+        function done() {
+          btn.textContent = '已复制';
+          setTimeout(function () { btn.textContent = '复制'; }, 1500);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () {
+            window.prompt('复制QQ号：', text);
+          });
+        } else {
+          window.prompt('复制QQ号：', text);
+        }
+      });
+    })();
+  </script>
   <script>
     // 所有页面列表
     const pages = [

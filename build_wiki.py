@@ -291,59 +291,66 @@ def generate_sidebar(current_page, relative_depth):
     return html
 
 
-def generate_search_data():
-    """生成搜索数据"""
-    # 定义页面列表
+def generate_search_data(relative_depth='../'):
+    """生成搜索数据；relative_depth 为当前页到 docs/ 的相对前缀"""
+    # 定义页面列表（路径相对 docs/）
     pages = [
-        {"url": "../学校概览/周边配套.html", "title": "周边配套", "desc": "学校概览 - 周边配套"},
-        {"url": "../学校概览/学校简介.html", "title": "学校简介", "desc": "学校概览 - 学校简介"},
-        {"url": "../学校概览/燕郊特色.html", "title": "燕郊特色", "desc": "学校概览 - 燕郊特色"},
-        {"url": "../校园生活/体育课选择.html", "title": "体育课选择", "desc": "校园生活 - 体育课选择"},
-        {"url": "../入学指南/军训须知.html", "title": "军训须知", "desc": "入学指南 - 军训须知"},
-        {"url": "../入学指南/防骗指南.html", "title": "防骗指南", "desc": "入学指南 - 防骗指南"},
-        {"url": "../入学指南/报到流程.html", "title": "报到流程", "desc": "入学指南 - 报到流程"},
-        {"url": "../入学指南/来校路线.html", "title": "来校路线", "desc": "入学指南 - 来校路线"},
-        {"url": "../选课指南/推荐课程.html", "title": "推荐课程", "desc": "选课指南 - 推荐课程"},
-        {"url": "../选课指南/选课时间线.html", "title": "选课时间线", "desc": "选课指南 - 选课时间线"},
-        {"url": "../选课指南/选课流程.html", "title": "选课流程", "desc": "选课指南 - 选课流程"},
-        {"url": "../学分绩点/四六级.html", "title": "四六级", "desc": "学分绩点 - 四六级"},
-        {"url": "../学分绩点/奖学金与资助.html", "title": "奖学金与资助", "desc": "学分绩点 - 奖学金与资助：奖学金评定、基层就业学费补偿贷款代偿、学生资助平台"},
-        {"url": "../学分绩点/学分要求.html", "title": "学分要求", "desc": "学分绩点 - 学分要求"},
-        {"url": "../学分绩点/毕业条件.html", "title": "毕业条件", "desc": "学分绩点 - 毕业条件"},
-        {"url": "../学分绩点/绩点计算.html", "title": "绩点计算", "desc": "学分绩点 - 绩点计算"},
-        {"url": "../学分绩点/选修课.html", "title": "选修课", "desc": "学分绩点 - 选修课"},
-        {"url": "../校园生活/体测要求.html", "title": "体测要求", "desc": "校园生活 - 体测要求"},
-        {"url": "../校园生活/公交指南.html", "title": "公交指南", "desc": "校园生活 - 公交指南"},
-        {"url": "../校园生活/地铁指南.html", "title": "地铁指南", "desc": "校园生活 - 地铁指南"},
-        {"url": "../校园生活/学生组织.html", "title": "学生组织", "desc": "校园生活 - 学生组织"},
-        {"url": "../校园生活/宿舍篇.html", "title": "宿舍篇", "desc": "校园生活 - 宿舍篇"},
-        {"url": "../校园生活/常用电话.html", "title": "常用电话", "desc": "校园生活 - 常用电话"},
-        {"url": "../校园生活/心理健康.html", "title": "心理健康", "desc": "校园生活 - 心理健康"},
-        {"url": "../校园生活/校园地图.html", "title": "校园地图", "desc": "校园生活 - 校园地图"},
-        {"url": "../校园生活/食堂篇.html", "title": "食堂篇", "desc": "校园生活 - 食堂篇"},
-        {"url": "../校园生活/晚自习.html", "title": "晚自习", "desc": "校园生活 - 晚自习"},
-        {"url": "../校园生活/准军事化管理.html", "title": "准军事化管理", "desc": "校园生活 - 准军事化管理"},
-        {"url": "../校园生活/作息时间.html", "title": "作息时间", "desc": "校园生活 - 作息时间"},
-        {"url": "../校园生活/校历.html", "title": "校历", "desc": "校园生活 - 校历"},
-        {"url": "../校园生活/恋爱.html", "title": "恋爱", "desc": "校园生活 - 恋爱"},
-        {"url": "../学院与专业/应急技术与指挥学院/index.html", "title": "应急技术与指挥学院", "desc": "应急技术与指挥学院专业介绍"},
-        {"url": "../学院与专业/矿山安全学院/index.html", "title": "矿山安全学院", "desc": "矿山安全学院专业介绍"},
-        {"url": "../学院与专业/城市安全学院/index.html", "title": "城市安全学院", "desc": "城市安全学院专业介绍"},
-        {"url": "../学院与专业/地震工程与建筑安全学院/index.html", "title": "地震工程与建筑安全学院", "desc": "地震工程与建筑安全学院专业介绍"},
-        {"url": "../学院与专业/地震科学与技术学院/index.html", "title": "地震科学与技术学院", "desc": "地震科学与技术学院专业介绍"},
-        {"url": "../学院与专业/化工安全学院/index.html", "title": "化工安全学院", "desc": "化工安全学院专业介绍"},
-        {"url": "../学院与专业/环境与灾害治理学院/index.html", "title": "环境与灾害治理学院", "desc": "环境与灾害治理学院专业介绍"},
-        {"url": "../学院与专业/计算机与信息安全学院/index.html", "title": "计算机与信息安全学院", "desc": "计算机与信息安全学院专业介绍"},
-        {"url": "../学院与专业/应急通信与控制工程学院/index.html", "title": "应急通信与控制工程学院", "desc": "应急通信与控制工程学院专业介绍"},
-        {"url": "../学院与专业/应急装备学院/index.html", "title": "应急装备学院", "desc": "应急装备学院专业介绍"},
-        {"url": "../学院与专业/应急经济与物资保障学院/index.html", "title": "应急经济与物资保障学院", "desc": "应急经济与物资保障学院专业介绍"},
-        {"url": "../学院与专业/应急国际交流学院/index.html", "title": "应急国际交流学院", "desc": "应急国际交流学院专业介绍"},
-        {"url": "../学院与专业/应急救援训练中心/index.html", "title": "应急救援训练中心", "desc": "应急救援训练中心专业介绍"},
-        {"url": "../学院与专业/应急文化传播与法学院/index.html", "title": "应急文化传播与法学院", "desc": "应急文化传播与法学院专业介绍"},
-        {"url": "../学院与专业/理学院/index.html", "title": "理学院", "desc": "理学院专业介绍"},
-        {"url": "../学院与专业/防灾减灾工程学院/index.html", "title": "防灾减灾工程学院", "desc": "防灾减灾工程学院专业介绍"},
+        {"path": "学校概览/周边配套.html", "title": "周边配套", "desc": "学校概览 - 周边配套"},
+        {"path": "学校概览/学校简介.html", "title": "学校简介", "desc": "学校概览 - 学校简介"},
+        {"path": "学校概览/燕郊特色.html", "title": "燕郊特色", "desc": "学校概览 - 燕郊特色"},
+        {"path": "校园生活/体育课选择.html", "title": "体育课选择", "desc": "校园生活 - 体育课选择"},
+        {"path": "入学指南/军训须知.html", "title": "军训须知", "desc": "入学指南 - 军训须知"},
+        {"path": "入学指南/防骗指南.html", "title": "防骗指南", "desc": "入学指南 - 防骗指南"},
+        {"path": "入学指南/报到流程.html", "title": "报到流程", "desc": "入学指南 - 报到流程"},
+        {"path": "入学指南/来校路线.html", "title": "来校路线", "desc": "入学指南 - 来校路线"},
+        {"path": "选课指南/推荐课程.html", "title": "推荐课程", "desc": "选课指南 - 推荐课程"},
+        {"path": "选课指南/选课时间线.html", "title": "选课时间线", "desc": "选课指南 - 选课时间线"},
+        {"path": "选课指南/选课流程.html", "title": "选课流程", "desc": "选课指南 - 选课流程"},
+        {"path": "学分绩点/四六级.html", "title": "四六级", "desc": "学分绩点 - 四六级"},
+        {"path": "学分绩点/奖学金与资助.html", "title": "奖学金与资助", "desc": "学分绩点 - 奖学金与资助：奖学金评定、基层就业学费补偿贷款代偿、学生资助平台"},
+        {"path": "学分绩点/学分要求.html", "title": "学分要求", "desc": "学分绩点 - 学分要求"},
+        {"path": "学分绩点/毕业条件.html", "title": "毕业条件", "desc": "学分绩点 - 毕业条件"},
+        {"path": "学分绩点/绩点计算.html", "title": "绩点计算", "desc": "学分绩点 - 绩点计算"},
+        {"path": "学分绩点/选修课.html", "title": "选修课", "desc": "学分绩点 - 选修课"},
+        {"path": "校园生活/体测要求.html", "title": "体测要求", "desc": "校园生活 - 体测要求"},
+        {"path": "校园生活/公交指南.html", "title": "公交指南", "desc": "校园生活 - 公交指南"},
+        {"path": "校园生活/地铁指南.html", "title": "地铁指南", "desc": "校园生活 - 地铁指南"},
+        {"path": "校园生活/学生组织.html", "title": "学生组织", "desc": "校园生活 - 学生组织"},
+        {"path": "校园生活/宿舍篇.html", "title": "宿舍篇", "desc": "校园生活 - 宿舍篇"},
+        {"path": "校园生活/常用电话.html", "title": "常用电话", "desc": "校园生活 - 常用电话"},
+        {"path": "校园生活/心理健康.html", "title": "心理健康", "desc": "校园生活 - 心理健康"},
+        {"path": "校园生活/校园地图.html", "title": "校园地图", "desc": "校园生活 - 校园地图"},
+        {"path": "校园生活/食堂篇.html", "title": "食堂篇", "desc": "校园生活 - 食堂篇"},
+        {"path": "校园生活/晚自习.html", "title": "晚自习", "desc": "校园生活 - 晚自习"},
+        {"path": "校园生活/准军事化管理.html", "title": "准军事化管理", "desc": "校园生活 - 准军事化管理"},
+        {"path": "校园生活/作息时间.html", "title": "作息时间", "desc": "校园生活 - 作息时间"},
+        {"path": "校园生活/校历.html", "title": "校历", "desc": "校园生活 - 校历"},
+        {"path": "校园生活/恋爱.html", "title": "恋爱", "desc": "校园生活 - 恋爱"},
+        {"path": "学院与专业/应急技术与指挥学院/index.html", "title": "应急技术与指挥学院", "desc": "应急技术与指挥学院专业介绍"},
+        {"path": "学院与专业/矿山安全学院/index.html", "title": "矿山安全学院", "desc": "矿山安全学院专业介绍"},
+        {"path": "学院与专业/城市安全学院/index.html", "title": "城市安全学院", "desc": "城市安全学院专业介绍"},
+        {"path": "学院与专业/地震工程与建筑安全学院/index.html", "title": "地震工程与建筑安全学院", "desc": "地震工程与建筑安全学院专业介绍"},
+        {"path": "学院与专业/地震科学与技术学院/index.html", "title": "地震科学与技术学院", "desc": "地震科学与技术学院专业介绍"},
+        {"path": "学院与专业/化工安全学院/index.html", "title": "化工安全学院", "desc": "化工安全学院专业介绍"},
+        {"path": "学院与专业/环境与灾害治理学院/index.html", "title": "环境与灾害治理学院", "desc": "环境与灾害治理学院专业介绍"},
+        {"path": "学院与专业/计算机与信息安全学院/index.html", "title": "计算机与信息安全学院", "desc": "计算机与信息安全学院专业介绍"},
+        {"path": "学院与专业/应急通信与控制工程学院/index.html", "title": "应急通信与控制工程学院", "desc": "应急通信与控制工程学院专业介绍"},
+        {"path": "学院与专业/应急装备学院/index.html", "title": "应急装备学院", "desc": "应急装备学院专业介绍"},
+        {"path": "学院与专业/应急经济与物资保障学院/index.html", "title": "应急经济与物资保障学院", "desc": "应急经济与物资保障学院专业介绍"},
+        {"path": "学院与专业/应急国际交流学院/index.html", "title": "应急国际交流学院", "desc": "应急国际交流学院专业介绍"},
+        {"path": "学院与专业/应急救援训练中心/index.html", "title": "应急救援训练中心", "desc": "应急救援训练中心专业介绍"},
+        {"path": "学院与专业/应急文化传播与法学院/index.html", "title": "应急文化传播与法学院", "desc": "应急文化传播与法学院专业介绍"},
+        {"path": "学院与专业/理学院/index.html", "title": "理学院", "desc": "理学院专业介绍"},
+        {"path": "学院与专业/防灾减灾工程学院/index.html", "title": "防灾减灾工程学院", "desc": "防灾减灾工程学院专业介绍"},
+        {"path": "写在前面/index.html", "title": "写在前面", "desc": "欢迎来到应大Wiki"},
+        {"path": "关于我们/index.html", "title": "关于我们", "desc": "贡献者与联系方式"},
+        {"path": "常用链接/index.html", "title": "常用链接", "desc": "校内组织、学长学姐博客"},
+        {"path": "常用链接/校内组织.html", "title": "校内组织", "desc": "实验室、战队与技术社群"},
+        {"path": "常用链接/学长学姐博客.html", "title": "学长学姐博客", "desc": "校友技术博客汇总"},
     ]
-
+    for p in pages:
+        p["url"] = relative_depth + p["path"]
+        del p["path"]
     return json.dumps(pages, ensure_ascii=False, indent=2)
 
 
@@ -391,18 +398,22 @@ def build_html(md_path, force=False):
     current_page = md_path.relative_to(DOCS_DIR).as_posix()
     sidebar_html = generate_sidebar(current_page, relative_depth)
 
-    # 生成搜索数据
-    search_data = generate_search_data()
+    # 生成搜索数据（按当前页深度生成相对 URL）
+    search_data = generate_search_data(relative_depth)
 
     # 读取模板
     template = (TEMPLATES_DIR / 'base.html').read_text(encoding='utf-8')
+
+    # 站点根相对当前页：docs/ 下深度 depth → 需再上一级到仓库根
+    depth = len(md_path.relative_to(DOCS_DIR).parts) - 1
+    base_url = '/'.join(['..'] * (depth + 1))
 
     # 替换变量
     html_output = template.replace('{{title}}', title)
     html_output = html_output.replace('{{content}}', content_html)
     html_output = html_output.replace('{{sidebar}}', sidebar_html)
     html_output = html_output.replace('{{search_data}}', search_data)
-    html_output = html_output.replace('{{base_url}}', '.')
+    html_output = html_output.replace('{{base_url}}', base_url)
 
     # 写入HTML文件
     html_path.write_text(html_output, encoding='utf-8')
