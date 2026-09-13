@@ -642,6 +642,22 @@ html[data-theme="dark"] body::before {
     </div>
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script src="contributors/contributors.js"></script>
+  <script>
+  (function() {
+    var list = window.CONTRIBUTORS || [];
+    document.querySelectorAll('.contributor-wall').forEach(function(wall) {
+      var g = wall.getAttribute('data-group');
+      list.filter(function(c) { return c.group === g; }).forEach(function(c) {
+        var card = document.createElement('div');
+        card.className = 'contributor-card' + (c.pseudonym ? ' is-pseudonym' : '');
+        card.innerHTML = '<img src="' + c.avatar + '" alt="' + c.name + '" title="' + c.name + '" loading="lazy">' +
+                         '<span class="contributor-tip">' + c.name + '</span>';
+        wall.appendChild(card);
+      });
+    });
+  })();
+  </script>
   <script>
 
     const pages = [
