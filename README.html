@@ -167,7 +167,7 @@ body::before {
     (function () {
       try {
         var saved = localStorage.getItem('uem-theme');
-        var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var dark = saved === 'dark';
         if (dark) document.documentElement.setAttribute('data-theme', 'dark');
       } catch (e) {}
     })();
