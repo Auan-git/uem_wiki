@@ -7,6 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('uem-theme');
+        var dark = saved === 'dark';
+        if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+      } catch (e) {}
+    })();
+  </script>
   <style>
 :root {
   --paper: #ffffff;
@@ -22,8 +31,37 @@
   --link-hover: #c23616;
   --border: #d4c9b8;
   --shadow: rgba(44, 36, 22, 0.08);
+  --input-bg: #ffffff;
+  --blockquote-bg: #e8f0ff;
+  --sidebar-bg: #002f82;
+  --sidebar-border: #002466;
+  --btn-bg: #002f82;
+  --btn-hover: #0040b3;
   --font-serif: 'Noto Serif SC', 'Crimson Pro', 'Georgia', 'Songti SC', serif;
   --font-mono: 'Courier New', 'Noto Sans Mono', monospace;
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  --paper: #12141a;
+  --paper-dark: #1a1d26;
+  --paper-edge: #2a2e38;
+  --ink: #e8eaef;
+  --ink-light: #c2c7d1;
+  --ink-faint: #9aa1b0;
+  --ink-fainter: #6b7280;
+  --vermilion: #e25a3c;
+  --vermilion-light: #ff7a5c;
+  --link: #d4a574;
+  --link-hover: #e25a3c;
+  --border: #2c313c;
+  --shadow: rgba(0, 0, 0, 0.45);
+  --input-bg: #12141a;
+  --blockquote-bg: #1a2233;
+  --sidebar-bg: #0a1f4d;
+  --sidebar-border: #061636;
+  --btn-bg: #0a1f4d;
+  --btn-hover: #14306e;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body {
@@ -32,6 +70,7 @@ html, body {
   font-family: var(--font-serif);
   font-size: 16px; line-height: 1.85;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--paper-dark); }
@@ -69,14 +108,25 @@ html, body {
 .search-box { position: relative; margin-left: 12px; }
 .nav-search {
   padding: 6px 12px; border: 1px solid var(--border); border-radius: 4px;
-  font-size: 13px; width: 160px; background: white; font-family: var(--font-serif);
+  font-size: 13px; width: 160px; background: var(--input-bg); color: var(--ink);
+  font-family: var(--font-serif);
 }
+.nav-search::placeholder { color: var(--ink-faint); }
 .nav-search:focus { outline: none; border-color: var(--ink-faint); }
+.theme-toggle {
+  flex-shrink: 0; width: 34px; height: 34px; margin-left: 8px;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: var(--paper); color: var(--ink);
+  cursor: pointer; font-size: 15px; line-height: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.theme-toggle:hover { border-color: var(--ink-faint); transform: scale(1.05); }
 .search-results {
-  position: absolute; top: 100%; right: 0; background: white;
+  position: absolute; top: 100%; right: 0; background: var(--paper);
   border: 1px solid var(--border); border-radius: 4px; margin-top: 4px;
   min-width: 280px; max-height: 400px; overflow-y: auto;
-  display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 1000;
+  display: none; box-shadow: 0 4px 12px var(--shadow); z-index: 1000;
 }
 .search-results.active { display: block; }
 .search-result-item {
@@ -89,7 +139,95 @@ html, body {
 .search-result-desc { font-size: 12px; color: var(--ink-faint); }
 .search-no-result { padding: 14px; text-align: center; color: var(--ink-faint); }
 
+/* Wiki侧边栏 */
+.content { display: flex; padding-top: 56px !important; }
+    .wiki-sidebar {
+      position: fixed; top: 56px; left: 0; bottom: 0;
+      width: 240px; background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      overflow-y: auto; padding: 0 0 20px 0;
+      font-family: var(--font-serif); font-size: 14px;
+      z-index: 50;
+      transition: width 0.3s ease, opacity 0.3s ease;
+    }
+.wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
+.content.sidebar-collapsed .markdown-section {
+  max-width: 920px; margin: 0 auto; padding-left: 40px; padding-right: 40px;
+  transition: max-width 0.3s ease, margin 0.3s ease;
+}
+.sidebar-toggle {
+  position: fixed; top: 64px; left: 240px;
+  width: 18px; height: 36px; border-radius: 0 4px 4px 0;
+  background: var(--btn-bg); color: #fff;
+  border: none; cursor: pointer; font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: left 0.3s ease; z-index: 51;
+}
+.sidebar-toggle:hover { background: var(--btn-hover); }
+.sidebar-toggle.collapsed { left: 0; }
+.sidebar-title {
+  font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.7);
+  text-transform: uppercase; letter-spacing: 2px;
+  padding: 0 20px 8px 20px; border-bottom: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 0;
+  position: sticky; top: 56px; background: var(--sidebar-bg); z-index: 10;
+}
+.sidebar-nav { list-style: none; padding: 0; margin: 0; }
+.sidebar-item { margin: 0; }
+.sidebar-link {
+  display: block; padding: 8px 20px; color: rgba(255,255,255,0.8) !important;
+  text-decoration: none !important; border-bottom: none !important;
+  transition: all 0.15s; border-left: 3px solid transparent;
+}
+.sidebar-link:hover {
+  background: rgba(255,255,255,0.1); color: #fff !important;
+  border-left-color: rgba(255,255,255,0.5);
+}
+.sidebar-link.has-children {
+  font-weight: 600; color: #fff !important;
+}
+.sidebar-link.has-children.active {
+  color: #ffffff !important;
+  font-weight: 700;
+  border-left-color: #7aa7ff;
+  background: rgba(122, 167, 255, 0.18);
+}
+.sidebar-children .sidebar-link {
+  padding: 6px 16px; font-size: 13px; font-weight: 400;
+  color: rgba(255,255,255,0.65) !important;
+}
+.sidebar-children .sidebar-link:hover {
+  color: #fff !important;
+}
+/* 当前子页面高亮 */
+.sidebar-children .sidebar-link.active {
+  color: #fff !important;
+  font-weight: 600;
+  background: rgba(122, 167, 255, 0.18);
+  border-left-color: #7aa7ff;
+}
+.sidebar-children {
+  list-style: none; padding: 0; margin: 0;
+  border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
+}
+/* 模块折叠箭头 */
+.sidebar-link.has-children { position: relative; padding-right: 30px; }
+.sidebar-item { position: relative; }
+.sidebar-fold {
+  position: absolute; right: 6px; top: 8px;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.55); cursor: pointer; font-size: 12px;
+  border-radius: 3px; user-select: none; z-index: 2;
+  transition: color .15s, background .15s;
+}
+.sidebar-fold:hover { color: #fff; background: rgba(255,255,255,0.15); }
+.sidebar-item.collapsed > .sidebar-children { display: none; }
+.wiki-main {
+  margin-left: 240px; margin-right: 220px; flex: 1; min-width: 0;
+}
 
+/* 文章内容 */
 .markdown-section {
   max-width: 920px; margin: 0 auto;
   padding: 48px 60px 80px !important; background: var(--paper);
@@ -118,8 +256,8 @@ html, body {
 .markdown-section a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--ink-fainter); transition: all 0.2s; }
 .markdown-section a:hover { color: var(--vermilion); border-bottom-color: var(--vermilion); }
 .markdown-section blockquote {
-  margin: 1.5em 0; padding: 16px 20px; background: #e8f0ff;
-  border-left: 4px solid #8c8c8c; border-radius: 0 4px 4px 0;
+  margin: 1.5em 0; padding: 16px 20px; background: var(--blockquote-bg);
+  border-left: 4px solid var(--ink-faint); border-radius: 0 4px 4px 0;
   color: var(--ink-light); font-style: italic;
 }
 .markdown-section blockquote p { text-indent: 0; margin: 0.5em 0; color: var(--ink-light); }
@@ -164,6 +302,9 @@ html, body {
   border-radius: 3px; padding: 1px 6px; color: var(--ink-light); box-shadow: 0 1px 1px var(--shadow);
 }
 
+/* PDF 内嵌查看器（桌面显示，手机隐藏改用链接） */
+.pdf-embed { width: 100%; height: 680px; border: 1px solid var(--border); border-radius: 6px; background: var(--paper-dark); }
+
 .doc-links {
   display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 30px;
   padding-bottom: 20px; border-bottom: 1px solid var(--border);
@@ -186,7 +327,57 @@ body::before {
   pointer-events: none; z-index: 9999;
   background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,119,86,0.015) 2px, rgba(139,119,86,0.015) 4px);
 }
+html[data-theme="dark"] body::before {
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 4px);
+}
 
+/* 目录 */
+.toc-sidebar {
+  position: fixed; top: 70px; right: 20px; width: 200px;
+  max-height: calc(100vh - 100px); overflow-y: auto;
+  font-family: var(--font-serif); font-size: 13px; z-index: 100;
+}
+.toc-sidebar::-webkit-scrollbar { width: 3px; }
+.toc-sidebar::-webkit-scrollbar-thumb { background: var(--ink-fainter); border-radius: 2px; }
+.toc-title {
+  font-weight: 700; font-size: 14px; color: var(--ink);
+  margin-bottom: 12px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border); letter-spacing: 1px;
+}
+.toc-title::before { content: ''; }
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-list li { margin: 0; padding: 0; }
+.toc-list a {
+  display: block; padding: 5px 0 5px 12px;
+  color: var(--ink-faint) !important; text-decoration: none !important;
+  border-left: 2px solid transparent; transition: all 0.2s;
+  line-height: 1.5; border-bottom: none !important;
+}
+.toc-list a:hover { color: var(--ink) !important; border-left-color: var(--ink-faint); }
+.toc-list a.active { color: var(--vermilion) !important; border-left-color: var(--vermilion); font-weight: 600; }
+.toc-list .toc-h3 { padding-left: 24px; font-size: 12px; }
+.toc-toggle {
+  display: none; position: fixed; bottom: 20px; right: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--btn-bg); color: var(--paper); border: none;
+  font-size: 20px; cursor: pointer; z-index: 200;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+/* 返回顶部 */
+.back-to-top {
+  position: fixed; bottom: 80px; right: 30px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--btn-bg); color: var(--paper); border: none;
+  font-size: 20px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s;
+  box-shadow: 0 2px 8px var(--shadow); z-index: 150;
+}
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { background: var(--btn-hover); transform: translateY(-2px); }
+
+/* 评论区 */
 #twikoo-comment {
   max-width: 920px; margin: 60px auto 0; padding: 0 0 40px;
   border-top: 2px solid var(--ink); padding-top: 30px;
@@ -196,31 +387,35 @@ body::before {
   color: var(--ink); margin-bottom: 20px; text-align: center;
 }
 
-
-@media print {
-  .app-nav, body::before { display: none !important; }
-  .markdown-section { max-width: 100%; padding: 20px !important; }
-  .content { padding-top: 0 !important; }
-  body { background: white; }
+/* 移动端适配 */
+@media screen and (max-width: 1200px) {
+  .toc-sidebar {
+    position: fixed; left: auto; right: -260px; top: 0; bottom: 0;
+    width: 260px; max-height: 100vh; background: var(--paper);
+    padding: 60px 20px 20px; border-left: 1px solid var(--border);
+    box-shadow: -4px 0 12px var(--shadow); transition: right 0.3s ease; z-index: 500;
+  }
+  .toc-sidebar.open { right: 0; }
+  .toc-toggle { display: flex; align-items: center; justify-content: center; }
+  .toc-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3); z-index: 499;
+  }
+  .toc-overlay.open { display: block; }
 }
-
-
-/* 模块折叠箭头 */
-.sidebar-link.has-children { position: relative; padding-right: 30px; }
-.sidebar-fold {
-  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
-  width: 22px; height: 22px;
-  display: flex; align-items: center; justify-content: center;
-  color: rgba(255,255,255,0.55); cursor: pointer; font-size: 12px;
-  border-radius: 3px; user-select: none;
-  transition: color .15s, background .15s, transform .2s;
+@media screen and (max-width: 900px) {
+  .wiki-sidebar {
+    position: fixed; left: -260px; width: 260px;
+    transition: left 0.3s ease; z-index: 500; box-shadow: none; background: var(--sidebar-bg);
+  }
+  .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px var(--shadow); }
+  .sidebar-toggle { left: 8px; top: 64px; width: 36px; height: 36px; font-size: 18px; border-radius: 4px; z-index: 600; }
+  .sidebar-toggle.on { left: 268px; }
+  .wiki-main { margin-left: 0 !important; }
 }
-.sidebar-fold:hover { color: #fff; background: rgba(255,255,255,0.15); }
-.sidebar-item.collapsed > .sidebar-children { display: none; }
-
 @media screen and (max-width: 768px) {
-.wiki-main { margin-right: 0 !important; }
-  .markdown-section { padding: 24px 20px 60px !important; }
+  .wiki-main { margin-right: 0 !important; }
+  .markdown-section { padding: 24px 20px 60px !important; margin-right: 0; }
   .markdown-section h1 { font-size: 24px; }
   .markdown-section h2 { font-size: 20px; }
   .markdown-section p { font-size: 15.5px; }
@@ -229,432 +424,20 @@ body::before {
   .nav-links { flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 4px; width: 100%; order: 3; }
   .app-nav a { font-size: 13px; line-height: 36px; padding: 0 8px; }
   .search-box { order: 2; margin-left: auto; }
-  
+  .back-to-top { bottom: 70px; right: 20px; width: 40px; height: 40px; font-size: 18px; }
+  .pdf-embed { display: none; }  /* 手机浏览器不支持内嵌 PDF，用链接代替 */
+}
+@media print {
+  .app-nav, .wiki-sidebar, .toc-sidebar, .toc-toggle, .toc-overlay, .back-to-top, body::before { display: none !important; }
+  .markdown-section { max-width: 100%; padding: 20px !important; margin: 0 !important; }
+  .wiki-main { margin-left: 0 !important; }
+  .content { padding-top: 0 !important; }
+  body { background: white; }
 }
 
-    /* 目录样式 */
-    .toc-sidebar {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width: 200px;
-      max-height: calc(100vh - 100px);
-      overflow-y: auto;
-      font-family: var(--font-serif);
-      font-size: 13px;
-      z-index: 100;
-    }
-    .toc-sidebar::-webkit-scrollbar { width: 3px; }
-    .toc-sidebar::-webkit-scrollbar-thumb { background: var(--ink-fainter); border-radius: 2px; }
-    .toc-title {
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--ink);
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      letter-spacing: 1px;
-    }
-    .toc-title::before { content: ''; }
-    .toc-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .toc-list li {
-      margin: 0;
-      padding: 0;
-    }
-    .toc-list a {
-      display: block;
-      padding: 5px 0 5px 12px;
-      color: var(--ink-faint) !important;
-      text-decoration: none !important;
-      border-left: 2px solid transparent;
-      transition: all 0.2s;
-      line-height: 1.5;
-      border-bottom: none !important;
-    }
-    .toc-list a:hover {
-      color: var(--ink) !important;
-      border-left-color: var(--ink-faint);
-    }
-    .toc-list a.active {
-      color: var(--vermilion) !important;
-      border-left-color: var(--vermilion);
-      font-weight: 600;
-    }
-    .toc-list .toc-h3 {
-      padding-left: 24px;
-      font-size: 12px;
-    }
-    .toc-toggle {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #002f82;
-      color: var(--paper);
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 200;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-    @media screen and (max-width: 1200px) {
-      .toc-sidebar {
-        position: fixed;
-        left: auto;
-        right: -260px;
-        top: 0;
-        bottom: 0;
-        width: 260px;
-        max-height: 100vh;
-        background: var(--paper);
-        padding: 60px 20px 20px;
-        border-left: 1px solid var(--border);
-        box-shadow: -4px 0 12px rgba(0,0,0,0.1);
-        transition: right 0.3s ease;
-        z-index: 500;
-      }
-      .toc-sidebar.open {
-        right: 0;
-      }
-      .toc-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .toc-overlay {
-        display: none;
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.3);
-        z-index: 499;
-      }
-      .toc-overlay.open {
-        display: block;
-      }
-    }
-    @media print {
-      .toc-sidebar, .toc-toggle, .toc-overlay { display: none !important; }
-    }
-
-
-    /* 返回顶部按钮 */
-    .back-to-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #002f82;
-      color: var(--paper);
-      border: none;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      z-index: 150;
-    }
-    .back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-    .back-to-top:hover {
-      background: #0040b3;
-      transform: translateY(-2px);
-    }
-    @media screen and (max-width: 768px) {
-      .back-to-top {
-        bottom: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-      }
-    }
-
-
-    /* Wiki导航侧边栏 */
-    .content { display: flex; padding-top: 56px !important; }
-        .wiki-sidebar {
-      position: fixed; top: 56px; left: 0; bottom: 0;
-      width: 240px; background: #002f82;
-      border-right: 1px solid #002466;
-      overflow-y: auto; padding: 0 0 20px 0;
-      font-family: var(--font-serif); font-size: 14px;
-      z-index: 50;
-      transition: width 0.3s ease, opacity 0.3s ease;
-    }
-
-      .wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
-.content.sidebar-collapsed .markdown-section {
-  max-width: 920px; margin: 0 auto; padding-left: 40px; padding-right: 40px;
-  transition: max-width 0.3s ease, margin 0.3s ease;
-}
-      .sidebar-toggle {
-        position: fixed; top: 64px; left: 240px;
-        width: 18px; height: 36px; border-radius: 0 4px 4px 0;
-        background: #002f82; color: #fff;
-        border: none; cursor: pointer; font-size: 12px;
-        display: flex; align-items: center; justify-content: center;
-        transition: left 0.3s ease; z-index: 51;
-      }
-      .sidebar-toggle:hover { background: #0040b3; }
-      .sidebar-toggle.collapsed { left: 0; }
-    .sidebar-title {
-      font-weight: 700; font-size: 13px; color: rgba(255,255,255,0.7);
-      text-transform: uppercase; letter-spacing: 2px;
-      padding: 0 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.2);
-      margin-bottom: 8px;
-    }
-    .sidebar-nav { list-style: none; padding: 0; margin: 0; }
-    .sidebar-item { margin: 0; }
-    .sidebar-link {
-      display: block; padding: 8px 20px; color: rgba(255,255,255,0.8) !important;
-      text-decoration: none !important; border-bottom: none !important;
-      transition: all 0.15s; border-left: 3px solid transparent;
-    }
-    .sidebar-link:hover {
-      background: rgba(255,255,255,0.1); color: #fff !important;
-      border-left-color: rgba(255,255,255,0.5);
-    }
-    .sidebar-link.has-children {
-      font-weight: 600; color: #fff !important;
-    }
-    .sidebar-link.has-children.active {
-      color: #ffffff !important;
-      font-weight: 700;
-      border-left-color: #7aa7ff;
-      background: rgba(122, 167, 255, 0.18);
-    }
-    .sidebar-children .sidebar-link {
-      padding: 6px 16px; font-size: 13px; font-weight: 400;
-      color: rgba(255,255,255,0.65) !important;
-    }
-    .sidebar-children .sidebar-link:hover {
-      color: #fff !important;
-    }
-    /* 当前子页面高亮 */
-    .sidebar-children .sidebar-link.active {
-      color: #fff !important;
-      font-weight: 600;
-      background: rgba(122, 167, 255, 0.18);
-      border-left-color: #7aa7ff;
-    }
-    .sidebar-children {
-      list-style: none; padding: 0; margin: 0;
-      border-left: 1px solid rgba(255,255,255,0.2); margin-left: 20px;
-    }
-    .wiki-main {
-      margin-left: 240px; margin-right: 220px; flex: 1; min-width: 0;
-    }
-    /* 移动端侧边栏 */
-    @media screen and (max-width: 900px) {
-      .wiki-sidebar {
-        position: fixed; left: -260px; width: 260px;
-        transition: left 0.3s ease; z-index: 500;
-        box-shadow: none; background: #002f82;
-      }
-      .wiki-sidebar.open { left: 0; box-shadow: 4px 0 12px rgba(0,0,0,0.1); }
-  .sidebar-toggle { left: 8px; top: 64px; width: 36px; height: 36px; font-size: 18px; border-radius: 4px; z-index: 600; }
-  .sidebar-toggle.on { left: 268px; }
-      .wiki-main { margin-left: 0 !important; }
-      .toc-toggle { display: flex !important; }
-    }
-    @media print {
-      .wiki-sidebar { display: none !important; }
-      .wiki-main { margin-left: 0 !important; }
-    }  
 /* 侧边栏平滑过渡（追加） */
 .wiki-main { transition: margin-left 0.3s ease; }
 .content.sidebar-collapsed .wiki-main { margin-left: 0; }
-</style>
-  <script>
-    (function () {
-      try {
-        var saved = localStorage.getItem('uem-theme');
-        var dark = saved === 'dark';
-        if (dark) document.documentElement.setAttribute('data-theme', 'dark');
-      } catch (e) {}
-    })();
-  </script>
-
-<style id="uem-dark-kit">
-:root { color-scheme: light; }
-html[data-theme="dark"] { color-scheme: dark; }
-html[data-theme="dark"] body {
-  background: #12141a !important;
-  color: #e8eaef !important;
-}
-html[data-theme="dark"] .app-nav,
-html[data-theme="dark"] .top-bar {
-  background: #1a1d26 !important;
-  border-bottom-color: #2c313c !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,.45) !important;
-  color: #e8eaef !important;
-}
-html[data-theme="dark"] .app-nav .nav-brand,
-html[data-theme="dark"] .top-bar .logo-text,
-html[data-theme="dark"] .app-nav a,
-html[data-theme="dark"] .top-bar .logo-text {
-  color: #e8eaef !important;
-}
-html[data-theme="dark"] .app-nav a { color: #9aa1b0 !important; }
-html[data-theme="dark"] .app-nav a:hover,
-html[data-theme="dark"] .app-nav a.active { color: #e8eaef !important; }
-html[data-theme="dark"] .nav-search,
-html[data-theme="dark"] .top-bar .search,
-html[data-theme="dark"] input[type="text"],
-html[data-theme="dark"] input[type="search"] {
-  background: #12141a !important;
-  color: #e8eaef !important;
-  border-color: #2c313c !important;
-}
-html[data-theme="dark"] .search-results {
-  background: #1c1f28 !important;
-  border-color: #2c313c !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,.45) !important;
-}
-html[data-theme="dark"] .search-result-item {
-  color: #e8eaef !important;
-  border-bottom-color: #2c313c !important;
-}
-html[data-theme="dark"] .search-result-item:hover,
-html[data-theme="dark"] .search-no-result {
-  background: #1a1d26 !important;
-  color: #9aa1b0 !important;
-}
-html[data-theme="dark"] .search-result-desc,
-html[data-theme="dark"] .search-result-title { color: inherit !important; }
-html[data-theme="dark"] .search-result-desc { color: #9aa1b0 !important; }
-html[data-theme="dark"] .markdown-section,
-html[data-theme="dark"] .wiki-main,
-html[data-theme="dark"] .content {
-  background: #12141a !important;
-  color: #e8eaef !important;
-}
-html[data-theme="dark"] .markdown-section h1,
-html[data-theme="dark"] .markdown-section h2,
-html[data-theme="dark"] .markdown-section h3,
-html[data-theme="dark"] .markdown-section h4,
-html[data-theme="dark"] .markdown-section p,
-html[data-theme="dark"] .markdown-section li,
-html[data-theme="dark"] .markdown-section td,
-html[data-theme="dark"] .markdown-section th,
-html[data-theme="dark"] .markdown-section strong {
-  color: #e8eaef !important;
-}
-html[data-theme="dark"] .markdown-section h3,
-html[data-theme="dark"] .markdown-section h4,
-html[data-theme="dark"] .markdown-section em { color: #c2c7d1 !important; }
-html[data-theme="dark"] .markdown-section a { color: #d4a574 !important; }
-html[data-theme="dark"] .markdown-section a:hover { color: #e25a3c !important; }
-html[data-theme="dark"] .markdown-section blockquote {
-  background: #1a2233 !important;
-  border-left-color: #9aa1b0 !important;
-  color: #c2c7d1 !important;
-}
-html[data-theme="dark"] .markdown-section table,
-html[data-theme="dark"] .markdown-section thead th,
-html[data-theme="dark"] .markdown-section tbody td {
-  background: #12141a !important;
-  color: #e8eaef !important;
-  border-color: #2c313c !important;
-}
-html[data-theme="dark"] .markdown-section thead th { background: #1a1d26 !important; }
-html[data-theme="dark"] .markdown-section tbody tr:hover { background: #1a1d26 !important; }
-html[data-theme="dark"] .markdown-section code,
-html[data-theme="dark"] .markdown-section pre,
-html[data-theme="dark"] .markdown-section kbd {
-  background: #1a1d26 !important;
-  color: #e8eaef !important;
-  border-color: #2c313c !important;
-}
-html[data-theme="dark"] .markdown-section hr { background: #2c313c !important; }
-html[data-theme="dark"] .toc-sidebar { background: transparent !important; }
-html[data-theme="dark"] .toc-title { color: #e8eaef !important; border-bottom-color: #2c313c !important; }
-html[data-theme="dark"] .toc-list a { color: #9aa1b0 !important; }
-html[data-theme="dark"] .toc-list a:hover { color: #e8eaef !important; }
-html[data-theme="dark"] .toc-list a.active { color: #e25a3c !important; }
-html[data-theme="dark"] .twikoo-title { color: #e8eaef !important; }
-html[data-theme="dark"] #twikoo-comment { border-top-color: #e8eaef !important; }
-html[data-theme="dark"] footer {
-  border-top-color: #2c313c !important;
-  color: #9aa1b0 !important;
-  background: transparent !important;
-}
-html[data-theme="dark"] .doc-links a {
-  background: #1a1d26 !important;
-  color: #e8eaef !important;
-  border-color: #2c313c !important;
-}
-html[data-theme="dark"] .doc-links a:hover {
-  background: #e8eaef !important;
-  color: #12141a !important;
-}
-/* 首页专用（若存在） */
-html[data-theme="dark"] .hero h1,
-html[data-theme="dark"] .hero h3,
-html[data-theme="dark"] .hero p { color: inherit !important; }
-html[data-theme="dark"] .hero h3 { color: #9aa1b0 !important; }
-html[data-theme="dark"] .hero p { color: #c2c7d1 !important; }
-html[data-theme="dark"] .section-card {
-  background: linear-gradient(145deg, #1c1f28 0%, #181b23 100%) !important;
-  border-color: #2c313c !important;
-  color: #e8eaef !important;
-}
-html[data-theme="dark"] .section-card:hover {
-  border-color: #4a5160 !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,.45) !important;
-}
-html[data-theme="dark"] .section-card h3 { color: #e8eaef !important; }
-html[data-theme="dark"] .section-card p { color: #9aa1b0 !important; }
-html[data-theme="dark"] .hero-links .primary {
-  background: #e25a3c !important;
-  color: #fff !important;
-}
-html[data-theme="dark"] .hero-links .secondary {
-  border-color: #2c313c !important;
-  color: #c2c7d1 !important;
-}
-/* 常用链接卡片页可能用到的浅底 */
-html[data-theme="dark"] .card,
-html[data-theme="dark"] .flip-card,
-html[data-theme="dark"] .org-card {
-  background: #1c1f28 !important;
-  color: #e8eaef !important;
-}
-html[data-theme="dark"] .wiki-sidebar,
-html[data-theme="dark"] .sidebar-toggle,
-html[data-theme="dark"] .toc-toggle,
-html[data-theme="dark"] .back-to-top {
-  background: #0a1f4d !important;
-}
-.theme-toggle {
-  flex-shrink: 0;
-  width: 34px; height: 34px; margin-left: 10px;
-  border: 1px solid #d4c9b8; border-radius: 999px;
-  background: #fff; color: #2c2416;
-  cursor: pointer; font-size: 15px; line-height: 1;
-  display: inline-flex; align-items: center; justify-content: center;
-  vertical-align: middle;
-}
-html[data-theme="dark"] .theme-toggle {
-  background: #12141a; color: #e8eaef; border-color: #2c313c;
-}
-.theme-toggle:hover { transform: scale(1.05); }
-@media print { .theme-toggle { display: none !important; } }
 </style>
 </head>
 <body>
@@ -664,20 +447,22 @@ html[data-theme="dark"] .theme-toggle {
       <span>应大Wiki</span>
     </a>
     <div class="nav-links">
-      <a href="../../学校概览/index.html">概览</a>
-      <a href="../../入学指南/index.html">入学</a>
-      <a href="../../选课指南/index.html">选课</a>
-      <a href="../../学分绩点/index.html">学业</a>
-      <a href="../../校园生活/index.html">生活</a><a href="../../常用链接/index.html">链接</a>
+      <a href="../../../docs/学校概览/index.html">概览</a>
+      <a href="../../../docs/入学指南/index.html">入学</a>
+      <a href="../../../docs/选课指南/index.html">选课</a>
+      <a href="../../../docs/学分绩点/index.html">学业</a>
+      <a href="../../../docs/校园生活/index.html">生活</a>
+      <a href="../../../docs/常用链接/index.html">链接</a>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
       <div id="searchResults" class="search-results"></div>
     </div>
+    <button type="button" class="theme-toggle" id="themeToggle" title="切换深浅色" aria-label="切换深浅色">🌙</button>
   </nav>
   <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">◂</button>
   <div class="content">
-<nav class="wiki-sidebar" id="wikiSidebar">
+    <nav class="wiki-sidebar" id="wikiSidebar">
 <ul class="sidebar-nav">
 <li class="sidebar-item">
 <a href="../../学校概览/index.html" class="sidebar-link has-children">学校概览</a>
@@ -763,9 +548,10 @@ html[data-theme="dark"] .theme-toggle {
 <li><a href="../../常用链接/学长学姐博客.html" class="sidebar-link">学长学姐博客</a></li>
 </ul>
 </li>
-</ul></nav>
-  <div class="wiki-main">
-    <div class="toc-sidebar" id="toc">
+</ul>
+</nav>
+    <div class="wiki-main">
+        <div class="toc-sidebar" id="toc">
       <div class="toc-title">目录</div>
       <ul class="toc-list" id="tocList"></ul>
     </div>
@@ -802,14 +588,16 @@ html[data-theme="dark"] .theme-toggle {
 <hr>
 <blockquote><p><a href="../index.html">返回 学院与专业首页</a><br>
 信息整理自公开渠道，具体以学院官方为准。</p></blockquote>
-    </div><div style="max-width:920px;margin:0 auto;padding:0 20px;">
+          </div>
+    <div style="max-width:920px;margin:0 auto;padding:0 20px;">
       <div class="twikoo-title">评论区</div>
       <div id="twikoo-comment"></div>
     </div>
-  </div>
+    </div>
   </div>
   <script src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
   <script>
+
     const pages = [
       { url: '../../学校概览/index.html', title: '学校概览', desc: '学校简介、燕郊特色、周边配套' },
       { url: '../../学校概览/学校简介.html', title: '学校简介', desc: '应急管理大学官方与学生视角介绍' },
@@ -873,28 +661,16 @@ html[data-theme="dark"] .theme-toggle {
       commentPermission: 'anyone',
     });
   </script>
-  <script>
-  (function() {
-    var sidebar = document.getElementById('wikiSidebar');
-    var activeLink = sidebar ? sidebar.querySelector('.sidebar-link.has-children.active') : null;
-    if (sidebar && activeLink) {
-      setTimeout(function() {
-        var sidebarRect = sidebar.getBoundingClientRect();
-        var linkRect = activeLink.getBoundingClientRect();
-        if (linkRect.top < sidebarRect.top || linkRect.bottom > sidebarRect.bottom) {
-          activeLink.scrollIntoView({ block: 'center', behavior: 'smooth' });
-        }
-      }, 100);
-    }
-  })();
-  </script>
+
   <script>
   (function() {
     var section = document.querySelector('.markdown-section');
     var tocList = document.getElementById('tocList');
     if (!section || !tocList) return;
+
     var headings = section.querySelectorAll('h2, h3');
     if (headings.length === 0) return;
+
     headings.forEach(function(h, i) {
       if (!h.id) h.id = 'toc-' + i;
       var li = document.createElement('li');
@@ -905,19 +681,25 @@ html[data-theme="dark"] .theme-toggle {
       li.appendChild(a);
       tocList.appendChild(li);
     });
+
     var links = tocList.querySelectorAll('a');
     function onScroll() {
       var scrollY = window.scrollY + 80;
       var current = null;
-      headings.forEach(function(h) { if (h.offsetTop <= scrollY) current = h; });
+      headings.forEach(function(h) {
+        if (h.offsetTop <= scrollY) current = h;
+      });
       links.forEach(function(a) {
         a.classList.remove('active');
-        if (current && a.getAttribute('href') === '#' + current.id) a.classList.add('active');
+        if (current && a.getAttribute('href') === '#' + current.id) {
+          a.classList.add('active');
+        }
       });
     }
     window.addEventListener('scroll', onScroll);
     onScroll();
   })();
+
   function toggleToc() {
     document.getElementById('toc').classList.toggle('open');
     document.getElementById('tocOverlay').classList.toggle('open');
@@ -926,15 +708,18 @@ html[data-theme="dark"] .theme-toggle {
   </script>
 
     <button class="back-to-top" id="backToTop" onclick="scrollToTop()">↑</button>
+
   <script>
   (function() {
     var btn = document.getElementById('backToTop');
     if (!btn) return;
     window.addEventListener('scroll', function() {
-      if (window.scrollY > 300) btn.classList.add('visible');
-      else btn.classList.remove('visible');
+      if (window.scrollY > 300) { btn.classList.add('visible'); }
+      else { btn.classList.remove('visible'); }
     });
-    window.scrollToTop = function() { window.scrollTo({ top: 0, behavior: 'smooth' }); };
+    window.scrollToTop = function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
   })();
   </script>
 
@@ -1040,40 +825,26 @@ html[data-theme="dark"] .theme-toggle {
     }
   })();
   </script>
-
-<script>
-(function () {
-  var root = document.documentElement;
-  function isDark() { return root.getAttribute('data-theme') === 'dark'; }
-  function apply(theme, save) {
-    if (theme === 'dark') root.setAttribute('data-theme', 'dark');
-    else root.removeAttribute('data-theme');
+  <script>
+  (function () {
+    var root = document.documentElement;
     var btn = document.getElementById('themeToggle');
-    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-    if (save) { try { localStorage.setItem('uem-theme', theme); } catch (e) {} }
-  }
-  function ensureBtn() {
-    var btn = document.getElementById('themeToggle');
-    if (btn) { btn.onclick = function () { apply(isDark() ? 'light' : 'dark', true); }; return; }
-    btn = document.createElement('button');
-    btn.type = 'button';
-    btn.id = 'themeToggle';
-    btn.className = 'theme-toggle';
-    btn.title = '切换深浅色';
-    btn.setAttribute('aria-label', '切换深浅色');
-    btn.textContent = isDark() ? '☀️' : '🌙';
-    btn.onclick = function () { apply(isDark() ? 'light' : 'dark', true); };
-    var nav = document.querySelector('.app-nav') || document.querySelector('.top-bar');
-    if (nav) nav.appendChild(btn);
-    else if (document.body) document.body.insertBefore(btn, document.body.firstChild);
-  }
-  apply(isDark() ? 'dark' : 'light', false);
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensureBtn);
-  } else {
-    ensureBtn();
-  }
-})();
-</script>
+    function isDark() { return root.getAttribute('data-theme') === 'dark'; }
+    function apply(theme, save) {
+      if (theme === 'dark') root.setAttribute('data-theme', 'dark');
+      else root.removeAttribute('data-theme');
+      if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+      if (save) {
+        try { localStorage.setItem('uem-theme', theme); } catch (e) {}
+      }
+    }
+    apply(isDark() ? 'dark' : 'light', false);
+    if (btn) {
+      btn.addEventListener('click', function () {
+        apply(isDark() ? 'light' : 'dark', true);
+      });
+    }
+  })();
+  </script>
 </body>
 </html>

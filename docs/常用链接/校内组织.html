@@ -289,6 +289,11 @@ html, body {
 
 /* 翻转卡片（试点：EMU-Stu）*/
 .flip-grid { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+/* 桌面大屏一行4张卡片：加宽内容区（卡片220px不变，需内容宽≥928px） */
+@media screen and (min-width: 1500px) {
+  .markdown-section { max-width: 1060px; }
+  .content.sidebar-collapsed .markdown-section { max-width: 1060px; }
+}
 .flip-card { perspective: 1000px; width: 220px; height: 220px; cursor: pointer; }
 .flip-inner { position: relative; width: 100%; height: 100%; transition: transform .55s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; }
 .flip-card.flipped .flip-inner { transform: rotateY(180deg); }  /* 触屏：点击翻转 */
@@ -833,22 +838,22 @@ html[data-theme="dark"] .theme-toggle {
   <div class="flip-card" data-flip style="--wm:url('logos/EMU-Stu.png')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
-        <img class="flip-logo" src="logos/EMU-Stu.png" alt="EMU-Stu">
-        <div class="flip-name">EMU-Stu</div>
+        <img class="flip-logo" src="logos/EMU-Stu.png" alt="UEM-Stu">
+        <div class="flip-name">UEM-Stu</div>
         <div class="flip-tags"><span class="flip-tag">开源</span><span class="flip-tag">技术协作</span><span class="flip-tag">实验室</span></div>
       </div>
       <div class="flip-face flip-back">
-        <div class="bk-name">EMU-Stu</div>
+        <div class="bk-name">UEM-Stu</div>
         <div class="bk-desc">面向实验室、开源项目与技术协作的学生组织</div>
         <div class="bk-loc"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2 1.5 5.5 8 9l6.5-3.5L8 2Z"/><path d="M4 7.3V11c0 .9 1.8 1.8 4 1.8s4-.9 4-1.8V7.3"/><path d="M14.5 5.5V9"/></svg>计算机学院</div>
-        <a class="bk-link" href="https://emu-stu.github.io/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3H3v10h10v-6"/><path d="M9 3h4v4"/><path d="M6.5 9.5L13 3"/></svg>官网</a>
+        <a class="bk-link" href="https://uem-stu.github.io" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3H3v10h10v-6"/><path d="M9 3h4v4"/><path d="M6.5 9.5L13 3"/></svg>官网</a>
       </div>
     </div>
   </div>
-  <div class="flip-card" data-flip>
+  <div class="flip-card" data-flip style="--wm:url('logos/PC极客社.png')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
-        <div class="flip-logo flip-placeholder">PC</div>
+        <img class="flip-logo" src="logos/PC极客社.png" alt="PC极客社">
         <div class="flip-name">PC极客社</div>
         <div class="flip-tags"><span class="flip-tag">极客</span><span class="flip-tag">硬件</span><span class="flip-tag">实验室</span></div>
       </div>

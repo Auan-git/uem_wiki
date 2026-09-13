@@ -7,6 +7,7 @@
 """
 
 import os
+import re
 import sys
 import json
 import hashlib
@@ -425,7 +426,7 @@ def build_html(md_path, force=False):
 
 
 def is_file_changed(file_path):
-    """检查文件是否已改变"""
+    """检查文件是否已改变（模板 base.html 变更会使所有页面失效）"""
     if not CACHE_FILE.exists():
         return True
 
@@ -433,6 +434,11 @@ def is_file_changed(file_path):
     file_key = str(file_path.relative_to(BASE_DIR))
 
     if file_key not in cache:
+        return True
+
+    template_path = TEMPLATES_DIR / 'base.html'
+    template_hash = hashlib.md5(template_path.read_bytes()).hexdigest()
+    if cache[file_key].get('template_hash', '') != template_hash:
         return True
 
     # 计算文件哈希
@@ -449,12 +455,62 @@ def update_cache(file_path):
         cache = json.loads(CACHE_FILE.read_text(encoding='utf-8'))
 
     file_key = str(file_path.relative_to(BASE_DIR))
+    template_hash = hashlib.md5((TEMPLATES_DIR / 'base.html').read_bytes()).hexdigest()
     cache[file_key] = {
         'hash': hashlib.md5(file_path.read_bytes()).hexdigest(),
+        'template_hash': template_hash,
         'timestamp': datetime.now().isoformat()
     }
 
     CACHE_FILE.write_text(json.dumps(cache, indent=2), encoding='utf-8')
+
+
+def sync_standalone_html():
+    """重新生成没有同名 md 源的 html 页面（板块首页 index.html、学院与专业等历史页面）。
+
+    这些页面无法由 build_html 构建，模板更新后它们会一直停留在旧版样式上。
+    做法：保留页面自身的标题、侧边栏、搜索数据、正文，其余部分（CSS/JS/导航结构）
+    全部用当前模板重新生成。
+    """
+    synced = 0
+    for html_path in DOCS_DIR.rglob('*.html'):
+        if html_path.with_suffix('.md').exists():
+            continue
+        old = html_path.read_text(encoding='utf-8')
+
+        nav_open = '<nav class="wiki-sidebar" id="wikiSidebar">'
+        title_m = re.search(r'<title>(.*?)</title>', old)
+        sidebar_m = re.search(re.escape(nav_open) + r'\n(.*?)\s*</nav>', old, re.S)
+        pages_m = re.search(r'const pages = (\[.*?\]);', old, re.S)
+        brand_m = re.search(r'<a href="(.*?)/index.html" class="nav-brand">', old)
+        content_open = old.find('<div class="markdown-section">')
+        if not all([title_m, sidebar_m, pages_m, brand_m, content_open != -1]):
+            print(f"  跳过 (无法解析, 需人工处理): {html_path}")
+            continue
+        anchor = old.find('twikoo-title', content_open)
+        if anchor == -1:
+            anchor = old.find('id="twikoo-comment"', content_open)
+        content_close = old.rfind('</div>', 0, anchor) if anchor != -1 else old.rfind('</div>')
+        if content_close == -1 or content_close <= content_open:
+            print(f"  跳过 (无法定位正文, 需人工处理): {html_path}")
+            continue
+        content = old[content_open + len('<div class="markdown-section">'):content_close].strip()
+        title = title_m.group(1)
+        if title.endswith(' - 应大Wiki'):
+            title = title[:-len(' - 应大Wiki')]
+
+        template = (TEMPLATES_DIR / 'base.html').read_text(encoding='utf-8')
+        html_output = template.replace('{{title}}', title)
+        html_output = html_output.replace('{{content}}', content)
+        html_output = html_output.replace('{{sidebar}}', sidebar_m.group(1))
+        html_output = html_output.replace('{{search_data}}', pages_m.group(1))
+        html_output = html_output.replace('{{base_url}}', brand_m.group(1))
+
+        if html_output != old:
+            html_path.write_text(html_output, encoding='utf-8')
+            synced += 1
+            print(f"  重同步: {html_path.relative_to(BASE_DIR)}")
+    return synced
 
 
 def build_all(force=False):
@@ -480,6 +536,10 @@ def build_all(force=False):
 
     print("=" * 50)
     print(f"  完成! 构建: {built_count}, 跳过: {skipped_count}")
+    print("=" * 50)
+
+    synced = sync_standalone_html()
+    print(f"  孤儿页面重同步: {synced}")
     print("=" * 50)
 
 
