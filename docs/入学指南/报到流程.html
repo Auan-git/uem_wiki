@@ -12,7 +12,7 @@
       try {
         var saved = localStorage.getItem('uem-theme');
         var dark = saved ? saved === 'dark'
-          : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          : false;  /* 默认浅色，不跟随系统偏好 */
         if (dark) document.documentElement.setAttribute('data-theme', 'dark');
       } catch (e) {}
     })();
