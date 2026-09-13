@@ -438,6 +438,49 @@ html[data-theme="dark"] body::before {
 /* 侧边栏平滑过渡（追加） */
 .wiki-main { transition: margin-left 0.3s ease; }
 .content.sidebar-collapsed .wiki-main { margin-left: 0; }
+
+/* ===== 页面专属样式（sync时被剥离，手动恢复） ===== */
+.breadcrumb {
+  font-size: 13px; color: var(--ink-faint); margin-bottom: 16px;
+  font-family: var(--font-serif);
+}
+.breadcrumb a {
+  color: var(--ink-faint) !important; text-decoration: none !important;
+  border-bottom: none !important;
+}
+.breadcrumb a:hover { color: var(--vermilion) !important; }
+.breadcrumb span { margin: 0 6px; }
+.link-card {
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; text-decoration: none; color: inherit;
+  transition: all 0.2s; background: white;
+  display: block;
+}
+.link-card:hover {
+  border-color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.link-card .name { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+.link-card .desc { font-size: 13px; color: var(--ink-faint); line-height: 1.5; }
+.link-card .url { font-size: 12px; color: var(--link); margin-top: 8px; word-break: break-all; }
+.link-card.avatar-card { display: flex; align-items: center; gap: 14px; }
+.link-card.avatar-card .card-info { flex: 1; min-width: 0; }
+.link-card.avatar-card .card-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  object-fit: cover; border: 1px solid var(--border);
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.link-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.link-section { margin-bottom: 40px; }
+.link-section h2 {
+  font-family: var(--font-serif); font-size: 20px; font-weight: 700;
+  margin-bottom: 16px; color: var(--ink);
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.link-section h2::before { content: none; }
 </style>
 </head>
 <body>

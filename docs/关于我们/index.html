@@ -438,6 +438,31 @@ html[data-theme="dark"] body::before {
 /* 侧边栏平滑过渡（追加） */
 .wiki-main { transition: margin-left 0.3s ease; }
 .content.sidebar-collapsed .wiki-main { margin-left: 0; }
+
+/* ===== 页面专属样式（sync时被剥离，手动恢复） ===== */
+.contributor-card {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  text-indent: 0; text-decoration: none !important; border-bottom: none !important;
+  color: var(--ink) !important;
+}
+.contributor-card img {
+  width: 64px; height: 64px; border-radius: 50%; object-fit: cover;
+  border: 2px solid #e8f0ff; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.contributor-card:hover img {
+  transform: translateY(-3px); border-color: #7aa7ff; box-shadow: 0 4px 12px rgba(122,167,255,0.3);
+}
+.contributor-card:hover .contributor-tip { opacity: 1; }
+.contributor-card.is-pseudonym .contributor-tip { background: rgba(214, 32, 32, 0.92); }
+.contributor-tip {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  margin-top: 6px; padding: 2px 10px;
+  background: rgba(0, 47, 130, 0.92); color: #fff;
+  font-size: 12px; line-height: 1.4; white-space: nowrap; border-radius: 4px;
+  opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 10;
+}
+.contributor-wall { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 24px; text-indent: 0; }
 </style>
 </head>
 <body>
