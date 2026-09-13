@@ -375,10 +375,11 @@
     .contact-qr {
       text-align: center;
       flex-shrink: 0;
+      position: relative;
     }
     .contact-qr img {
-      width: 160px;
-      height: 160px;
+      width: 180px;
+      height: 180px;
       border-radius: 12px;
       border: 1px solid var(--border);
       background: #fff;
@@ -391,6 +392,23 @@
       font-size: 12px;
       color: var(--ink-faint);
     }
+    .contact-qr .pay-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-size: 11px;
+      line-height: 1;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      color: #fff;
+      background: #1677ff;
+      box-shadow: 0 1px 4px rgba(22, 119, 255, .35);
+    }
+    .contact-qr .pay-badge.qq { background: #12b7f5; box-shadow: 0 1px 4px rgba(18, 183, 245, .35); }
     .contact-info {
       flex: 1;
       min-width: 220px;
@@ -553,7 +571,8 @@
       <h2>联系我们</h2>
       <div class="contact-body">
         <div class="contact-qr">
-          <img src="assets/qq-group-qr.jpg" alt="应大Wiki QQ 群二维码" width="160" height="160">
+          <span class="pay-badge qq">QQ 扫一扫</span>
+          <img src="assets/qq-group-qr.jpg" alt="应大Wiki QQ 群二维码">
           <p class="qr-hint">QQ 群 · 扫码加入</p>
         </div>
         <div class="contact-info">
@@ -566,7 +585,8 @@
           <p class="contact-note">也可在文章页评论区留言，我们会尽快处理。</p>
         </div>
         <div class="contact-qr">
-          <img src="assets/donate-qr.jpg" alt="赞赏码" width="160" height="160">
+          <span class="pay-badge alipay">支付宝扫一扫</span>
+          <img src="assets/donate-qr.jpg" alt="支付宝赞赏码">
           <p class="qr-hint">赞赏支持 · 感谢打赏</p>
         </div>
       </div>
