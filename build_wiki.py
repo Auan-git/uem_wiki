@@ -264,6 +264,7 @@ def generate_sidebar(current_page, relative_depth):
         {"name": "常用链接", "path": "常用链接/index.html", "children": [
             {"name": "校内组织", "path": "常用链接/校内组织.html"},
             {"name": "学长学姐博客", "path": "常用链接/学长学姐博客.html"},
+            {"name": "友情链接", "path": "常用链接/友情链接.html"},
         ]},
     ]
 
@@ -348,6 +349,7 @@ def generate_search_data(relative_depth='../'):
         {"path": "常用链接/index.html", "title": "常用链接", "desc": "校内组织、学长学姐博客"},
         {"path": "常用链接/校内组织.html", "title": "校内组织", "desc": "实验室、战队与技术社群"},
         {"path": "常用链接/学长学姐博客.html", "title": "学长学姐博客", "desc": "校友技术博客汇总"},
+        {"path": "常用链接/友情链接.html", "title": "友情链接", "desc": "与应大Wiki互链的站点"},
     ]
     for p in pages:
         p["url"] = relative_depth + p["path"]
