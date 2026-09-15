@@ -228,6 +228,7 @@ def generate_sidebar(current_page, relative_depth):
         {"name": "校园生活", "path": "校园生活/index.html", "children": [
             {"name": "体育课选择", "path": "校园生活/体育课选择.html"},
             {"name": "体测要求", "path": "校园生活/体测要求.html"},
+            {"name": "体育场馆开放时间", "path": "校园生活/体育场馆开放时间.html"},
             {"name": "公交指南", "path": "校园生活/公交指南.html"},
             {"name": "地铁指南", "path": "校园生活/地铁指南.html"},
             {"name": "学生组织", "path": "校园生活/学生组织.html"},
@@ -315,6 +316,7 @@ def generate_search_data(relative_depth='../'):
         {"path": "学分绩点/绩点计算.html", "title": "绩点计算", "desc": "学分绩点 - 绩点计算"},
         {"path": "学分绩点/选修课.html", "title": "选修课", "desc": "学分绩点 - 选修课"},
         {"path": "校园生活/体测要求.html", "title": "体测要求", "desc": "校园生活 - 体测要求"},
+        {"path": "校园生活/体育场馆开放时间.html", "title": "体育场馆开放时间", "desc": "校园生活 - 体育场馆开放时间（2026年9月）"},
         {"path": "校园生活/公交指南.html", "title": "公交指南", "desc": "校园生活 - 公交指南"},
         {"path": "校园生活/地铁指南.html", "title": "地铁指南", "desc": "校园生活 - 地铁指南"},
         {"path": "校园生活/学生组织.html", "title": "学生组织", "desc": "校园生活 - 学生组织"},
