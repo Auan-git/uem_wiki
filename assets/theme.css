@@ -1,58 +1,58 @@
 :root {
   color-scheme: light;
 
-  --color-bg: #f5f7fa;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-surface-soft: #edf2f7;
-  --color-surface-alt: #f8fafc;
-  --color-text: #17212b;
-  --color-text-secondary: #4c5b69;
-  --color-text-muted: #738292;
-  --color-text-faint: #a8b3be;
-  --color-border: #d7e0e8;
-  --color-border-strong: #aab7c4;
+  --color-surface-soft: #e8f0ff;
+  --color-surface-alt: #faf9f6;
+  --color-text: #2c2416;
+  --color-text-secondary: #5a4e3c;
+  --color-text-muted: #8a7e6c;
+  --color-text-faint: #b8ad9c;
+  --color-border: #d4c9b8;
+  --color-border-strong: #c5c0b4;
 
-  --color-primary: #18577f;
-  --color-primary-strong: #123f5d;
-  --color-primary-hover: #216b9c;
-  --color-primary-soft: #e7f0f6;
-  --color-primary-soft-strong: #69a3cc;
-  --color-primary-soft-translucent: rgb(105 163 204 / 18%);
-  --color-primary-overlay: rgb(24 87 127 / 92%);
-  --color-primary-soft-shadow: rgb(105 163 204 / 30%);
+  --color-primary: #002f82;
+  --color-primary-strong: #002466;
+  --color-primary-hover: #0040b3;
+  --color-primary-soft: #e8f0ff;
+  --color-primary-soft-strong: #7aa7ff;
+  --color-primary-soft-translucent: rgb(122 167 255 / 18%);
+  --color-primary-overlay: rgb(0 47 130 / 92%);
+  --color-primary-soft-shadow: rgb(122 167 255 / 30%);
   --color-nav-bg: #002f82;
   --color-nav-bg-border: #002466;
   --color-nav-bg-hover: #0040b3;
   --color-nav-active: #7aa7ff;
   --color-nav-active-bg: rgb(122 167 255 / 18%);
 
-  --color-accent: #c44f31;
-  --color-accent-hover: #a94027;
+  --color-accent: #c23616;
+  --color-accent-hover: #e74c3c;
   --color-accent-soft: #f7e9e4;
-  --color-link: #1b628f;
+  --color-link: #8b4513;
   --color-link-hover: var(--color-accent);
 
-  --color-info: #2f7fba;
-  --color-info-alt: #2485b5;
-  --color-info-shadow: rgb(47 127 186 / 35%);
-  --color-info-alt-shadow: rgb(36 133 181 / 35%);
+  --color-info: #1677ff;
+  --color-info-alt: #12b7f5;
+  --color-info-shadow: rgb(22 119 255 / 35%);
+  --color-info-alt-shadow: rgb(18 183 245 / 35%);
   --color-danger: #b84136;
-  --color-danger-surface: rgb(184 65 54 / 92%);
+  --color-danger-surface: rgb(214 32 32 / 92%);
 
   --color-on-primary: #ffffff;
-  --color-on-primary-strong: rgb(255 255 255 / 92%);
-  --color-on-primary-muted: rgb(255 255 255 / 72%);
-  --color-on-primary-faint: rgb(255 255 255 / 56%);
-  --color-on-primary-border: rgb(255 255 255 / 22%);
+  --color-on-primary-strong: rgb(255 255 255 / 80%);
+  --color-on-primary-muted: rgb(255 255 255 / 65%);
+  --color-on-primary-faint: rgb(255 255 255 / 55%);
+  --color-on-primary-border: rgb(255 255 255 / 20%);
   --color-on-primary-border-strong: rgb(255 255 255 / 50%);
-  --color-on-primary-subtle: rgb(255 255 255 / 12%);
-  --color-on-primary-hover: rgb(255 255 255 / 18%);
+  --color-on-primary-subtle: rgb(255 255 255 / 10%);
+  --color-on-primary-hover: rgb(255 255 255 / 15%);
 
-  --color-overlay: rgb(12 23 34 / 38%);
-  --color-shadow: rgb(23 33 43 / 10%);
-  --color-shadow-strong: rgb(23 33 43 / 20%);
-  --color-paper-grain-light: rgb(92 111 129 / 3%);
-  --color-paper-grain-dark: rgb(255 255 255 / 1.5%);
+  --color-overlay: rgb(0 0 0 / 30%);
+  --color-shadow: rgba(44, 36, 22, 0.08);
+  --color-shadow-strong: rgba(0, 0, 0, 0.2);
+  --color-paper-grain-light: rgba(139, 119, 86, 0.015);
+  --color-paper-grain-dark: rgba(255, 255, 255, 0.012);
 
   --font-serif: "Noto Serif SC", "Crimson Pro", Georgia, "Songti SC", serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -117,27 +117,27 @@ html[data-theme="dark"] {
   --color-link: #d4a574;
   --color-link-hover: #e25a3c;
 
-  --color-info: #7aa7ff;
-  --color-info-alt: #7aa7ff;
-  --color-info-shadow: rgb(122 167 255 / 35%);
-  --color-info-alt-shadow: rgb(122 167 255 / 35%);
+  --color-info: #1677ff;
+  --color-info-alt: #12b7f5;
+  --color-info-shadow: rgb(22 119 255 / 35%);
+  --color-info-alt-shadow: rgb(18 183 245 / 35%);
   --color-danger: #ff7a5c;
   --color-danger-surface: rgb(214 32 32 / 92%);
 
   --color-on-primary: #ffffff;
-  --color-on-primary-strong: rgb(255 255 255 / 94%);
-  --color-on-primary-muted: rgb(255 255 255 / 76%);
-  --color-on-primary-faint: rgb(255 255 255 / 60%);
-  --color-on-primary-border: rgb(255 255 255 / 24%);
-  --color-on-primary-border-strong: rgb(255 255 255 / 52%);
-  --color-on-primary-subtle: rgb(255 255 255 / 14%);
-  --color-on-primary-hover: rgb(255 255 255 / 20%);
+  --color-on-primary-strong: rgb(255 255 255 / 80%);
+  --color-on-primary-muted: rgb(255 255 255 / 65%);
+  --color-on-primary-faint: rgb(255 255 255 / 55%);
+  --color-on-primary-border: rgb(255 255 255 / 20%);
+  --color-on-primary-border-strong: rgb(255 255 255 / 50%);
+  --color-on-primary-subtle: rgb(255 255 255 / 10%);
+  --color-on-primary-hover: rgb(255 255 255 / 15%);
 
   --color-overlay: rgb(0 0 0 / 30%);
-  --color-shadow: rgb(0 0 0 / 45%);
-  --color-shadow-strong: rgb(0 0 0 / 55%);
-  --color-paper-grain-light: rgb(255 255 255 / 1.2%);
-  --color-paper-grain-dark: rgb(255 255 255 / 1.2%);
+  --color-shadow: rgba(0, 0, 0, 0.45);
+  --color-shadow-strong: rgba(0, 0, 0, 0.2);
+  --color-paper-grain-light: rgba(255, 255, 255, 0.012);
+  --color-paper-grain-dark: rgba(255, 255, 255, 0.012);
 
   --paper-card: #1c1f28;
   --paper-card-end: #181b23;
