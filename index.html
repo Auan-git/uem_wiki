@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="/assets/theme.css">
+
   <script>
     // 防止主题闪烁
     (function () {
@@ -19,44 +21,13 @@
     })();
   </script>
   <style>
-    :root {
-      --paper: #ffffff;
-      --paper-dark: #f8f6f1;
-      --paper-card: #ffffff;
-      --paper-card-end: #faf9f6;
-      --ink: #1a1a1a;
-      --ink-light: #4a4a4a;
-      --ink-faint: #8a8a8a;
-      --vermilion: #c23616;
-      --link: #0645ad;
-      --link-hover: #c23616;
-      --border: #e0e0e0;
-      --card-border-hover: #c5c0b4;
-      --input-bg: #ffffff;
-      --shadow: rgba(0, 0, 0, 0.1);
-      --font-serif: 'Noto Serif SC', 'Georgia', serif;
-      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      color-scheme: light;
-    }
-    html[data-theme="dark"] {
-      --paper: #12141a;
-      --paper-dark: #1a1d26;
-      --paper-card: #1c1f28;
-      --paper-card-end: #181b23;
-      --ink: #e8eaef;
-      --ink-light: #b4bac6;
-      --ink-faint: #8b92a0;
-      --vermilion: #e25a3c;
-      --link: #7aa7ff;
-      --link-hover: #e25a3c;
-      --border: #2c313c;
-      --card-border-hover: #4a5160;
-      --input-bg: #12141a;
-      --shadow: rgba(0, 0, 0, 0.45);
-      color-scheme: dark;
+    html {
+      scrollbar-gutter: stable;
+      overflow-y: scroll;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
+      width: 100%;
       background: var(--paper);
       color: var(--ink);
       font-family: var(--font-sans);
@@ -67,6 +38,7 @@
 
     /* 顶部栏 */
     .top-bar {
+      width: 100%;
       background: var(--paper-dark);
       border-bottom: 1px solid var(--border);
       padding: 12px 24px;
@@ -97,6 +69,7 @@
       position: relative;
     }
     .top-bar .search {
+      max-width: 100%;
       padding: 8px 16px;
       border: 1px solid var(--border);
       border-radius: 4px;
@@ -179,6 +152,7 @@
 
     /* 主体 */
     .container {
+      width: 100%;
       max-width: 960px;
       margin: 0 auto;
       padding: 40px 24px;
@@ -236,11 +210,11 @@
       transition: all 0.2s;
     }
     .hero-links .primary {
-      background: #002f82;
-      color: white;
+      background: var(--color-primary);
+      color: var(--color-on-primary);
     }
     .hero-links .primary:hover {
-      background: #0040b3;
+      background: var(--color-primary-hover);
     }
     .hero-links .secondary {
       border: 1px solid var(--border);
@@ -382,7 +356,7 @@
       height: 180px;
       border-radius: 12px;
       border: 1px solid var(--border);
-      background: #fff;
+      background: var(--color-surface);
       object-fit: cover;
       display: block;
       box-shadow: 0 2px 10px var(--shadow);
@@ -404,11 +378,11 @@
       border-radius: 999px;
       letter-spacing: 1px;
       white-space: nowrap;
-      color: #fff;
-      background: #1677ff;
-      box-shadow: 0 1px 4px rgba(22, 119, 255, .35);
+      color: var(--color-on-primary);
+      background: var(--color-info);
+      box-shadow: 0 1px 4px var(--color-info-shadow);
     }
-    .contact-qr .pay-badge.qq { background: #12b7f5; box-shadow: 0 1px 4px rgba(18, 183, 245, .35); }
+    .contact-qr .pay-badge.qq { background: var(--color-info-alt); box-shadow: 0 1px 4px var(--color-info-alt-shadow); }
     .contact-info {
       flex: 1;
       min-width: 220px;
@@ -435,12 +409,12 @@
       font-family: ui-monospace, Consolas, monospace;
       font-size: 18px;
       font-weight: 600;
-      color: #002f82;
+      color: var(--color-primary);
       letter-spacing: 0.5px;
       user-select: all;
     }
     html[data-theme="dark"] .contact-qq code {
-      color: #7aa7ff;
+      color: var(--color-primary-soft-strong);
     }
     .copy-btn {
       border: 1px solid var(--border);
@@ -453,12 +427,12 @@
       transition: all 0.15s;
     }
     .copy-btn:hover {
-      border-color: #002f82;
-      color: #002f82;
+      border-color: var(--color-primary);
+      color: var(--color-primary);
     }
     html[data-theme="dark"] .copy-btn:hover {
-      border-color: #7aa7ff;
-      color: #7aa7ff;
+      border-color: var(--color-primary-soft-strong);
+      color: var(--color-primary-soft-strong);
     }
     .contact-note {
       font-size: 13px;
@@ -641,47 +615,11 @@
   </script>
   <script>
     // 所有页面列表
-    const pages = [
-      { url: 'docs/写在前面/index.html', title: '写在前面', desc: '欢迎来到应大Wiki' },
-      { url: 'docs/学校概览/index.html', title: '学校概览', desc: '学校简介、燕郊特色、周边配套' },
-      { url: 'docs/学校概览/学校简介.html', title: '学校简介', desc: '应急管理大学详细介绍' },
-      { url: 'docs/学校概览/燕郊特色.html', title: '燕郊特色', desc: '燕郊的神奇之处' },
-      { url: 'docs/学校概览/周边配套.html', title: '周边配套', desc: '购物、娱乐、休闲' },
-      { url: 'docs/入学指南/index.html', title: '入学指南', desc: '来校交通、报到流程、军训体育' },
-      { url: 'docs/入学指南/来校路线.html', title: '来校路线', desc: '自驾、高铁、飞机、大巴' },
-      { url: 'docs/入学指南/报到流程.html', title: '报到流程', desc: '详细的报到步骤' },
-      { url: 'docs/入学指南/军训须知.html', title: '军训须知', desc: '军训准备和注意事项' },
-      { url: 'docs/校园生活/体育课选择.html', title: '体育课选择', desc: '校园生活 - 体育课选择' },
-      { url: 'docs/入学指南/体测要求.html', title: '体测要求', desc: '体能测试项目和标准' },
-      { url: 'docs/选课指南/index.html', title: '选课指南', desc: '选课流程、推荐课程、时间线' },
-      { url: 'docs/选课指南/选课流程.html', title: '选课流程', desc: '详细的选课步骤' },
-      { url: 'docs/选课指南/推荐课程.html', title: '推荐课程', desc: '学长学姐推荐的优质课程' },
-      { url: 'docs/选课指南/选课时间线.html', title: '选课时间线', desc: '每学期选课关键时间节点' },
-      { url: 'docs/学分绩点/index.html', title: '学分绩点', desc: '学分、绩点、奖学金、四六级、选修课' },
-      { url: 'docs/学分绩点/学分要求.html', title: '学分要求', desc: '毕业所需学分及构成' },
-      { url: 'docs/学分绩点/绩点计算.html', title: '绩点计算', desc: '绩点计算方法和等级对应' },
-      { url: 'docs/学分绩点/毕业条件.html', title: '毕业条件', desc: '完整的毕业要求清单' },
-      { url: 'docs/学分绩点/奖学金与资助.html', title: '奖学金与资助', desc: '奖学金评定、学习规划' },
-      { url: 'docs/学分绩点/四六级.html', title: '四六级', desc: '英语四六级考试攻略' },
-      { url: 'docs/学分绩点/选修课.html', title: '选修课', desc: '校选课选课指南' },
-      { url: 'docs/校园生活/index.html', title: '校园生活', desc: '宿舍食堂、组织社团、心理、电话' },
-      { url: 'docs/校园生活/宿舍篇.html', title: '宿舍篇', desc: '宿舍环境、管理规定' },
-      { url: 'docs/校园生活/食堂篇.html', title: '食堂篇', desc: '食堂介绍、美食推荐' },
-      { url: 'docs/校园生活/学生组织.html', title: '学生组织', desc: '学生会、社团、班干部' },
-      { url: 'docs/校园生活/心理健康.html', title: '心理健康', desc: '心理咨询、自我调节' },
-      { url: 'docs/校园生活/常用电话.html', title: '常用电话', desc: '学校电话、报警电话' },
-      { url: 'docs/校园生活/地铁指南.html', title: '地铁指南', desc: '北京地铁乘坐攻略' },
-      { url: 'docs/校园生活/公交指南.html', title: '公交指南', desc: '北京公交乘坐攻略' },
-      { url: 'docs/常用链接/index.html', title: '常用链接', desc: '学校组织、学长学姐博客' },
-      { url: 'docs/学院与专业/index.html', title: '学院与专业', desc: '16 学院、68 专业一览' },
-      { url: 'docs/学院与专业/应急技术与指挥学院/index.html', title: '应急技术与指挥学院', desc: '应急管理、应急技术与管理、智慧应急、应用心理学' },
-      { url: 'docs/学院与专业/应急技术与指挥学院/应急管理.html', title: '应急管理', desc: '应急决策、预案、指挥协调' },
-      { url: 'docs/学院与专业/应急技术与指挥学院/应急技术与管理.html', title: '应急技术与管理', desc: '应急装备、救援处置' },
-      { url: 'docs/学院与专业/应急技术与指挥学院/智慧应急.html', title: '智慧应急', desc: '全国首设 · 应急 + AI' },
-      { url: 'docs/学院与专业/应急技术与指挥学院/应用心理学(应急心理方向).html', title: '应用心理学(应急心理方向)', desc: '危机干预、灾后心理援助' },
-    
-      { url: 'docs/校园生活/作息时间.html', title: '作息时间', desc: '校园生活 - 作息时间' },
-      { url: 'docs/校园生活/校历.html', title: '校历', desc: '校园生活 - 校历' },];
+    let pages = [];
+    fetch('/assets/search-index.json')
+      .then(function (response) { return response.json(); })
+      .then(function (data) { pages = data; })
+      .catch(function () { pages = []; });
 
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');

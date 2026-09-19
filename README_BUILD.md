@@ -40,12 +40,18 @@ python build_wiki.py --watch
 uem_wiki/
 ├── templates/
 │   └── base.html          # HTML模板文件
+├── assets/
+│   ├── theme.css          # 全站唯一配色变量
+│   ├── site.css           # 全站公共样式
+│   ├── site.js            # 导航、搜索、目录、评论与客户端路由
+│   └── search-index.json  # 自动生成的搜索索引
 ├── docs/
 │   ├── 校园生活/
 │   │   ├── 恋爱.md        # Markdown源文件
 │   │   └── 恋爱.html      # 生成的HTML文件
 │   └── ...
 ├── build_wiki.py          # 构建脚本
+├── navigation.json        # 统一侧边栏配置
 └── .build_cache.json      # 构建缓存（自动生成）
 ```
 
@@ -55,9 +61,8 @@ uem_wiki/
 
 - `{{title}}` - 页面标题
 - `{{content}}` - 文章内容（HTML格式）
-- `{{sidebar}}` - 侧边栏内容
-- `{{search_data}}` - 搜索数据（JSON格式）
-- `{{base_url}}` - 基础URL路径
+- `{{page_style}}` - 页面专属样式
+- `{{page_scripts}}` - 页面专属脚本
 
 ## 添加新文章
 
@@ -67,11 +72,33 @@ uem_wiki/
 
 ## 侧边栏管理
 
-侧边栏会自动根据文件系统结构生成。如果需要修改侧边栏结构，请编辑 `build_wiki.py` 中的 `generate_sidebar()` 函数。
+侧边栏统一维护在根目录的 `navigation.json` 中。构建器负责校验配置中的
+目标页面，浏览器加载 `assets/site.js` 后再从该文件渲染侧边栏。因此生成
+HTML 不重复包含几十条导航路径，切换页面时侧边栏也不会重新加载。
 
 ## 搜索功能
 
-搜索数据会自动从预定义的页面列表中生成。如果添加了新页面，需要更新 `build_wiki.py` 中的 `generate_search_data()` 函数。
+搜索数据由 `build_wiki.py` 中的 `build_search_entries()` 生成，并写入
+`assets/search-index.json`。新增需要被搜索的页面时，将页面加入该列表。
+
+## 客户端导航
+
+`assets/site.js` 会拦截站内页面链接，仅替换 `#page-content`。
+顶部导航和运行时生成的左侧侧边栏在后续页面切换中不会重新创建，同时会更新标题、
+侧边栏高亮、目录和评论区。路由会维护父级历史，使浏览器后退回到目录
+父级；同一目录下的文章切换使用 `replaceState`，不会反复堆积历史记录。
+
+## 路径规范
+
+Markdown 和 HTML 源文件可以继续使用相对路径。构建器会为每个页面计算
+最终位置，并将正文里的本地 `href`、`src` 转换为 `/docs/...` 或 `/...`
+根路径，因此生成 HTML 不包含 `../`，也不需要运行页面主动计算目录深度。
+
+## 配色规范
+
+所有颜色、阴影、遮罩和浅色背景统一定义在 `assets/theme.css`。
+页面 CSS、专属样式和内联样式只能使用 `var(--color-*)` 或旧变量别名，
+不得直接写十六进制、RGB 或颜色名称。
 
 ## 增量构建
 
@@ -112,10 +139,10 @@ python build_wiki.py
 
 ## 注意事项
 
-1. 确保Python 3.6+已安装
+1. 确保Python 3.7+已安装
 2. 模板文件位于 `templates/base.html`
-3. 侧边栏结构需要手动维护
-4. 搜索数据需要手动更新
+3. 侧边栏结构统一维护在 `navigation.json`
+4. 搜索数据列表需要同步更新
 
 ## 故障排除
 
@@ -129,4 +156,4 @@ python build_wiki.py
 
 ### 问题：侧边栏不正确
 
-检查 `build_wiki.py` 中的 `generate_sidebar()` 函数，确保路径正确。
+检查 `navigation.json` 中的路径是否正确，以及目标页面或 Markdown 源是否存在。
