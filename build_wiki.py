@@ -6,12 +6,12 @@
   python build_wiki.py docs/校园生活/恋爱.md  # 构建单个文件
 """
 
-import os
 import re
 import sys
 import json
 import hashlib
 import argparse
+import posixpath
 from pathlib import Path
 from datetime import datetime
 
@@ -23,13 +23,57 @@ if sys.platform == "win32":
 BASE_DIR = Path(__file__).parent
 DOCS_DIR = BASE_DIR / "docs"
 TEMPLATES_DIR = BASE_DIR / "templates"
+ASSETS_DIR = BASE_DIR / "assets"
 CACHE_FILE = BASE_DIR / ".build_cache.json"
+NAVIGATION_FILE = BASE_DIR / "navigation.json"
+SEARCH_INDEX_FILE = ASSETS_DIR / "search-index.json"
+SITE_BASE = "/"
+
+
+def site_url(path):
+    """生成站点根路径 URL。"""
+    return SITE_BASE + "docs/" + str(path).lstrip("/")
+
+
+URL_ATTRIBUTE_RE = re.compile(
+    r'(?P<prefix>\b(?:href|src)\s*=\s*)(?P<quote>["\'])(?P<url>.*?)(?P=quote)',
+    re.IGNORECASE
+)
+
+
+def absolutize_content_urls(content_html, page_path):
+    """将正文中的本地链接和资源路径转换为站点根路径。"""
+    page_url = site_url(page_path)
+    page_dir = posixpath.dirname(page_url)
+
+    def replace_url(match):
+        url = match.group('url').strip()
+        if (
+            not url
+            or url.startswith(("#", "/", "?", "http://", "https://", "//", "mailto:", "tel:", "data:", "javascript:"))
+        ):
+            return match.group(0)
+
+        path_part, separator, suffix = url.partition("#")
+        query = ""
+        if "?" in path_part:
+            path_part, query = path_part.split("?", 1)
+            query = "?" + query
+
+        resolved = posixpath.normpath(posixpath.join(page_dir, path_part))
+        if not resolved.startswith("/"):
+            resolved = "/" + resolved
+        resolved += query
+        if separator:
+            resolved += "#" + suffix
+
+        return f"{match.group('prefix')}{match.group('quote')}{resolved}{match.group('quote')}"
+
+    return URL_ATTRIBUTE_RE.sub(replace_url, content_html)
 
 
 def md_to_html(md_content):
     """将Markdown转换为HTML（支持表格、嵌套列表、行内格式全量转换）"""
-    import re
-
     def convert_inline(text):
         # 图片
         text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'<img src="\2" alt="\1" style="max-width:100%;border-radius:4px;">', text)
@@ -196,106 +240,46 @@ def md_to_html(md_content):
     return '\n'.join(html_lines)
 
 
-def generate_sidebar(current_page, relative_depth):
-    """生成侧边栏HTML"""
-    # 定义侧边栏结构
-    sidebar_structure = [
-        {"name": "写在前面", "path": "写在前面/index.html"},
-        {"name": "学校概览", "path": "学校概览/index.html", "children": [
-            {"name": "周边配套", "path": "学校概览/周边配套.html"},
-            {"name": "学校简介", "path": "学校概览/学校简介.html"},
-            {"name": "燕郊特色", "path": "学校概览/燕郊特色.html"},
-        ]},
-        {"name": "入学指南", "path": "入学指南/index.html", "children": [
-            {"name": "防骗指南", "path": "入学指南/防骗指南.html"},
-            {"name": "军训须知", "path": "入学指南/军训须知.html"},
-            {"name": "报到流程", "path": "入学指南/报到流程.html"},
-            {"name": "来校路线", "path": "入学指南/来校路线.html"},
-        ]},
-        {"name": "选课指南", "path": "选课指南/index.html", "children": [
-            {"name": "推荐课程", "path": "选课指南/推荐课程.html"},
-            {"name": "选课时间线", "path": "选课指南/选课时间线.html"},
-            {"name": "选课流程", "path": "选课指南/选课流程.html"},
-        ]},
-        {"name": "学分绩点", "path": "学分绩点/index.html", "children": [
-            {"name": "四六级", "path": "学分绩点/四六级.html"},
-            {"name": "奖学金与资助", "path": "学分绩点/奖学金与资助.html"},
-            {"name": "学分要求", "path": "学分绩点/学分要求.html"},
-            {"name": "毕业条件", "path": "学分绩点/毕业条件.html"},
-            {"name": "绩点计算", "path": "学分绩点/绩点计算.html"},
-            {"name": "选修课", "path": "学分绩点/选修课.html"},
-        ]},
-        {"name": "校园生活", "path": "校园生活/index.html", "children": [
-            {"name": "体育课选择", "path": "校园生活/体育课选择.html"},
-            {"name": "体测要求", "path": "校园生活/体测要求.html"},
-            {"name": "体育场馆开放时间", "path": "校园生活/体育场馆开放时间.html"},
-            {"name": "公交指南", "path": "校园生活/公交指南.html"},
-            {"name": "地铁指南", "path": "校园生活/地铁指南.html"},
-            {"name": "学生组织", "path": "校园生活/学生组织.html"},
-            {"name": "宿舍篇", "path": "校园生活/宿舍篇.html"},
-            {"name": "常用电话", "path": "校园生活/常用电话.html"},
-            {"name": "心理健康", "path": "校园生活/心理健康.html"},
-            {"name": "校园地图", "path": "校园生活/校园地图.html"},
-            {"name": "食堂篇", "path": "校园生活/食堂篇.html"},
-            {"name": "晚自习", "path": "校园生活/晚自习.html"},
-            {"name": "准军事化管理", "path": "校园生活/准军事化管理.html"},
-            {"name": "作息时间", "path": "校园生活/作息时间.html"},
-            {"name": "校历", "path": "校园生活/校历.html"},
-            {"name": "恋爱", "path": "校园生活/恋爱.html"},
-        ]},
-        {"name": "学院与专业", "path": "学院与专业/index.html", "children": [
-            {"name": "应急技术与指挥学院", "path": "学院与专业/应急技术与指挥学院/index.html"},
-            {"name": "矿山安全学院", "path": "学院与专业/矿山安全学院/index.html"},
-            {"name": "城市安全学院", "path": "学院与专业/城市安全学院/index.html"},
-            {"name": "地震工程与建筑安全学院", "path": "学院与专业/地震工程与建筑安全学院/index.html"},
-            {"name": "地震科学与技术学院", "path": "学院与专业/地震科学与技术学院/index.html"},
-            {"name": "化工安全学院", "path": "学院与专业/化工安全学院/index.html"},
-            {"name": "环境与灾害治理学院", "path": "学院与专业/环境与灾害治理学院/index.html"},
-            {"name": "计算机与信息安全学院", "path": "学院与专业/计算机与信息安全学院/index.html"},
-            {"name": "应急通信与控制工程学院", "path": "学院与专业/应急通信与控制工程学院/index.html"},
-            {"name": "应急装备学院", "path": "学院与专业/应急装备学院/index.html"},
-            {"name": "应急经济与物资保障学院", "path": "学院与专业/应急经济与物资保障学院/index.html"},
-            {"name": "应急国际交流学院", "path": "学院与专业/应急国际交流学院/index.html"},
-            {"name": "应急救援训练中心", "path": "学院与专业/应急救援训练中心/index.html"},
-            {"name": "应急文化传播与法学院", "path": "学院与专业/应急文化传播与法学院/index.html"},
-            {"name": "理学院", "path": "学院与专业/理学院/index.html"},
-            {"name": "防灾减灾工程学院", "path": "学院与专业/防灾减灾工程学院/index.html"},
-        ]},
-        {"name": "关于我们", "path": "关于我们/index.html"},
-        {"name": "常用链接", "path": "常用链接/index.html", "children": [
-            {"name": "校内组织", "path": "常用链接/校内组织.html"},
-            {"name": "学长学姐博客", "path": "常用链接/学长学姐博客.html"},
-            {"name": "友情链接", "path": "常用链接/友情链接.html"},
-        ]},
-    ]
+def validate_sidebar_item(item, parent_name=None):
+    """校验侧边栏配置项，并确认目标页面或其 Markdown 源存在。"""
+    if not isinstance(item, dict):
+        raise ValueError("侧边栏配置项必须是对象")
 
-    html = '<ul class="sidebar-nav">\n'
+    name = item.get("name")
+    path = item.get("path")
+    if not isinstance(name, str) or not name.strip():
+        raise ValueError(f"侧边栏配置缺少有效 name: {item!r}")
+    if not isinstance(path, str) or not path.strip():
+        raise ValueError(f"侧边栏配置缺少有效 path: {item!r}")
 
-    for item in sidebar_structure:
-        is_active = item['path'] == current_page
-        has_children = 'children' in item
-        active_class = ' active' if is_active else ''
-        children_class = ' has-children' if has_children else ''
+    target = DOCS_DIR / path
+    markdown_source = target.with_suffix(".md")
+    if not target.exists() and not markdown_source.exists():
+        prefix = f"{parent_name} -> " if parent_name else ""
+        raise ValueError(f"侧边栏目标不存在: {prefix}{path}")
 
-        html += f'<li class="sidebar-item{active_class}">\n'
-        html += f'<a href="{relative_depth}{item["path"]}" class="sidebar-link{children_class}{active_class}">{item["name"]}</a>\n'
-
-        if has_children:
-            html += '<ul class="sidebar-children">\n'
-            for child in item['children']:
-                child_active = child['path'] == current_page
-                child_active_class = ' active' if child_active else ''
-                html += f'<li><a href="{relative_depth}{child["path"]}" class="sidebar-link{child_active_class}">{child["name"]}</a></li>\n'
-            html += '</ul>\n'
-
-        html += '</li>\n'
-
-    html += '</ul>'
-    return html
+    children = item.get("children")
+    if children is None:
+        return
+    if not isinstance(children, list):
+        raise ValueError(f"侧边栏 children 必须是数组: {path}")
+    for child in children:
+        validate_sidebar_item(child, name)
 
 
-def generate_search_data(relative_depth='../'):
-    """生成搜索数据；relative_depth 为当前页到 docs/ 的相对前缀"""
+def load_sidebar_structure():
+    """从 navigation.json 加载并校验侧边栏结构。"""
+    data = json.loads(NAVIGATION_FILE.read_text(encoding="utf-8"))
+    sidebar = data.get("sidebar")
+    if not isinstance(sidebar, list):
+        raise ValueError("navigation.json 缺少 sidebar 数组")
+    for item in sidebar:
+        validate_sidebar_item(item)
+    return sidebar
+
+
+def build_search_entries():
+    """生成全站搜索索引。"""
     # 定义页面列表（路径相对 docs/）
     pages = [
         {"path": "学校概览/周边配套.html", "title": "周边配套", "desc": "学校概览 - 周边配套"},
@@ -354,19 +338,18 @@ def generate_search_data(relative_depth='../'):
         {"path": "常用链接/友情链接.html", "title": "友情链接", "desc": "与应大Wiki互链的站点"},
     ]
     for p in pages:
-        p["url"] = relative_depth + p["path"]
+        p["url"] = site_url(p["path"])
         del p["path"]
-    return json.dumps(pages, ensure_ascii=False, indent=2)
+    return pages
 
 
-def calculate_relative_depth(md_path):
-    """计算从MD文件到根目录的相对深度"""
-    # 如果是相对路径，先转换为绝对路径
-    if not md_path.is_absolute():
-        md_path = BASE_DIR / md_path
-    relative_path = md_path.relative_to(DOCS_DIR)
-    depth = len(relative_path.parts) - 1
-    return '../' * depth
+def write_search_index():
+    """将搜索索引写入静态资源文件。"""
+    ASSETS_DIR.mkdir(exist_ok=True)
+    SEARCH_INDEX_FILE.write_text(
+        json.dumps(build_search_entries(), ensure_ascii=False, indent=2),
+        encoding="utf-8"
+    )
 
 
 def build_html(md_path, force=False):
@@ -396,29 +379,19 @@ def build_html(md_path, force=False):
             break
 
     # 转换为HTML
-    content_html = md_to_html(md_content)
-
-    # 生成侧边栏
-    relative_depth = calculate_relative_depth(md_path)
-    current_page = md_path.relative_to(DOCS_DIR).as_posix()
-    sidebar_html = generate_sidebar(current_page, relative_depth)
-
-    # 生成搜索数据（按当前页深度生成相对 URL）
-    search_data = generate_search_data(relative_depth)
+    content_html = absolutize_content_urls(
+        md_to_html(md_content),
+        md_path.with_suffix('.html').relative_to(DOCS_DIR).as_posix()
+    )
 
     # 读取模板
     template = (TEMPLATES_DIR / 'base.html').read_text(encoding='utf-8')
 
-    # 站点根相对当前页：docs/ 下深度 depth → 需再上一级到仓库根
-    depth = len(md_path.relative_to(DOCS_DIR).parts) - 1
-    base_url = '/'.join(['..'] * (depth + 1))
-
     # 替换变量
     html_output = template.replace('{{title}}', title)
     html_output = html_output.replace('{{content}}', content_html)
-    html_output = html_output.replace('{{sidebar}}', sidebar_html)
-    html_output = html_output.replace('{{search_data}}', search_data)
-    html_output = html_output.replace('{{base_url}}', base_url)
+    html_output = html_output.replace('{{page_style}}', '')
+    html_output = html_output.replace('{{page_scripts}}', '')
 
     # 写入HTML文件
     html_path.write_text(html_output, encoding='utf-8')
@@ -430,7 +403,7 @@ def build_html(md_path, force=False):
 
 
 def is_file_changed(file_path):
-    """检查文件是否已改变（模板 base.html 变更会使所有页面失效）"""
+    """检查文件是否已改变（模板、导航或构建器变更会使所有页面失效）"""
     if not CACHE_FILE.exists():
         return True
 
@@ -443,6 +416,12 @@ def is_file_changed(file_path):
     template_path = TEMPLATES_DIR / 'base.html'
     template_hash = hashlib.md5(template_path.read_bytes()).hexdigest()
     if cache[file_key].get('template_hash', '') != template_hash:
+        return True
+    navigation_hash = hashlib.md5(NAVIGATION_FILE.read_bytes()).hexdigest()
+    if cache[file_key].get('navigation_hash', '') != navigation_hash:
+        return True
+    generator_hash = hashlib.md5(Path(__file__).read_bytes()).hexdigest()
+    if cache[file_key].get('generator_hash', '') != generator_hash:
         return True
 
     # 计算文件哈希
@@ -463,6 +442,8 @@ def update_cache(file_path):
     cache[file_key] = {
         'hash': hashlib.md5(file_path.read_bytes()).hexdigest(),
         'template_hash': template_hash,
+        'navigation_hash': hashlib.md5(NAVIGATION_FILE.read_bytes()).hexdigest(),
+        'generator_hash': hashlib.md5(Path(__file__).read_bytes()).hexdigest(),
         'timestamp': datetime.now().isoformat()
     }
 
@@ -473,8 +454,8 @@ def sync_standalone_html():
     """重新生成没有同名 md 源的 html 页面（板块首页 index.html、学院与专业等历史页面）。
 
     这些页面无法由 build_html 构建，模板更新后它们会一直停留在旧版样式上。
-    做法：保留页面自身的标题、侧边栏、搜索数据、正文，其余部分（CSS/JS/导航结构）
-    全部用当前模板重新生成。
+    做法：保留页面标题、正文、专属样式和专属脚本；侧边栏从
+    navigation.json 重新生成，其余公共结构使用当前模板。
     """
     synced = 0
     for html_path in DOCS_DIR.rglob('*.html'):
@@ -482,33 +463,41 @@ def sync_standalone_html():
             continue
         old = html_path.read_text(encoding='utf-8')
 
-        nav_open = '<nav class="wiki-sidebar" id="wikiSidebar">'
         title_m = re.search(r'<title>(.*?)</title>', old)
-        sidebar_m = re.search(re.escape(nav_open) + r'\n(.*?)\s*</nav>', old, re.S)
-        pages_m = re.search(r'const pages = (\[.*?\]);', old, re.S)
-        brand_m = re.search(r'<a href="(.*?)/index.html" class="nav-brand">', old)
         content_open = old.find('<div class="markdown-section">')
-        if not all([title_m, sidebar_m, pages_m, brand_m, content_open != -1]):
+        if not all([title_m, content_open != -1]):
             print(f"  跳过 (无法解析, 需人工处理): {html_path}")
             continue
-        anchor = old.find('twikoo-title', content_open)
-        if anchor == -1:
-            anchor = old.find('id="twikoo-comment"', content_open)
-        content_close = old.rfind('</div>', 0, anchor) if anchor != -1 else old.rfind('</div>')
+        content_close = old.find('<!-- /markdown-section -->', content_open)
+        if content_close == -1:
+            anchor = old.find('twikoo-title', content_open)
+            if anchor == -1:
+                anchor = old.find('id="twikoo-comment"', content_open)
+            content_close = old.rfind('</div>', 0, anchor) if anchor != -1 else old.rfind('</div>')
         if content_close == -1 or content_close <= content_open:
             print(f"  跳过 (无法定位正文, 需人工处理): {html_path}")
             continue
         content = old[content_open + len('<div class="markdown-section">'):content_close].strip()
+        content = absolutize_content_urls(
+            content,
+            html_path.relative_to(DOCS_DIR).as_posix()
+        )
         title = title_m.group(1)
         if title.endswith(' - 应大Wiki'):
             title = title[:-len(' - 应大Wiki')]
 
+        page_style = '\n'.join(
+            re.findall(r'<style\s+data-page-style[^>]*>.*?</style>|<link\s+data-page-style[^>]*>', old, re.S | re.I)
+        )
+        page_scripts = '\n'.join(
+            re.findall(r'<script\s+data-page-script[^>]*>.*?</script>', old, re.S | re.I)
+        )
+
         template = (TEMPLATES_DIR / 'base.html').read_text(encoding='utf-8')
         html_output = template.replace('{{title}}', title)
         html_output = html_output.replace('{{content}}', content)
-        html_output = html_output.replace('{{sidebar}}', sidebar_m.group(1))
-        html_output = html_output.replace('{{search_data}}', pages_m.group(1))
-        html_output = html_output.replace('{{base_url}}', brand_m.group(1))
+        html_output = html_output.replace('{{page_style}}', page_style)
+        html_output = html_output.replace('{{page_scripts}}', page_scripts)
 
         if html_output != old:
             html_path.write_text(html_output, encoding='utf-8')
@@ -528,6 +517,8 @@ def build_all(force=False):
 
     built_count = 0
     skipped_count = 0
+    load_sidebar_structure()
+    write_search_index()
 
     for md_file in md_files:
         try:
@@ -560,6 +551,15 @@ def watch_files():
         while True:
             time.sleep(1)
             current_time = time.time()
+            template_changed = (TEMPLATES_DIR / 'base.html').stat().st_mtime > last_check
+            navigation_changed = NAVIGATION_FILE.stat().st_mtime > last_check
+
+            if template_changed or navigation_changed:
+                reason = '模板' if template_changed else '侧边栏配置'
+                print(f"\n检测到{reason}变化，全量重建")
+                build_all(force=True)
+                last_check = current_time
+                continue
 
             # 检查MD文件变化
             for md_file in DOCS_DIR.rglob('*.md'):

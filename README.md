@@ -53,8 +53,9 @@ uem_wiki/
 ├── index.html              # 首页
 ├── serve.py                # 本地预览服务器
 ├── build_wiki.py           # MD转HTML构建脚本
-├── templates/
-│   └── base.html           # HTML模板
+├── navigation.json         # 统一侧边栏配置
+├── templates/              # HTML模板
+├── assets/                 # 公共样式、脚本和搜索索引
 ├── docs/                   # 文档目录
 │   ├── 写在前面/           # 新生寄语
 │   ├── 学校概览/           # 学校介绍
@@ -71,6 +72,8 @@ uem_wiki/
 ## ✨ 功能特性
 
 - **Wiki风格导航** - 左侧全局导航栏，快速切换板块
+- **常驻页面外壳** - 切换文章时仅更新正文、目录和评论
+- **层级历史** - 浏览器后退优先回到目录父级，同层文章不堆叠历史记录
 - **文章目录** - 右侧自动生成TOC目录，支持滚动高亮
 - **全站搜索** - 支持关键词搜索所有文章
 - **返回顶部** - 长文章快速回到顶部
@@ -138,15 +141,18 @@ uem_wiki/
 
 ## 📝 更新侧边栏
 
-如需添加新页面到侧边栏，编辑 `build_wiki.py` 中的 `generate_sidebar()` 函数。
+侧边栏统一维护在 `navigation.json`。新增、删除页面或调整栏目顺序时，
+只修改该文件，然后运行构建命令。构建器会校验页面是否存在，并为所有
+Markdown 页面和 HTML-only 页面生成相同侧边栏。
 
 ## 🔍 搜索功能
 
-搜索数据在 `build_wiki.py` 的 `generate_search_data()` 函数中定义，添加新页面后需同步更新。
+搜索列表在 `build_wiki.py` 的 `build_search_entries()` 中定义，构建时生成
+`assets/search-index.json`。添加需要搜索的新页面后需同步更新该列表。
 
 ## 📦 依赖
 
-- Python 3.6+
+- Python 3.7+
 - 无需额外依赖，使用标准库即可
 
 ## 如何贡献

@@ -1,0 +1,144 @@
+:root {
+  color-scheme: light;
+
+  --color-bg: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #edf2f7;
+  --color-surface-alt: #f8fafc;
+  --color-text: #17212b;
+  --color-text-secondary: #4c5b69;
+  --color-text-muted: #738292;
+  --color-text-faint: #a8b3be;
+  --color-border: #d7e0e8;
+  --color-border-strong: #aab7c4;
+
+  --color-primary: #18577f;
+  --color-primary-strong: #123f5d;
+  --color-primary-hover: #216b9c;
+  --color-primary-soft: #e7f0f6;
+  --color-primary-soft-strong: #69a3cc;
+  --color-primary-soft-translucent: rgb(105 163 204 / 18%);
+  --color-primary-overlay: rgb(24 87 127 / 92%);
+  --color-primary-soft-shadow: rgb(105 163 204 / 30%);
+  --color-nav-bg: #002f82;
+  --color-nav-bg-border: #002466;
+  --color-nav-bg-hover: #0040b3;
+  --color-nav-active: #7aa7ff;
+  --color-nav-active-bg: rgb(122 167 255 / 18%);
+
+  --color-accent: #c44f31;
+  --color-accent-hover: #a94027;
+  --color-accent-soft: #f7e9e4;
+  --color-link: #1b628f;
+  --color-link-hover: var(--color-accent);
+
+  --color-info: #2f7fba;
+  --color-info-alt: #2485b5;
+  --color-info-shadow: rgb(47 127 186 / 35%);
+  --color-info-alt-shadow: rgb(36 133 181 / 35%);
+  --color-danger: #b84136;
+  --color-danger-surface: rgb(184 65 54 / 92%);
+
+  --color-on-primary: #ffffff;
+  --color-on-primary-strong: rgb(255 255 255 / 92%);
+  --color-on-primary-muted: rgb(255 255 255 / 72%);
+  --color-on-primary-faint: rgb(255 255 255 / 56%);
+  --color-on-primary-border: rgb(255 255 255 / 22%);
+  --color-on-primary-border-strong: rgb(255 255 255 / 50%);
+  --color-on-primary-subtle: rgb(255 255 255 / 12%);
+  --color-on-primary-hover: rgb(255 255 255 / 18%);
+
+  --color-overlay: rgb(12 23 34 / 38%);
+  --color-shadow: rgb(23 33 43 / 10%);
+  --color-shadow-strong: rgb(23 33 43 / 20%);
+  --color-paper-grain-light: rgb(92 111 129 / 3%);
+  --color-paper-grain-dark: rgb(255 255 255 / 1.5%);
+
+  --font-serif: "Noto Serif SC", "Crimson Pro", Georgia, "Songti SC", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "Courier New", "Noto Sans Mono", monospace;
+
+  /* Legacy aliases used by existing pages. */
+  --paper: var(--color-surface);
+  --paper-dark: var(--color-surface-soft);
+  --paper-edge: var(--color-border);
+  --paper-card: var(--color-surface);
+  --paper-card-end: var(--color-surface-alt);
+  --ink: var(--color-text);
+  --ink-light: var(--color-text-secondary);
+  --ink-faint: var(--color-text-muted);
+  --ink-fainter: var(--color-text-faint);
+  --vermilion: var(--color-accent);
+  --vermilion-light: var(--color-accent-hover);
+  --link: var(--color-link);
+  --link-hover: var(--color-link-hover);
+  --border: var(--color-border);
+  --card-border-hover: var(--color-border-strong);
+  --shadow: var(--color-shadow);
+  --input-bg: var(--color-surface);
+  --blockquote-bg: var(--color-primary-soft);
+  --sidebar-bg: var(--color-nav-bg);
+  --sidebar-border: var(--color-nav-bg-border);
+  --btn-bg: var(--color-primary);
+  --btn-hover: var(--color-primary-hover);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: #12141a;
+  --color-surface: #12141a;
+  --color-surface-soft: #1a1d26;
+  --color-surface-alt: #181b23;
+  --color-text: #e8eaef;
+  --color-text-secondary: #c2c7d1;
+  --color-text-muted: #9aa1b0;
+  --color-text-faint: #6b7280;
+  --color-border: #2c313c;
+  --color-border-strong: #4a5160;
+
+  --color-primary: #0a1f4d;
+  --color-primary-strong: #061636;
+  --color-primary-hover: #14306e;
+  --color-primary-soft: #1a2233;
+  --color-primary-soft-strong: #7aa7ff;
+  --color-primary-soft-translucent: rgb(122 167 255 / 18%);
+  --color-primary-overlay: rgb(10 31 77 / 92%);
+  --color-primary-soft-shadow: rgb(122 167 255 / 30%);
+  --color-nav-bg: #0a1f4d;
+  --color-nav-bg-border: #061636;
+  --color-nav-bg-hover: #14306e;
+  --color-nav-active: #7aa7ff;
+  --color-nav-active-bg: rgb(122 167 255 / 18%);
+
+  --color-accent: #e25a3c;
+  --color-accent-hover: #ff7a5c;
+  --color-accent-soft: #3a2420;
+  --color-link: #d4a574;
+  --color-link-hover: #e25a3c;
+
+  --color-info: #7aa7ff;
+  --color-info-alt: #7aa7ff;
+  --color-info-shadow: rgb(122 167 255 / 35%);
+  --color-info-alt-shadow: rgb(122 167 255 / 35%);
+  --color-danger: #ff7a5c;
+  --color-danger-surface: rgb(214 32 32 / 92%);
+
+  --color-on-primary: #ffffff;
+  --color-on-primary-strong: rgb(255 255 255 / 94%);
+  --color-on-primary-muted: rgb(255 255 255 / 76%);
+  --color-on-primary-faint: rgb(255 255 255 / 60%);
+  --color-on-primary-border: rgb(255 255 255 / 24%);
+  --color-on-primary-border-strong: rgb(255 255 255 / 52%);
+  --color-on-primary-subtle: rgb(255 255 255 / 14%);
+  --color-on-primary-hover: rgb(255 255 255 / 20%);
+
+  --color-overlay: rgb(0 0 0 / 30%);
+  --color-shadow: rgb(0 0 0 / 45%);
+  --color-shadow-strong: rgb(0 0 0 / 55%);
+  --color-paper-grain-light: rgb(255 255 255 / 1.2%);
+  --color-paper-grain-dark: rgb(255 255 255 / 1.2%);
+
+  --paper-card: #1c1f28;
+  --paper-card-end: #181b23;
+}
