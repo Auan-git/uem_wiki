@@ -7,6 +7,7 @@
 
 import http.server
 import socketserver
+import os
 import sys
 import webbrowser
 import urllib.parse
@@ -57,6 +58,13 @@ if __name__ == "__main__":
   Press Ctrl+C to stop
 ========================================
 """, flush=True)
+
+    if not os.environ.get("UEM_SKIP_RECENT_UPDATE"):
+        try:
+            from update_recent import update_recent_updates
+            update_recent_updates(quiet=True)
+        except Exception as error:
+            print(f"[Recent updates] 更新失败，保留现有数据: {error}", flush=True)
 
     try:
         server = socketserver.ThreadingTCPServer(("", PORT), Handler)

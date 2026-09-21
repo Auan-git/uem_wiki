@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>校内组织 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/圆形logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -501,25 +502,7 @@ body::before {
 .content.sidebar-collapsed .wiki-main { margin-left: 0; }</style>
 </head>
 <body>
-  <nav class="app-nav" data-shell>
-    <a href="/index.html" class="nav-brand">
-      <img src="/圆形logo.png" alt="应大Wiki" class="nav-logo">
-      <span>应大Wiki</span>
-    </a>
-    <div class="nav-links">
-      <a href="/docs/学校概览/index.html">概览</a>
-      <a href="/docs/入学指南/index.html">入学</a>
-      <a href="/docs/选课指南/index.html">选课</a>
-      <a href="/docs/学分绩点/index.html">学业</a>
-      <a href="/docs/校园生活/index.html">生活</a>
-      <a href="/docs/常用链接/index.html">链接</a>
-    </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
-      <div id="searchResults" class="search-results"></div>
-    </div>
-    <button type="button" class="theme-toggle" id="themeToggle" title="切换深浅色" aria-label="切换深浅色">🌙</button>
-  </nav>
+  <nav class="app-nav" id="appNav" data-shell></nav>
 
   <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="切换侧边栏">◂</button>
   <div class="content" id="contentLayout">
@@ -548,7 +531,7 @@ body::before {
   <span class="join-text"><strong>欢迎入驻应大 Wiki</strong> · 社团 / 实验室 / 兴趣组 / 有博客的同学，点此登记上墙 →</span>
 </a>
 <div class="flip-grid">
-  <div class="flip-card" data-flip style="--wm:url('logos/大学生创新实验室.jpg')">
+  <div class="flip-card" data-flip style="--wm:url('/docs/常用链接/logos/大学生创新实验室.jpg')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
         <img class="flip-logo" src="/docs/常用链接/logos/大学生创新实验室.jpg" alt="大学生创新实验室">
@@ -564,7 +547,7 @@ body::before {
       </div>
     </div>
   </div>
-  <div class="flip-card" data-flip style="--wm:url('logos/EMU-Stu.png')">
+  <div class="flip-card" data-flip style="--wm:url('/docs/常用链接/logos/EMU-Stu.png')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
         <img class="flip-logo" src="/docs/常用链接/logos/EMU-Stu.png" alt="UEM-Stu">
@@ -579,7 +562,7 @@ body::before {
       </div>
     </div>
   </div>
-  <div class="flip-card" data-flip style="--wm:url('logos/PC极客社.png')">
+  <div class="flip-card" data-flip style="--wm:url('/docs/常用链接/logos/PC极客社.png')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
         <img class="flip-logo" src="/docs/常用链接/logos/PC极客社.png" alt="PC极客社">
@@ -595,7 +578,7 @@ body::before {
       </div>
     </div>
   </div>
-  <div class="flip-card" data-flip style="--wm:url('logos/E-link科创室.jpg')">
+  <div class="flip-card" data-flip style="--wm:url('/docs/常用链接/logos/E-link科创室.jpg')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
         <img class="flip-logo" src="/docs/常用链接/logos/E-link科创室.jpg" alt="E-link科创室">
@@ -611,7 +594,7 @@ body::before {
       </div>
     </div>
   </div>
-  <div class="flip-card" data-flip style="--wm:url('logos/IT智云社.png')">
+  <div class="flip-card" data-flip style="--wm:url('/docs/常用链接/logos/IT智云社.png')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
         <img class="flip-logo" src="/docs/常用链接/logos/IT智云社.png" alt="IT智云社">
@@ -626,7 +609,7 @@ body::before {
       </div>
     </div>
   </div>
-  <div class="flip-card" data-flip style="--wm:url('logos/利刃网安.jpg')">
+  <div class="flip-card" data-flip style="--wm:url('/docs/常用链接/logos/利刃网安.jpg')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
         <img class="flip-logo" src="/docs/常用链接/logos/利刃网安.jpg" alt="利刃网安攻防实验室">
@@ -638,7 +621,7 @@ body::before {
       </div>
     </div>
   </div>
-  <div class="flip-card" data-flip style="--wm:url('logos/电脑门诊.jpg')">
+  <div class="flip-card" data-flip style="--wm:url('/docs/常用链接/logos/电脑门诊.jpg')">
     <div class="flip-inner">
       <div class="flip-face flip-front">
         <img class="flip-logo" src="/docs/常用链接/logos/电脑门诊.jpg" alt="电脑门诊">
@@ -1257,7 +1240,7 @@ body::before {
   <div id="routerStatus" class="router-status" role="status" aria-live="polite" hidden>正在加载...</div>
 
 <script data-page-script src="/docs/常用链接/校内组织.js"></script>
-  <script defer src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script defer src="/assets/vendor/twikoo.all.min.js"></script>
   <script defer src="/assets/site.js"></script>
 </body>
 </html>

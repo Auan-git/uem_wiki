@@ -39,6 +39,10 @@ URL_ATTRIBUTE_RE = re.compile(
     r'(?P<prefix>\b(?:href|src)\s*=\s*)(?P<quote>["\'])(?P<url>.*?)(?P=quote)',
     re.IGNORECASE
 )
+CSS_URL_RE = re.compile(
+    r'url\(\s*(?P<quote>["\']?)(?P<url>.*?)(?P=quote)\s*\)',
+    re.IGNORECASE
+)
 
 
 def absolutize_content_urls(content_html, page_path):
@@ -70,6 +74,27 @@ def absolutize_content_urls(content_html, page_path):
         return f"{match.group('prefix')}{match.group('quote')}{resolved}{match.group('quote')}"
 
     return URL_ATTRIBUTE_RE.sub(replace_url, content_html)
+
+
+def absolutize_css_urls(content, page_path):
+    """将 CSS url(...) 中的本地资源转换为站点根路径。"""
+    page_url = site_url(page_path)
+    page_dir = posixpath.dirname(page_url)
+
+    def replace_url(match):
+        url = match.group('url').strip()
+        if (
+            not url
+            or url.startswith(("#", "/", "?", "http://", "https://", "//", "data:", "var("))
+        ):
+            return match.group(0)
+
+        resolved = posixpath.normpath(posixpath.join(page_dir, url))
+        if not resolved.startswith("/"):
+            resolved = "/" + resolved
+        return f"url({match.group('quote')}{resolved}{match.group('quote')})"
+
+    return CSS_URL_RE.sub(replace_url, content)
 
 
 def md_to_html(md_content):
@@ -379,9 +404,10 @@ def build_html(md_path, force=False):
             break
 
     # 转换为HTML
-    content_html = absolutize_content_urls(
-        md_to_html(md_content),
-        md_path.with_suffix('.html').relative_to(DOCS_DIR).as_posix()
+    page_path = md_path.with_suffix('.html').relative_to(DOCS_DIR).as_posix()
+    content_html = absolutize_css_urls(
+        absolutize_content_urls(md_to_html(md_content), page_path),
+        page_path
     )
 
     # 读取模板
@@ -477,10 +503,11 @@ def sync_standalone_html():
         if content_close == -1 or content_close <= content_open:
             print(f"  跳过 (无法定位正文, 需人工处理): {html_path}")
             continue
+        page_path = html_path.relative_to(DOCS_DIR).as_posix()
         content = old[content_open + len('<div class="markdown-section">'):content_close].strip()
-        content = absolutize_content_urls(
-            content,
-            html_path.relative_to(DOCS_DIR).as_posix()
+        content = absolutize_css_urls(
+            absolutize_content_urls(content, page_path),
+            page_path
         )
         title = title_m.group(1)
         if title.endswith(' - 应大Wiki'):
@@ -488,6 +515,10 @@ def sync_standalone_html():
 
         page_style = '\n'.join(
             re.findall(r'<style\s+data-page-style[^>]*>.*?</style>|<link\s+data-page-style[^>]*>', old, re.S | re.I)
+        )
+        page_style = absolutize_css_urls(
+            page_style,
+            page_path
         )
         page_scripts = '\n'.join(
             re.findall(r'<script\s+data-page-script[^>]*>.*?</script>', old, re.S | re.I)
@@ -577,8 +608,16 @@ def main():
     parser.add_argument('files', nargs='*', help='要构建的MD文件路径')
     parser.add_argument('--force', '-f', action='store_true', help='强制重新构建所有文件')
     parser.add_argument('--watch', '-w', action='store_true', help='监听文件变化')
+    parser.add_argument('--skip-recent', action='store_true', help='跳过 GitHub Deployments 更新')
 
     args = parser.parse_args()
+
+    if not args.skip_recent:
+        try:
+            from update_recent import update_recent_updates
+            update_recent_updates()
+        except Exception as error:
+            print(f"  最近更新数据刷新失败，继续使用现有文件: {error}")
 
     if args.watch:
         watch_files()
