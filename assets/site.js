@@ -3,6 +3,7 @@
 
   const pageContent = document.getElementById("page-content");
   const tocList = document.getElementById("tocList");
+  const appNav = document.getElementById("appNav");
   const sidebar = document.getElementById("wikiSidebar");
   const sidebarToggle = document.getElementById("sidebarToggle");
   const contentLayout = document.getElementById("contentLayout");
@@ -21,6 +22,25 @@
       path += "index.html";
     }
     return path.replace(/\.html$/, "");
+  }
+
+  function renderTopNavigation() {
+    if (!appNav || appNav.childElementCount > 0) {
+      return;
+    }
+
+    appNav.innerHTML =
+      '<a href="/index.html" class="nav-brand">' +
+        '<img src="/圆形logo.png" alt="应大Wiki" class="nav-logo">' +
+        '<span>应大Wiki</span>' +
+      '</a>' +
+      '<div class="search-box">' +
+        '<input type="text" id="searchInput" class="nav-search" ' +
+          'placeholder="搜索页面内容..." autocomplete="off" aria-label="搜索页面内容">' +
+        '<div id="searchResults" class="search-results"></div>' +
+      '</div>' +
+      '<button type="button" class="theme-toggle" id="themeToggle" ' +
+        'title="切换深浅色" aria-label="切换深浅色">🌙</button>';
   }
 
   function loadNavigation() {
@@ -225,7 +245,7 @@
   }
 
   function shouldHandleLink(anchor, event) {
-    if (!anchor || anchor.dataset.noRouter === "true") {
+    if (!pageContent || !anchor || anchor.dataset.noRouter === "true") {
       return false;
     }
     if (event.defaultPrevented || event.button !== 0) {
@@ -289,7 +309,7 @@
         return;
       }
 
-      link.querySelectorAll(":scope > .sidebar-fold").forEach(function (node) {
+      item.querySelectorAll(":scope > .sidebar-fold").forEach(function (node) {
         node.remove();
       });
 
@@ -609,7 +629,12 @@
 
   function initComments() {
     const container = document.getElementById("twikoo-comment");
-    if (!container || !window.twikoo || typeof window.twikoo.init !== "function") {
+    if (!container) {
+      return;
+    }
+    if (!window.twikoo || typeof window.twikoo.init !== "function") {
+      container.innerHTML =
+        '<div class="comment-fallback">评论区加载失败，请刷新页面后重试。</div>';
       return;
     }
 
@@ -619,21 +644,77 @@
       }
     } catch (error) {}
     container.innerHTML = "";
-    window.twikoo.init({
-      envId: "https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo",
-      el: "#twikoo-comment",
-      requiredMetaField: [],
-      anonymousNickName: "匿名",
-      commentPermission: "anyone"
-    });
+    const attempt = String(Date.now()) + Math.random();
+    container.dataset.commentAttempt = attempt;
+    const commentPath = window.location.pathname.endsWith("/index.html")
+      ? window.location.pathname.slice(0, -"index.html".length)
+      : window.location.pathname;
+    try {
+      const initialized = window.twikoo.init({
+        envId: "https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo",
+        el: "#twikoo-comment",
+        path: commentPath,
+        requiredMetaField: [],
+        anonymousNickName: "匿名",
+        commentPermission: "anyone"
+      });
+      if (initialized && typeof initialized.catch === "function") {
+        initialized.catch(function () {
+          container.innerHTML =
+            '<div class="comment-fallback">评论区暂时不可用，请稍后重试。</div>';
+        });
+      }
+    } catch (error) {
+      container.innerHTML =
+        '<div class="comment-fallback">评论区暂时不可用，请稍后重试。</div>';
+    }
+    window.setTimeout(function () {
+      if (
+        container.dataset.commentAttempt === attempt &&
+        !container.innerHTML.trim()
+      ) {
+        container.innerHTML =
+          '<div class="comment-fallback">评论区暂时不可用，请稍后重试。</div>';
+      }
+    }, 5000);
   }
 
-  function syncPageStyles(sourceDocument) {
+  function absolutizeCssUrls(css, sourceUrl) {
+    return String(css).replace(
+      /url\(\s*(["']?)(.*?)\1\s*\)/gi,
+      function (match, quote, value) {
+        const url = value.trim();
+        if (
+          !url ||
+          url.startsWith("#") ||
+          url.startsWith("/") ||
+          url.startsWith("?") ||
+          url.startsWith("data:") ||
+          url.startsWith("var(") ||
+          /^(?:https?:)?\/\//i.test(url)
+        ) {
+          return match;
+        }
+        try {
+          return "url(" + quote + new URL(url, sourceUrl).href + quote + ")";
+        } catch (error) {
+          return match;
+        }
+      }
+    );
+  }
+
+  function syncPageStyles(sourceDocument, sourceUrl) {
     document.querySelectorAll("style[data-page-style], link[data-page-style]").forEach(function (node) {
       node.remove();
     });
     sourceDocument.querySelectorAll("style[data-page-style], link[data-page-style]").forEach(function (node) {
       const clone = node.cloneNode(true);
+      if (node.tagName === "STYLE") {
+        clone.textContent = absolutizeCssUrls(node.textContent, sourceUrl);
+      } else if (node.tagName === "LINK" && node.getAttribute("href")) {
+        clone.href = new URL(node.getAttribute("href"), sourceUrl).href;
+      }
       document.head.appendChild(clone);
     });
   }
@@ -727,7 +808,7 @@
         return;
       }
 
-      syncPageStyles(sourceDocument);
+      syncPageStyles(sourceDocument, url);
       pageContent.innerHTML = nextContent.innerHTML;
       document.title = sourceDocument.title;
       if (settings.push !== false) {
@@ -793,6 +874,7 @@
   }
 
   async function init() {
+    renderTopNavigation();
     initSidebarToggle();
     initTheme();
     initBackToTop();

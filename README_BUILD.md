@@ -44,7 +44,9 @@ uem_wiki/
 │   ├── theme.css          # 全站唯一配色变量
 │   ├── site.css           # 全站公共样式
 │   ├── site.js            # 导航、搜索、目录、评论与客户端路由
-│   └── search-index.json  # 自动生成的搜索索引
+│   ├── search-index.json  # 自动生成的搜索索引
+│   ├── recent-updates.json # 自动生成的 GitHub Deployments
+│   └── vendor/            # 本地托管的 Twikoo 客户端
 ├── docs/
 │   ├── 校园生活/
 │   │   ├── 恋爱.md        # Markdown源文件
@@ -83,8 +85,10 @@ HTML 不重复包含几十条导航路径，切换页面时侧边栏也不会重
 
 ## 客户端导航
 
-`assets/site.js` 会拦截站内页面链接，仅替换 `#page-content`。
-顶部导航和运行时生成的左侧侧边栏在后续页面切换中不会重新创建，同时会更新标题、
+`assets/site.js` 会在页面加载时注入主页同款顶部导航，并读取
+`navigation.json` 生成左侧侧边栏。两套导航都只保留空容器，不写入生成
+HTML；切换页面时它们不会重新创建。`site.js` 会拦截站内页面链接，仅替换
+`#page-content`，同时更新标题、
 侧边栏高亮、目录和评论区。路由会维护父级历史，使浏览器后退回到目录
 父级；同一目录下的文章切换使用 `replaceState`，不会反复堆积历史记录。
 
@@ -93,6 +97,46 @@ HTML 不重复包含几十条导航路径，切换页面时侧边栏也不会重
 Markdown 和 HTML 源文件可以继续使用相对路径。构建器会为每个页面计算
 最终位置，并将正文里的本地 `href`、`src` 转换为 `/docs/...` 或 `/...`
 根路径，因此生成 HTML 不包含 `../`，也不需要运行页面主动计算目录深度。
+
+## 最近更新
+
+首页的“最近更新”从 `assets/recent-updates.json` 渲染。`update_recent.py`
+会读取当前 Git 仓库的 GitHub Deployments、部署状态和对应提交信息，再写入
+该 JSON。本地运行 `serve.py` 或执行 `build_wiki.py` 时会自动尝试刷新一次；
+网络不可用时保留现有文件。
+
+手动刷新：
+
+```bash
+python update_recent.py
+```
+
+离线构建时可跳过网络请求：
+
+```bash
+python build_wiki.py --skip-recent
+```
+
+默认仓库为 `Auan-git/uem_wiki`。本地同时存在 `upstream` 远程时会优先使用
+`upstream`，否则依次读取 GitHub Actions 仓库环境变量和 `origin`。也可以
+显式指定：
+
+```bash
+python update_recent.py --repo owner/repository
+```
+
+GitHub Token 可通过 `GITHUB_TOKEN` 或 `GH_TOKEN` 提供，无令牌时仍可读取
+公开仓库的部署记录。
+
+## 评论
+
+评论区使用本地 `assets/vendor/twikoo.all.min.js`，当前版本为 `1.7.15`，
+与线上 Twikoo 云函数版本保持一致。评论数据由外部 Twikoo 云函数和数据库
+保存，不存放在本仓库；更换环境或数据库后，历史评论需要在 Twikoo 后台恢复。
+
+Twikoo 的评论键沿用旧站规则：板块首页会将 `/index.html` 去掉，使用
+百分号编码后的目录路径，例如 `/docs/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2/`；
+普通文章仍使用对应的 `.html` 路径。
 
 ## 配色规范
 

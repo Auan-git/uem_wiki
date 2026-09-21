@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/圆形logo.png">
   <meta name="description" content="应大新生Wiki，选课、学分、体育、生活全攻略">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/assets/theme.css">
+  <link rel="stylesheet" href="/assets/site.css">
 
   <script>
     // 防止主题闪烁
@@ -35,119 +37,8 @@
       line-height: 1.6;
       transition: background-color 0.2s ease, color 0.2s ease;
     }
-
-    /* 顶部栏 */
-    .top-bar {
-      width: 100%;
-      background: var(--paper-dark);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .top-bar .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      margin-right: auto;
-    }
-    .top-bar .logo-img {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .top-bar .logo-text {
-      font-family: var(--font-serif);
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--ink);
-    }
-    .search-box {
-      position: relative;
-    }
-    .top-bar .search {
-      max-width: 100%;
-      padding: 8px 16px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 14px;
-      width: 280px;
-      background: var(--input-bg);
-      color: var(--ink);
-    }
-    .top-bar .search::placeholder {
-      color: var(--ink-faint);
-    }
-    .theme-toggle {
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: var(--paper);
-      color: var(--ink);
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
-    }
-    .theme-toggle:hover {
-      border-color: var(--card-border-hover);
-      transform: scale(1.05);
-    }
-    .top-bar .search:focus {
-      outline: none;
-      border-color: var(--link);
-    }
-    .search-results {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--paper-card);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      margin-top: 4px;
-      max-height: 400px;
-      overflow-y: auto;
-      display: none;
-      box-shadow: 0 4px 12px var(--shadow);
-      z-index: 1000;
-    }
-    .search-results.active {
-      display: block;
-    }
-    .search-result-item {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
-      color: var(--ink);
-      display: block;
-    }
-    .search-result-item:hover {
-      background: var(--paper-dark);
-    }
-    .search-result-item:last-child {
-      border-bottom: none;
-    }
-    .search-result-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .search-result-desc {
-      font-size: 13px;
-      color: var(--ink-faint);
-    }
-    .search-no-result {
-      padding: 16px;
-      text-align: center;
-      color: var(--ink-faint);
+    body {
+      padding-top: 64px;
     }
 
     /* 主体 */
@@ -312,11 +203,16 @@
       padding: 10px 0;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
+      min-width: 0;
     }
     .recent li:last-child { border-bottom: none; }
     .recent a {
       color: var(--ink);
       text-decoration: none;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .recent a:hover { color: var(--vermilion); }
     .recent span {
@@ -452,24 +348,13 @@
     @media (max-width: 640px) {
       .hero h1 { font-size: 32px; }
       .hero-links { flex-direction: column; }
-      .top-bar .search { width: 160px; }
       .section-card .icon { font-size: 72px; right: -4px; bottom: -12px; }
       .section-card p { max-width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="top-bar">
-    <a href="index.html" class="logo">
-      <img src="圆形logo.png" alt="应大Wiki" class="logo-img">
-      <span class="logo-text">应大Wiki</span>
-    </a>
-    <div class="search-box">
-      <input type="text" id="searchInput" class="search" placeholder="搜索页面内容..." autocomplete="off">
-      <div id="searchResults" class="search-results"></div>
-    </div>
-    <button type="button" class="theme-toggle" id="themeToggle" title="切换深浅色" aria-label="切换深浅色">🌙</button>
-  </div>
+  <nav class="app-nav" id="appNav" data-shell></nav>
 
   <div class="container">
     <div class="hero">
@@ -533,11 +418,8 @@
 
     <section class="recent">
       <h2>最近更新</h2>
-      <ul>
-        <li><a href="docs/常用链接/校内组织.html">校内组织</a><span>2026-09-10</span></li>
-        <li><a href="docs/关于我们/index.html">关于我们 · 贡献者</a><span>2026-08-23</span></li>
-        <li><a href="docs/学分绩点/奖学金与资助.html">奖学金与资助</a><span>2026-08</span></li>
-        <li><a href="docs/入学指南/来校路线.html">来校路线</a><span>2026-08</span></li>
+      <ul id="recentUpdates">
+        <li class="recent-loading">正在读取部署记录...</li>
       </ul>
     </section>
 
@@ -575,25 +457,6 @@
 
   <script>
     (function () {
-      var root = document.documentElement;
-      var btn = document.getElementById('themeToggle');
-      function isDark() { return root.getAttribute('data-theme') === 'dark'; }
-      function apply(theme, save) {
-        if (theme === 'dark') root.setAttribute('data-theme', 'dark');
-        else root.removeAttribute('data-theme');
-        if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        if (save) localStorage.setItem('uem-theme', theme);
-      }
-      apply(isDark() ? 'dark' : 'light', false);
-      if (btn) {
-        btn.addEventListener('click', function () {
-          apply(isDark() ? 'light' : 'dark', true);
-        });
-      }
-    })();
-  </script>
-  <script>
-    (function () {
       var btn = document.getElementById('copyQq');
       var el = document.getElementById('qqNum');
       if (!btn || !el) return;
@@ -614,65 +477,57 @@
     })();
   </script>
   <script>
-    // 所有页面列表
-    let pages = [];
-    fetch('/assets/search-index.json')
-      .then(function (response) { return response.json(); })
-      .then(function (data) { pages = data; })
-      .catch(function () { pages = []; });
+    (async function () {
+      const list = document.getElementById('recentUpdates');
+      if (!list) return;
 
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-
-    searchInput.addEventListener('input', function() {
-      const query = this.value.toLowerCase().trim();
-      if (!query) {
-        searchResults.classList.remove('active');
-        return;
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;');
       }
 
-      const results = pages.filter(p =>
-        p.title.toLowerCase().includes(query) ||
-        p.desc.toLowerCase().includes(query)
-      );
-
-      if (results.length === 0) {
-        searchResults.innerHTML = '<div class="search-no-result">没有找到相关结果</div>';
-      } else {
-        searchResults.innerHTML = results.map(p =>
-          `<a href="${p.url}" class="search-result-item">
-            <div class="search-result-title">${p.title}</div>
-            <div class="search-result-desc">${p.desc}</div>
-          </a>`
-        ).join('');
+      function formatDate(value) {
+        if (!value) return '';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return value.slice(0, 10);
+        return new Intl.DateTimeFormat('zh-CN', {
+          timeZone: 'Asia/Shanghai',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        }).format(date);
       }
-      searchResults.classList.add('active');
-    });
 
-    // 点击其他地方关闭搜索结果
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.search-box')) {
-        searchResults.classList.remove('active');
-      }
-    });
-
-    // 按回车搜索
-    searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        const query = this.value.toLowerCase().trim();
-        if (query) {
-          const result = pages.find(p =>
-            p.title.toLowerCase().includes(query) ||
-            p.desc.toLowerCase().includes(query)
-          );
-          if (result) {
-            window.location.href = result.url;
-          }
+      try {
+        const response = await fetch('/assets/recent-updates.json', { cache: 'no-cache' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const data = await response.json();
+        const entries = Array.isArray(data.entries) ? data.entries : [];
+        if (!entries.length) {
+          list.innerHTML = '<li class="recent-loading">暂无部署记录</li>';
+          return;
         }
+        list.innerHTML = entries.map(function (entry) {
+          const href = escapeHtml(entry.url || '#');
+          const fullTitle = entry.title || 'GitHub Pages 部署';
+          const displayTitle = fullTitle.length > 72
+            ? fullTitle.slice(0, 72) + '…'
+            : fullTitle;
+          const title = escapeHtml(displayTitle);
+          const titleAttribute = escapeHtml(fullTitle);
+          const date = escapeHtml(formatDate(entry.date));
+          return '<li><a href="' + href + '" target="_blank" rel="noopener" title="' +
+            titleAttribute + '">' +
+            title + '</a><span>' + date + '</span></li>';
+        }).join('');
+      } catch (error) {
+        list.innerHTML = '<li class="recent-loading">部署记录暂时不可用</li>';
       }
-    });
+    })();
   </script>
-  <script>
-  </script>
+  <script defer src="/assets/site.js"></script>
 </body>
 </html>

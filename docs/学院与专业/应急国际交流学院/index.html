@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>应急国际交流学院 - 应大Wiki</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/圆形logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -21,25 +22,7 @@
 
 </head>
 <body>
-  <nav class="app-nav" data-shell>
-    <a href="/index.html" class="nav-brand">
-      <img src="/圆形logo.png" alt="应大Wiki" class="nav-logo">
-      <span>应大Wiki</span>
-    </a>
-    <div class="nav-links">
-      <a href="/docs/学校概览/index.html">概览</a>
-      <a href="/docs/入学指南/index.html">入学</a>
-      <a href="/docs/选课指南/index.html">选课</a>
-      <a href="/docs/学分绩点/index.html">学业</a>
-      <a href="/docs/校园生活/index.html">生活</a>
-      <a href="/docs/常用链接/index.html">链接</a>
-    </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" class="nav-search" placeholder="搜索..." autocomplete="off">
-      <div id="searchResults" class="search-results"></div>
-    </div>
-    <button type="button" class="theme-toggle" id="themeToggle" title="切换深浅色" aria-label="切换深浅色">🌙</button>
-  </nav>
+  <nav class="app-nav" id="appNav" data-shell></nav>
 
   <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="切换侧边栏">◂</button>
   <div class="content" id="contentLayout">
@@ -90,7 +73,7 @@
   <div id="routerStatus" class="router-status" role="status" aria-live="polite" hidden>正在加载...</div>
 
 
-  <script defer src="https://unpkg.com/twikoo@1.6.41/dist/twikoo.all.min.js"></script>
+  <script defer src="/assets/vendor/twikoo.all.min.js"></script>
   <script defer src="/assets/site.js"></script>
 </body>
 </html>
