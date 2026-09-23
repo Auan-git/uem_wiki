@@ -23,6 +23,10 @@ html, body {
   background: var(--paper-dark);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 1px 4px var(--shadow);
+  /* 排版自成一体，不继承页面级排版，保证各页面渲染像素一致 */
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.85;
 }
 .app-nav .nav-brand {
   display: flex; align-items: center; gap: 10px;
@@ -50,6 +54,9 @@ html, body {
   transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
 .theme-toggle:hover { border-color: var(--ink-faint); transform: scale(1.05); }
+.theme-icon-sun { display: none; }
+html[data-theme="dark"] .theme-icon-moon { display: none; }
+html[data-theme="dark"] .theme-icon-sun { display: inline; }
 .search-results {
   position: absolute; top: 100%; right: 0; background: var(--paper);
   border: 1px solid var(--border); border-radius: 4px; margin-top: 4px;
@@ -76,13 +83,10 @@ html, body {
       overflow-y: auto; padding: 0 0 20px 0;
       font-family: var(--font-serif); font-size: 14px;
       z-index: 50;
-      transition: width 0.3s ease, opacity 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
-.wiki-sidebar.collapsed { width: 0; opacity: 0; pointer-events: none; }
-.content.sidebar-collapsed .markdown-section {
-  max-width: 920px; margin: 0 auto; padding-left: 40px; padding-right: 40px;
-  transition: max-width 0.3s ease, margin 0.3s ease;
-}
+/* 折叠时整体左移出屏，不改宽度，避免文字被挤压重排 */
+.wiki-sidebar.collapsed { transform: translateX(-100%); opacity: 0; pointer-events: none; }
 .sidebar-toggle {
   position: fixed; top: 72px; left: 240px;
   width: 18px; height: 36px; border-radius: 0 4px 4px 0;
@@ -152,7 +156,8 @@ html, body {
 .sidebar-fold:hover { color: var(--color-on-primary); background: var(--color-on-primary-hover); }
 .sidebar-item.collapsed > .sidebar-children { display: none; }
 .wiki-main {
-  margin-left: 240px; margin-right: 220px; flex: 1; min-width: 0;
+  /* 左右 margin 对称，保证正文块在视口中绝对居中 */
+  margin-left: 240px; margin-right: 240px; flex: 1; min-width: 0;
 }
 
 /* 文章内容 */
@@ -305,15 +310,146 @@ html[data-theme="dark"] body::before {
 .back-to-top.visible { opacity: 1; visibility: visible; }
 .back-to-top:hover { background: var(--btn-hover); transform: translateY(-2px); }
 
-/* 评论区 */
-#twikoo-comment {
+/* 评论区容器（id 沿用 Twikoo 约定，渲染前后都命中） */
+#twikoo {
   max-width: 920px; margin: 60px auto 0; padding: 0 0 40px;
   border-top: 2px solid var(--ink); padding-top: 30px;
+  /* 覆盖 Element UI 主题色变量，让按钮等组件跟随站点配色 */
+  --el-color-primary: var(--vermilion, #c83c28);
 }
 .twikoo-title {
   font-family: var(--font-serif); font-size: 20px; font-weight: 700;
   color: var(--ink); margin-bottom: 20px; text-align: center;
 }
+
+/* —— 表单区（#twikoo 前缀提高优先级，压过 Element UI 动态注入的样式） —— */
+#twikoo .tk-submit { background: none !important; }
+#twikoo .tk-avatar { border-radius: 50%; overflow: hidden; }
+#twikoo .tk-avatar-img img, #twikoo .tk-avatar-img svg { border-radius: 50%; }
+
+/* 输入框前缀标签（昵称/邮箱/网址） */
+#twikoo .tk-meta-input .el-input-group__prepend {
+  background: var(--paper-dark) !important;
+  border-color: var(--border) !important;
+  color: var(--ink-light) !important;
+  font-family: var(--font-serif) !important; font-size: 13px !important;
+  padding: 0 10px !important;
+}
+/* 输入框本体 */
+#twikoo .tk-meta-input .el-input__inner,
+#twikoo .el-textarea__inner {
+  border-color: var(--border) !important;
+  border-radius: 4px !important;
+  font-family: var(--font-serif) !important;
+  font-size: 14px !important;
+  color: var(--ink) !important;
+  background: var(--paper) !important;
+  transition: border-color 0.2s;
+}
+#twikoo .tk-meta-input .el-input__inner:focus,
+#twikoo .el-textarea__inner:focus {
+  border-color: var(--vermilion) !important;
+}
+#twikoo .el-textarea__inner { line-height: 1.8; padding: 10px 14px !important; }
+#twikoo .el-input__count { font-size: 12px; color: var(--ink-faint); }
+
+/* 操作行 */
+#twikoo .tk-row.actions { margin-top: 8px; gap: 8px; }
+#twikoo .tk-submit-action-icon { color: var(--ink-light); }
+#twikoo .tk-submit-action-icon:hover { color: var(--vermilion); }
+
+/* 发送 / 预览按钮 */
+#twikoo .el-button.tk-send {
+  background: var(--vermilion) !important;
+  border-color: var(--vermilion) !important;
+  color: #fff !important;
+  border-radius: 4px !important;
+  font-family: var(--font-serif) !important;
+  font-size: 14px !important;
+  padding: 7px 18px !important;
+}
+#twikoo .el-button.tk-send:hover { opacity: 0.85; }
+#twikoo .el-button.tk-preview {
+  border-color: var(--border) !important;
+  color: var(--ink-light) !important;
+  border-radius: 4px !important;
+  font-family: var(--font-serif) !important;
+  font-size: 14px !important;
+}
+#twikoo .tk-error-message { color: #c0392b; font-size: 13px; }
+
+/* —— 评论列表区 —— */
+#twikoo .tk-comments-title {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px; margin-bottom: 16px;
+  font-family: var(--font-serif);
+  color: var(--ink);
+}
+#twikoo .tk-comments-count { font-weight: 700; }
+
+#twikoo .tk-comments-no {
+  text-align: center; color: var(--ink-faint);
+  font-family: var(--font-serif); padding: 32px 0;
+}
+
+/* 单条评论卡片 */
+#twikoo .tk-comment {
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border);
+}
+#twikoo .tk-comment:last-child { border-bottom: none; }
+
+/* 评论元信息行 */
+#twikoo .tk-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+#twikoo .tk-nick { font-family: var(--font-serif) !important; font-weight: 600; color: var(--ink); }
+#twikoo .tk-nick a { color: var(--link); }
+#twikoo .tk-region { font-size: 12px; color: var(--ink-faint); }
+#twikoo .tk-time { font-size: 12px; color: var(--ink-faint); }
+
+/* 评论正文 */
+#twikoo .tk-content {
+  font-family: var(--font-serif); font-size: 15px;
+  line-height: 1.85; color: var(--ink);
+  margin: 4px 0 0; padding-left: 48px;
+}
+#twikoo .tk-content p { margin: 0.5em 0; }
+#twikoo .tk-content a { color: var(--link); border-bottom: 1px solid var(--ink-fainter); }
+#twikoo .tk-content img { max-width: 100%; border-radius: 4px; }
+#twikoo .tk-content pre {
+  background: var(--paper-dark); border-radius: 4px;
+  padding: 12px; overflow-x: auto; font-size: 13px;
+}
+#twikoo .tk-content code { background: var(--paper-dark); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+
+/* 评论操作（回复/点赞） */
+#twikoo .tk-comment-actions { padding-left: 48px; margin-top: 4px; }
+#twikoo .tk-comment-actions a {
+  font-size: 13px; color: var(--ink-light);
+  margin-right: 16px; border: none;
+}
+#twikoo .tk-comment-actions a:hover { color: var(--vermilion); }
+
+/* 子评论缩进 */
+#twikoo .tk-children { margin-left: 48px; padding-left: 16px; border-left: 2px solid var(--border); }
+
+/* 分页/展开 */
+#twikoo .tk-expand, #twikoo .tk-pagination {
+  text-align: center; padding: 12px 0;
+  font-size: 14px; color: var(--ink-light);
+}
+#twikoo .tk-expand a, #twikoo .tk-pagination a { color: var(--link); border: none; }
+#twikoo .tk-expand a:hover, #twikoo .tk-pagination a:hover { color: var(--vermilion); }
+
+/* 加载状态 */
+#twikoo .el-loading-mask { background: transparent !important; }
+#twikoo .el-loading-spinner .circular { width: 28px; height: 28px; }
+
+/* 底部 Powered by */
+#twikoo .tk-footer { text-align: center; margin-top: 16px; }
+#twikoo .tk-footer a { font-size: 12px; color: var(--ink-faint); }
+
+/* 管理面板 */
+#twikoo .tk-admin { border-radius: 6px; border-color: var(--border) !important; }
 
 .comment-fallback {
   padding: 18px;
@@ -375,8 +511,11 @@ html[data-theme="dark"] body::before {
 }
 
 /* 侧边栏平滑过渡（追加） */
+/* 折叠时正文保持原位：侧栏是 fixed 定位，折叠后视觉消失但不占文档流，
+   wiki-main 的 margin-left 保持 240px 不变，正文位置纹丝不动 */
 .wiki-main { transition: margin-left 0.3s ease; }
-.content.sidebar-collapsed .wiki-main { margin-left: 0; }
+.content.sidebar-collapsed .wiki-main { margin-left: 240px; }
+.content.sidebar-collapsed .sidebar-toggle { left: 0; }
 
 /* 客户端页面切换 */
 #page-content.is-loading {
@@ -403,6 +542,34 @@ html[data-theme="dark"] body::before {
   box-shadow: 0 2px 8px var(--shadow);
 }
 
+.page-progress {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 430;
+  height: 3px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.page-progress.active {
+  opacity: 1;
+}
+
+.page-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.16s ease;
+}
+
 @media print {
-  .router-status { display: none !important; }
+  .router-status,
+  .page-progress { display: none !important; }
 }

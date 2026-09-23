@@ -9,6 +9,7 @@ import http.server
 import socketserver
 import os
 import sys
+import threading
 import webbrowser
 import urllib.parse
 from datetime import datetime
@@ -59,13 +60,6 @@ if __name__ == "__main__":
 ========================================
 """, flush=True)
 
-    if not os.environ.get("UEM_SKIP_RECENT_UPDATE"):
-        try:
-            from update_recent import update_recent_updates
-            update_recent_updates(quiet=True)
-        except Exception as error:
-            print(f"[Recent updates] 更新失败，保留现有数据: {error}", flush=True)
-
     try:
         server = socketserver.ThreadingTCPServer(("", PORT), Handler)
     except OSError:
@@ -75,6 +69,21 @@ if __name__ == "__main__":
 
     server.allow_reuse_address = True
     server.daemon_threads = True
+
+    if not os.environ.get("UEM_SKIP_RECENT_UPDATE"):
+        def refresh_recent_updates():
+            try:
+                from update_recent import update_recent_updates
+                update_recent_updates(quiet=True, max_age_seconds=600)
+            except Exception as error:
+                print(f"[Recent updates] 更新失败，保留现有数据: {error}", flush=True)
+
+        threading.Thread(
+            target=refresh_recent_updates,
+            name="recent-updates",
+            daemon=True
+        ).start()
+
     url = f"http://localhost:{PORT}"
     print(f"[Started] {url}", flush=True)
 

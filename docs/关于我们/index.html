@@ -333,8 +333,8 @@ html[data-theme="dark"] body::before {
 .back-to-top.visible { opacity: 1; visibility: visible; }
 .back-to-top:hover { background: var(--btn-hover); transform: translateY(-2px); }
 
-/* 评论区 */
-#twikoo-comment {
+/* 评论区（容器 id 沿用 Twikoo 约定，渲染前后选择器都命中） */
+#twikoo {
   max-width: 920px; margin: 60px auto 0; padding: 0 0 40px;
   border-top: 2px solid var(--ink); padding-top: 30px;
 }
@@ -422,6 +422,9 @@ html[data-theme="dark"] body::before {
 </head>
 <body>
   <nav class="app-nav" id="appNav" data-shell></nav>
+  <div id="pageProgress" class="page-progress" aria-hidden="true">
+    <span></span>
+  </div>
 
   <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="切换侧边栏">◂</button>
   <div class="content" id="contentLayout">
@@ -511,7 +514,6 @@ html[data-theme="dark"] body::before {
     });
   })();
 </script>
-  <script defer src="/assets/vendor/twikoo.all.min.js"></script>
   <script defer src="/assets/site.js"></script>
 </body>
 </html>
