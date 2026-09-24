@@ -102,8 +102,8 @@ Markdown 和 HTML 源文件可以继续使用相对路径。构建器会为每�
 
 首页的“最近更新”从 `assets/recent-updates.json` 渲染。`update_recent.py`
 会读取当前 Git 仓库的 GitHub Deployments、部署状态和对应提交信息，再写入
-该 JSON。本地运行 `serve.py` 或执行 `build_wiki.py` 时会自动尝试刷新一次；
-网络不可用时保留现有文件。
+该 JSON。最近更新文件在 10 分钟内视为有效，不会重复请求 GitHub。
+`serve.py` 的刷新在后台进行，不会阻塞服务器启动；网络不可用时保留现有文件。
 
 手动刷新：
 
@@ -115,6 +115,12 @@ python update_recent.py
 
 ```bash
 python build_wiki.py --skip-recent
+```
+
+忽略缓存并立即刷新：
+
+```bash
+python build_wiki.py --update-recent
 ```
 
 默认仓库为 `Auan-git/uem_wiki`。本地同时存在 `upstream` 远程时会优先使用
@@ -130,9 +136,12 @@ GitHub Token 可通过 `GITHUB_TOKEN` 或 `GH_TOKEN` 提供，无令牌时仍可
 
 ## 评论
 
-评论区使用本地 `assets/vendor/twikoo.all.min.js`，当前版本为 `1.7.15`，
+评论区使用本地 `assets/vendor/twikoo.min.js` 和 `twikoo.css`，当前版本为 `1.7.15`，
 与线上 Twikoo 云函数版本保持一致。评论数据由外部 Twikoo 云函数和数据库
 保存，不存放在本仓库；更换环境或数据库后，历史评论需要在 Twikoo 后台恢复。
+
+评论资源会在评论区接近视口时才加载，并缓存同一版本的 CSS 与脚本，避免
+首屏下载约 1 MB 的 Twikoo 资源。
 
 Twikoo 的评论键沿用旧站规则：板块首页会将 `/index.html` 去掉，使用
 百分号编码后的目录路径，例如 `/docs/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2/`；
@@ -146,7 +155,9 @@ Twikoo 的评论键沿用旧站规则：板块首页会将 `/index.html` 去掉�
 
 ## 增量构建
 
-构建脚本支持增量构建，只有发生变化的文件才会重新构建。构建缓存保存在 `.build_cache.json` 文件中。
+构建脚本支持增量构建，Markdown 和无同名源的 HTML 页面都会记录哈希。
+只有源文件、模板、导航或构建脚本发生变化时才重新构建。构建缓存保存在
+`.build_cache.json` 文件中。
 
 ## 示例
 

@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -18,6 +19,7 @@ if sys.platform == "win32":
 
 BASE_DIR = Path(__file__).parent
 OUTPUT_FILE = BASE_DIR / "assets" / "recent-updates.json"
+STATE_FILE = BASE_DIR / ".recent-updates-state.json"
 API_ROOT = "https://api.github.com"
 USER_AGENT = "uem-wiki-build"
 DEFAULT_REPOSITORY = "Auan-git/uem_wiki"
@@ -204,9 +206,28 @@ def build_payload(repository, entries):
     }
 
 
-def update_recent_updates(repository=None, limit=6, quiet=False):
+def update_recent_updates(
+    repository=None,
+    limit=6,
+    quiet=False,
+    max_age_seconds=0,
+    force=False
+):
     """Refresh the static recent-updates JSON. Returns True when written."""
     repository = resolve_repository(repository)
+    if not force and max_age_seconds > 0 and STATE_FILE.exists():
+        try:
+            state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            state = {}
+        if (
+            state.get("repository") == repository
+            and time.time() - STATE_FILE.stat().st_mtime < max_age_seconds
+        ):
+            if not quiet:
+                print("[Recent updates] 缓存仍有效，跳过网络请求")
+            return False
+
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
 
     old_payload = None
@@ -233,6 +254,13 @@ def update_recent_updates(repository=None, limit=6, quiet=False):
         and old_payload.get("repository") == payload.get("repository")
         and old_payload.get("entries") == payload.get("entries")
     )
+    STATE_FILE.write_text(
+        json.dumps({
+            "checked_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+            "repository": repository
+        }, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8"
+    )
     if same_entries:
         if not quiet:
             print(f"[Recent updates] 无变化: {repository}, {len(entries)} 条")
@@ -256,13 +284,17 @@ def main():
     parser.add_argument("--repo", help="GitHub 仓库，例如 owner/repository")
     parser.add_argument("--limit", type=int, default=6, help="最多保留多少条部署记录")
     parser.add_argument("--quiet", action="store_true", help="无输出")
+    parser.add_argument("--max-age", type=int, default=0, help="缓存有效期（秒）")
+    parser.add_argument("--force", action="store_true", help="忽略缓存强制刷新")
     args = parser.parse_args()
 
     try:
         update_recent_updates(
             repository=args.repo,
             limit=max(1, args.limit),
-            quiet=args.quiet
+            quiet=args.quiet,
+            max_age_seconds=max(0, args.max_age),
+            force=args.force
         )
     except (OSError, urllib.error.URLError, urllib.error.HTTPError, json.JSONDecodeError) as error:
         if not args.quiet:

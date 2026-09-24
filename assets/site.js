@@ -3,11 +3,12 @@
 
   const pageContent = document.getElementById("page-content");
   const tocList = document.getElementById("tocList");
-  const appNav = document.getElementById("appNav");
   const sidebar = document.getElementById("wikiSidebar");
   const sidebarToggle = document.getElementById("sidebarToggle");
   const contentLayout = document.getElementById("contentLayout");
   const status = document.getElementById("routerStatus");
+  const progressBar = document.getElementById("pageProgress");
+  const progressValue = progressBar ? progressBar.querySelector("span") : null;
   const cache = new Map();
   const loadedScripts = new Set();
   let requestId = 0;
@@ -15,6 +16,11 @@
   let tocHeadings = [];
   let searchIndexPromise = null;
   let navigationPromise = null;
+  let twikooPromise = null;
+  let commentsActivated = false;
+  let progressStartedAt = 0;
+  let progressTrickleTimer = null;
+  let progressHideTimer = null;
 
   function normalizePath(pathname) {
     let path = decodeURIComponent(pathname || "/");
@@ -25,11 +31,12 @@
   }
 
   function renderTopNavigation() {
-    if (!appNav || appNav.childElementCount > 0) {
+    const navigation = document.getElementById("appNav");
+    if (!navigation || navigation.childElementCount > 0) {
       return;
     }
 
-    appNav.innerHTML =
+    navigation.innerHTML =
       '<a href="/index.html" class="nav-brand">' +
         '<img src="/圆形logo.png" alt="应大Wiki" class="nav-logo">' +
         '<span>应大Wiki</span>' +
@@ -40,7 +47,10 @@
         '<div id="searchResults" class="search-results"></div>' +
       '</div>' +
       '<button type="button" class="theme-toggle" id="themeToggle" ' +
-        'title="切换深浅色" aria-label="切换深浅色">🌙</button>';
+        'title="切换深浅色" aria-label="切换深浅色">' +
+        '<span class="theme-icon theme-icon-moon">🌙</span>' +
+        '<span class="theme-icon theme-icon-sun">☀️</span>' +
+      '</button>';
   }
 
   function loadNavigation() {
@@ -296,6 +306,54 @@
     }
   }
 
+  function renderProgress(value) {
+    if (!progressValue) {
+      return;
+    }
+    const normalized = Math.max(0, Math.min(1, value));
+    progressValue.style.transform = "scaleX(" + normalized + ")";
+  }
+
+  function startProgress() {
+    if (!progressBar) {
+      return;
+    }
+    progressStartedAt = Date.now();
+    clearTimeout(progressHideTimer);
+    clearInterval(progressTrickleTimer);
+    progressBar.classList.add("active");
+    renderProgress(0.08);
+
+    let value = 0.08;
+    progressTrickleTimer = setInterval(function () {
+      const remaining = 0.82 - value;
+      if (remaining <= 0.005) {
+        clearInterval(progressTrickleTimer);
+        return;
+      }
+      value += remaining * 0.18;
+      renderProgress(value);
+    }, 180);
+  }
+
+  function finishProgress() {
+    if (!progressBar) {
+      return;
+    }
+    clearInterval(progressTrickleTimer);
+    const visibleLongEnough = Date.now() - progressStartedAt >= 140;
+    renderProgress(1);
+    if (!visibleLongEnough) {
+      progressBar.classList.remove("active");
+      setTimeout(function () { renderProgress(0); }, 180);
+      return;
+    }
+    progressHideTimer = setTimeout(function () {
+      progressBar.classList.remove("active");
+      setTimeout(function () { renderProgress(0); }, 180);
+    }, 180);
+  }
+
   function setArrow(fold, collapsed) {
     fold.textContent = collapsed ? "\u25B8" : "\u25BE";
     fold.setAttribute("aria-expanded", collapsed ? "false" : "true");
@@ -457,9 +515,6 @@
         root.setAttribute("data-theme", "dark");
       } else {
         root.removeAttribute("data-theme");
-      }
-      if (button) {
-        button.textContent = theme === "dark" ? "☀️" : "🌙";
       }
       if (save) {
         try {
@@ -627,12 +682,94 @@
     });
   }
 
-  function initComments() {
-    const container = document.getElementById("twikoo-comment");
+  function ensureTwikoo() {
+    if (!twikooPromise) {
+      twikooPromise = new Promise(function (resolve, reject) {
+        if (window.twikoo && typeof window.twikoo.init === "function") {
+          resolve();
+          return;
+        }
+
+        if (!document.querySelector('link[data-twikoo-css]')) {
+          const stylesheet = document.createElement("link");
+          stylesheet.rel = "stylesheet";
+          stylesheet.href = "/assets/vendor/twikoo.css";
+          stylesheet.dataset.twikooCss = "true";
+          document.head.appendChild(stylesheet);
+        }
+
+        const script = document.createElement("script");
+        script.src = "/assets/vendor/twikoo.min.js";
+        script.onload = function () {
+          if (window.twikoo && typeof window.twikoo.init === "function") {
+            resolve();
+          } else {
+            reject(new Error("twikoo unavailable"));
+          }
+        };
+        script.onerror = function () {
+          reject(new Error("twikoo load failed"));
+        };
+        document.head.appendChild(script);
+      });
+    }
+    return twikooPromise;
+  }
+
+  function activateComments() {
+    if (commentsActivated) {
+      return;
+    }
+    commentsActivated = true;
+    initComments();
+  }
+
+  function initCommentLazyLoad() {
+    const section = document.querySelector(".comments-section");
+    if (!section) {
+      return;
+    }
+    if (!("IntersectionObserver" in window)) {
+      activateComments();
+      return;
+    }
+    const observer = new IntersectionObserver(
+      function (entries) {
+        if (entries.some(function (entry) { return entry.isIntersecting; })) {
+          observer.disconnect();
+          activateComments();
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+    observer.observe(section);
+  }
+
+  function resolveCommentContainer() {
+    const section = document.querySelector(".comments-section");
+    if (!section) {
+      return null;
+    }
+    let container = document.getElementById("twikoo");
+    if (!container) {
+      container = document.createElement("div");
+      container.id = "twikoo";
+    }
+    if (!section.contains(container)) {
+      section.appendChild(container);
+    }
+    return container;
+  }
+
+  async function initComments() {
+    const container = resolveCommentContainer();
     if (!container) {
       return;
     }
-    if (!window.twikoo || typeof window.twikoo.init !== "function") {
+
+    try {
+      await ensureTwikoo();
+    } catch (error) {
       container.innerHTML =
         '<div class="comment-fallback">评论区加载失败，请刷新页面后重试。</div>';
       return;
@@ -652,7 +789,7 @@
     try {
       const initialized = window.twikoo.init({
         envId: "https://taupe-zuccutto-aa14a0.netlify.app/.netlify/functions/twikoo",
-        el: "#twikoo-comment",
+        el: "#twikoo",
         path: commentPath,
         requiredMetaField: [],
         anonymousNickName: "匿名",
@@ -664,6 +801,9 @@
             '<div class="comment-fallback">评论区暂时不可用，请稍后重试。</div>';
         });
       }
+      // Twikoo 用 Element UI 动态注入 CSS，优先级压过外部样式表，
+      // 这里用内联 !important style 强制覆盖关键元素样式
+      applyTwikooStyle(container);
     } catch (error) {
       container.innerHTML =
         '<div class="comment-fallback">评论区暂时不可用，请稍后重试。</div>';
@@ -677,6 +817,69 @@
           '<div class="comment-fallback">评论区暂时不可用，请稍后重试。</div>';
       }
     }, 5000);
+  }
+
+  function applyTwikooStyle(container) {
+    function set(el, prop, val) {
+      if (el) el.style.setProperty(prop, val, "important");
+    }
+    function all(sel, fn) {
+      container.querySelectorAll(sel).forEach(function (el) { fn(el); });
+    }
+
+    // 延迟执行，等 Twikoo 完成 DOM 渲染
+    function run() {
+      var root = document.getElementById("twikoo");
+      if (!root) return;
+
+      // 发送按钮：朱红色背景
+      all(".el-button.tk-send", function (el) {
+        set(el, "background", "var(--vermilion)");
+        set(el, "border-color", "var(--vermilion)");
+        set(el, "color", "#fff");
+        set(el, "border-radius", "4px");
+        set(el, "font-family", "var(--font-serif)");
+        set(el, "font-size", "14px");
+      });
+      // 预览按钮
+      all(".el-button.tk-preview", function (el) {
+        set(el, "border-color", "var(--border)");
+        set(el, "color", "var(--ink-light)");
+        set(el, "border-radius", "4px");
+        set(el, "font-family", "var(--font-serif)");
+        set(el, "font-size", "14px");
+      });
+      // 输入框
+      all(".tk-meta-input .el-input__inner", function (el) {
+        set(el, "border-color", "var(--border)");
+        set(el, "border-radius", "4px");
+        set(el, "font-family", "var(--font-serif)");
+        set(el, "font-size", "14px");
+        set(el, "color", "var(--ink)");
+        set(el, "background", "var(--paper)");
+      });
+      // 评论框
+      all(".el-textarea__inner", function (el) {
+        set(el, "border-color", "var(--border)");
+        set(el, "border-radius", "4px");
+        set(el, "font-family", "var(--font-serif)");
+        set(el, "font-size", "14px");
+        set(el, "color", "var(--ink)");
+        set(el, "background", "var(--paper)");
+        set(el, "line-height", "1.8");
+      });
+      // 前缀标签（昵称/邮箱/网址）
+      all(".tk-meta-input .el-input-group__prepend", function (el) {
+        set(el, "background", "var(--paper-dark)");
+        set(el, "border-color", "var(--border)");
+        set(el, "color", "var(--ink-light)");
+        set(el, "font-family", "var(--font-serif)");
+        set(el, "font-size", "13px");
+      });
+    }
+
+    setTimeout(run, 50);
+    setTimeout(run, 300);
   }
 
   function absolutizeCssUrls(css, sourceUrl) {
@@ -790,6 +993,7 @@
       return;
     }
 
+    startProgress();
     const currentRequest = ++requestId;
     showLoading();
     if (pageContent) {
@@ -832,7 +1036,9 @@
       }
       updateSidebarActive(url.pathname);
       initToc();
-      initComments();
+      if (commentsActivated) {
+        initComments();
+      }
       await executePageScripts(sourceDocument, url);
       scrollToHash(url.hash);
     } catch (error) {
@@ -842,6 +1048,7 @@
         pageContent.classList.remove("is-loading");
         pageContent.removeAttribute("aria-busy");
         hideLoading();
+        finishProgress();
       }
     }
   }
@@ -884,7 +1091,7 @@
     await initSidebarNavigation();
     await initializeHistoryHierarchy();
     initToc();
-    initComments();
+    initCommentLazyLoad();
   }
 
   if (document.readyState === "loading") {

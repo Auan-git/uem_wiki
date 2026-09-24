@@ -476,6 +476,24 @@ def update_cache(file_path):
     CACHE_FILE.write_text(json.dumps(cache, indent=2), encoding='utf-8')
 
 
+def load_cache():
+    cache = {}
+    if CACHE_FILE.exists():
+        try:
+            cache = json.loads(CACHE_FILE.read_text(encoding='utf-8'))
+        except (OSError, json.JSONDecodeError):
+            cache = {}
+    return cache
+
+
+def build_context_hashes():
+    return {
+        'template_hash': hashlib.md5((TEMPLATES_DIR / 'base.html').read_bytes()).hexdigest(),
+        'navigation_hash': hashlib.md5(NAVIGATION_FILE.read_bytes()).hexdigest(),
+        'generator_hash': hashlib.md5(Path(__file__).read_bytes()).hexdigest()
+    }
+
+
 def sync_standalone_html():
     """重新生成没有同名 md 源的 html 页面（板块首页 index.html、学院与专业等历史页面）。
 
@@ -484,9 +502,22 @@ def sync_standalone_html():
     navigation.json 重新生成，其余公共结构使用当前模板。
     """
     synced = 0
+    cache = load_cache()
+    context = build_context_hashes()
+    cache_changed = False
     for html_path in DOCS_DIR.rglob('*.html'):
         if html_path.with_suffix('.md').exists():
             continue
+
+        cache_key = f"html:{html_path.relative_to(BASE_DIR).as_posix()}"
+        current_hash = hashlib.md5(html_path.read_bytes()).hexdigest()
+        cached = cache.get(cache_key) or {}
+        if (
+            cached.get('hash') == current_hash
+            and all(cached.get(key) == value for key, value in context.items())
+        ):
+            continue
+
         old = html_path.read_text(encoding='utf-8')
 
         title_m = re.search(r'<title>(.*?)</title>', old)
@@ -534,6 +565,17 @@ def sync_standalone_html():
             html_path.write_text(html_output, encoding='utf-8')
             synced += 1
             print(f"  重同步: {html_path.relative_to(BASE_DIR)}")
+            current_hash = hashlib.md5(html_path.read_bytes()).hexdigest()
+
+        cache[cache_key] = {
+            'hash': current_hash,
+            **context,
+            'timestamp': datetime.now().isoformat()
+        }
+        cache_changed = True
+
+    if cache_changed:
+        CACHE_FILE.write_text(json.dumps(cache, indent=2), encoding='utf-8')
     return synced
 
 
@@ -609,13 +651,17 @@ def main():
     parser.add_argument('--force', '-f', action='store_true', help='强制重新构建所有文件')
     parser.add_argument('--watch', '-w', action='store_true', help='监听文件变化')
     parser.add_argument('--skip-recent', action='store_true', help='跳过 GitHub Deployments 更新')
+    parser.add_argument('--update-recent', action='store_true', help='忽略缓存立即更新 GitHub Deployments')
 
     args = parser.parse_args()
 
     if not args.skip_recent:
         try:
             from update_recent import update_recent_updates
-            update_recent_updates()
+            update_recent_updates(
+                max_age_seconds=0 if args.update_recent else 600,
+                force=args.update_recent
+            )
         except Exception as error:
             print(f"  最近更新数据刷新失败，继续使用现有文件: {error}")
 
